@@ -1,12 +1,16 @@
+import javafx.stage.Stage;
 import login.Login_IO;
 
 public class Launcher {
 
-	public static void main(String[] args) {
-		// Det her skal starte programmet (login_IO new stage)
-		Login_IO login_io = new Login_IO();
-		login_io.start(new Stage());
-
+	public void start(Stage loginStage) throws Exception {
+		Login_IO login_IO = new Login_IO();
+		login_IO.start(loginStage);
 	}
 
+	public static void main(String[] args) {
+		launch(args);
+	}
 }
+
+//EN ELLER ANDEN FIX DET HER LORT, JEG KAN IKKE FÅ DET TIL AT VIRKE
