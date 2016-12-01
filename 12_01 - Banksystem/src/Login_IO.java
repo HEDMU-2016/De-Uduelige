@@ -12,36 +12,36 @@ import javafx.stage.Stage;
 public class Login_IO extends Application {
 	
 	public void start(Stage loginStage) {
-		loginStage.setTitle("#Bestbank");
+		loginStage.setTitle("Lortebank A/S");
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.TOP_CENTER);
-		grid.setHgap(5);
-		grid.setVgap(5);
+		grid.setHgap(10);
+		grid.setVgap(10);
 
 		Text username = new Text("Brugernavn:");
 		grid.add(username, 0, 0);
 
 		TextField usernameInput = new TextField();
-		grid.add(usernameInput, 1, 0);
+		grid.add(usernameInput, 1, 0, 3, 1);
 
 		Text password = new Text("Kodeord:");
 		grid.add(password, 0, 1);
 
 		PasswordField passwordInput = new PasswordField();
-		grid.add(passwordInput, 1, 1);
+		grid.add(passwordInput, 1, 1, 3, 1);
 		
 		Button glemtkode = new Button("Jeg har glemt min kode!");
 		grid.add(glemtkode, 0, 2, 2, 2);
+		glemtkode.setId("glemt");
 
-		Button login = new Button("✓");
+		Button login = new Button("Log ind");
 		HBox hbLogin = new HBox(10);
 		login.setId("login");
 		hbLogin.getChildren().add(login);
-		grid.add(hbLogin, 1, 2);
-		hbLogin.setAlignment(Pos.TOP_RIGHT);
+		grid.add(hbLogin, 3, 2);
 
 		login.setOnAction(e -> {
-			loginStage.hide();
+			//loginStage.hide();
 		});
 
 		Scene scene = new Scene(grid);

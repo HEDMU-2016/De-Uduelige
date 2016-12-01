@@ -6,7 +6,7 @@
 	
 }
 #login {
-    -fx-text-fill: white;
+    -fx-text-fill: black;
     -fx-font-size: 20;
     -fx-border-radius: 50;
     -fx-background-radius: 50%;
@@ -24,4 +24,18 @@
 #login:pressed {
     -fx-background-color: #007375;
     -fx-text-fill: white;
+}
+
+#glemt{
+	-fx-text-fill: #FF0000;
+	-fx-background-color: transparent;
+	-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+#glemt:hover {
+    -fx-text-fill: #b20000;
+}
+
+#glemt:pressed {
+    -fx-text-fill: #4c0000;
 }
