@@ -6,10 +6,26 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class dbaccess {
-	static void main(String[] args) throws SQLException {
-		Connection connection = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/mydb", "SA", "");
-		PreparedStatement statement = connection.prepareStatement("SELECT users");
+    static final String db = "jdbc:hsqldb:hsql://localhost/mydb";
+    static final String dbuser = "SA";
+    static final String dbpass = "";
+    private Connection connection = null;
+
+	public dbaccess() {
+		try {
+			connection = DriverManager.getConnection(db, dbuser, dbpass);
+			connection.setAutoCommit(false);
+		} catch (SQLException e) {
+			throw new RuntimeException("DataAccess not created", e);
 		}
 	}
+	
+	public void close(Connection connection) throws SQLException{
+		connection.close();
+	}
 
+	Connection getConnection() {
+		return connection;
+	}
 
+}
