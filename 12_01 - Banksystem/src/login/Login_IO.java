@@ -28,7 +28,7 @@ public class Login_IO extends Application {
 		username.setId("tekst");
 
 		TextField usernameInput = new TextField();
-		usernameInput.setPrefWidth(255);
+		usernameInput.setPrefWidth(300);
 		grid.add(usernameInput, 1, 0, 3, 1);
 
 		Text password = new Text("Kodeord:");
@@ -41,7 +41,7 @@ public class Login_IO extends Application {
 		Text fejl = new Text();
 		HBox hbFejl = new HBox(10);
 		hbFejl.getChildren().add(fejl);
-		grid.add(hbFejl, 0, 2, 2, 2);
+		grid.add(hbFejl, 0, 2, 3, 2);
 		fejl.setId("fejl");
 
 		Button glemtkode = new Button("Jeg har glemt min kode!");
