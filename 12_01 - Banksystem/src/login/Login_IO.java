@@ -47,6 +47,11 @@ public class Login_IO extends Application {
 		Button glemtkode = new Button("Jeg har glemt min kode!");
 		grid.add(glemtkode, 0, 3, 2, 3);
 		glemtkode.setId("glemt");
+		
+		glemtkode.setOnAction(e -> {
+		fejl.setFill(Color.RED);
+		fejl.setText("Det var da dumt af dig hva?");
+		});
 
 		Button login = new Button("Log ind");
 		HBox hbLogin = new HBox(10);
