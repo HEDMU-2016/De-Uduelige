@@ -1,7 +1,6 @@
 package logic;
 
 public class Konto {
-	
 	Kunde ejer;
 	String kontonummer;
 	double saldo;
@@ -28,12 +27,12 @@ public class Konto {
 	public String getKontonummer(){
 		return kontonummer;
 	}
+	public Double getSaldo(){
+		return saldo;
+	}
 
 	@Override
 	public String toString() {
 		return "Konto: [ejer=" + ejer + ", kontonummer=" + kontonummer + ", saldo=" + saldo + "]";
 	}
-	
-	//test
-	
 }

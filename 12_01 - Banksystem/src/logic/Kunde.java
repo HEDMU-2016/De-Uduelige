@@ -16,6 +16,8 @@ String konto;
 	public void setKonto(String konto) {
 		this.konto = konto;
 	}
-	//test
+	public String getNavn(){
+		return navn;
+	}
 	
 }
