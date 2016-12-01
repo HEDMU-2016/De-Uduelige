@@ -5,12 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Søgemaskine {
+public class SearchEngine {
 private Connection connection;
 private PreparedStatement statement;
 private ResultSet resultset;
 	
-	public Søgemaskine(Connection connection)throws SQLException{
+	public SearchEngine(Connection connection)throws SQLException{
 		this.connection=connection;
 	}
 	public void Kontakt() throws SQLException{
@@ -29,7 +29,7 @@ private ResultSet resultset;
 		}
 	}
 	
-	//hej
+
 	
 	
 }
