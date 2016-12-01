@@ -53,7 +53,7 @@
 }
 
 #logo{
-	-fx-fill: #b20000;
+	-fx-fill: #42f453;
 	-fx-font-size: 30px;
 	-fx-effect: dropshadow( three-pass-box , rgba(0.0,0.0,0.0,0.6) , 5.0, 0.0 , 0.0 , 1.0 );
 }
