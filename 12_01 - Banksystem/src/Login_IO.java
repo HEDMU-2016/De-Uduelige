@@ -28,11 +28,15 @@ public class Login_IO extends Application {
 
 		PasswordField passwordInput = new PasswordField();
 		grid.add(passwordInput, 1, 1);
+		
+		Text glemtkode = new Text("Jeg har glemt min kode!");
+		grid.add(glemtkode, 0, 2, 2, 2);
 
 		Button gem = new Button("✓");
 		HBox hbGem = new HBox(10);
 		hbGem.getChildren().add(gem);
 		grid.add(hbGem, 1, 2);
+		hbGem.setAlignment(Pos.TOP_RIGHT);
 
 		gem.setOnAction(e -> {
 			loginStage.hide();
