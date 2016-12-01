@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -13,6 +14,7 @@ public class Login_IO extends Application {
 
 	public void start(Stage loginStage) {
 		loginStage.setTitle("Lortebank A/S");
+		loginStage.getIcons().add(new Image("icon.png"));
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.TOP_CENTER);
 		grid.setHgap(10);
