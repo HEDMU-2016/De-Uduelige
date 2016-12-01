@@ -10,7 +10,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Login_IO extends Application {
-	
+
 	public void start(Stage loginStage) {
 		loginStage.setTitle("Lortebank A/S");
 		GridPane grid = new GridPane();
@@ -22,6 +22,7 @@ public class Login_IO extends Application {
 		grid.add(username, 0, 0);
 
 		TextField usernameInput = new TextField();
+		usernameInput.setPrefWidth(300);
 		grid.add(usernameInput, 1, 0, 3, 1);
 
 		Text password = new Text("Kodeord:");
@@ -29,22 +30,34 @@ public class Login_IO extends Application {
 
 		PasswordField passwordInput = new PasswordField();
 		grid.add(passwordInput, 1, 1, 3, 1);
-		
+
+		Text fejl = new Text();
+		HBox hbFejl = new HBox(10);
+		hbFejl.getChildren().add(fejl);
+		grid.add(hbFejl, 0, 2, 2, 2);
+		fejl.setId("fejl");
+
 		Button glemtkode = new Button("Jeg har glemt min kode!");
-		grid.add(glemtkode, 0, 2, 2, 2);
+		grid.add(glemtkode, 0, 3, 2, 3);
 		glemtkode.setId("glemt");
 
 		Button login = new Button("Log ind");
 		HBox hbLogin = new HBox(10);
 		login.setId("login");
 		hbLogin.getChildren().add(login);
-		grid.add(hbLogin, 3, 2);
+		hbLogin.setAlignment(Pos.BASELINE_RIGHT);
+		grid.add(hbLogin, 3, 3);
 
 		login.setOnAction(e -> {
-		if(usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false){
-		loginStage.hide();
-		}
-		else{/*Do noting*/}
+			if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false) {
+				loginStage.hide();
+			} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == false) {
+				fejl.setText("Du skal lige skrive et brugernavn!");
+			} else if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == true) {
+				fejl.setText("Du skal lige skrive et kodeord!");
+			} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == true) {
+				fejl.setText("Du skal lige skrive noget i felterne!");
+			} else {/* Do noting */}
 		});
 
 		Scene scene = new Scene(grid);
