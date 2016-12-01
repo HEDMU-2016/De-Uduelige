@@ -5,6 +5,11 @@
 	-fx-background-image: url("background.jpg");
 }
 
+#tekst{
+	-fx-fill: black;
+	-fx-font-size: 20;
+}
+
 #login {
     -fx-text-fill: black;
     -fx-font-size: 20.0;

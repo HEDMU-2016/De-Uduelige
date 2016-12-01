@@ -23,13 +23,15 @@ public class Login_IO extends Application {
 
 		Text username = new Text("Brugernavn:");
 		grid.add(username, 0, 0);
+		username.setId("tekst");
 
 		TextField usernameInput = new TextField();
-		usernameInput.setPrefWidth(300);
+		usernameInput.setPrefWidth(240);
 		grid.add(usernameInput, 1, 0, 3, 1);
 
 		Text password = new Text("Kodeord:");
 		grid.add(password, 0, 1);
+		password.setId("tekst");
 
 		PasswordField passwordInput = new PasswordField();
 		grid.add(passwordInput, 1, 1, 3, 1);
