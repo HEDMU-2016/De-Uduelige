@@ -2,12 +2,13 @@
 .root {
 	-fx-background-color: #FF69B4;
 	-fx-padding: 10, 10, 10, 10;
+	-fx-background-image: url("background.jpg");
 	
 }
 .button {
     -fx-text-fill: white;
     -fx-font-size: 20;
-    -fx-border-radius: 5000000000;
+    -fx-border-radius: 50;
     -fx-background-radius: 50%;
     -fx-background-color: #00FFFF;
     -fx-min-width: 50px;

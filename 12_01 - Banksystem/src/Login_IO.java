@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 public class Login_IO extends Application {
 	public void start(Stage loginStage) {
-		loginStage.setTitle("Login");
+		loginStage.setTitle("#Bestbank");
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.TOP_CENTER);
 		grid.setHgap(5);
@@ -31,7 +31,7 @@ public class Login_IO extends Application {
 		Button gem = new Button("✓");
 		HBox hbGem = new HBox(10);
 		hbGem.getChildren().add(gem);
-		grid.add(hbGem, 1, 2, 2, 2);
+		grid.add(hbGem, 1, 2);
 
 		gem.setOnAction(e -> {
 			loginStage.hide();
@@ -40,8 +40,8 @@ public class Login_IO extends Application {
 		Scene scene = new Scene(grid);
 		loginStage.setScene(scene);
 		scene.getStylesheets().add(Login_IO.class.getResource("popups.css").toExternalForm());
-		// logStage.setResizable(false);
-		// opretStage.setAlwaysOnTop(true);
+		loginStage.setResizable(false);
+		loginStage.setAlwaysOnTop(true);
 		loginStage.show();
 	}
 
