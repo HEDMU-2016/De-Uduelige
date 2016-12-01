@@ -3,8 +3,8 @@
 	-fx-background-color: #FF69B4;
 	-fx-padding: 10.0, 10.0, 10.0, 10.0;
 	-fx-background-image: url("background.jpg");
-	
 }
+
 #login {
     -fx-text-fill: black;
     -fx-font-size: 20.0;
