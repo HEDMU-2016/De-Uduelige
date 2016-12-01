@@ -1,7 +1,8 @@
+import javafx.application.Application;
 import javafx.stage.Stage;
 import login.Login_IO;
 
-public class Launcher {
+public class Launcher extends Application {
 
 	public void start(Stage loginStage) throws Exception {
 		Login_IO login_IO = new Login_IO();
@@ -12,5 +13,3 @@ public class Launcher {
 		launch(args);
 	}
 }
-
-//EN ELLER ANDEN FIX DET HER LORT, JEG KAN IKKE FÅ DET TIL AT VIRKE
