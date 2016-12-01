@@ -12,11 +12,11 @@
 }
 
 #login {
-    -fx-text-fill: black;
+    -fx-text-fill: white;
     -fx-font-size: 20.0;
     -fx-border-radius: 50.0;
     -fx-background-radius: 50.0%;
-    -fx-background-color: #00FFFF;
+    -fx-background-color: #00316c;
     -fx-min-width: 100px;
     -fx-min-height: 100px;
     -fx-max-width: 100px;
@@ -25,12 +25,12 @@
    }
 
 #login:hover {
-    -fx-background-color: #00CED1;
+    -fx-background-color: #001d40;
     -fx-text-fill: white;
 }
 
 #login:pressed {
-    -fx-background-color: #007375;
+    -fx-background-color: #000915;
     -fx-text-fill: white;
 }
 
@@ -53,7 +53,7 @@
 }
 
 #logo{
-	-fx-fill: #42f453;
+	-fx-fill: #00316c;
 	-fx-font-size: 30px;
 	-fx-effect: dropshadow( three-pass-box , rgba(0.0,0.0,0.0,0.6) , 5.0, 0.0 , 0.0 , 1.0 );
 }

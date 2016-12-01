@@ -73,15 +73,17 @@ public class Login_IO extends Application {
 				fejl.setText("Damn, du er logget ind som admin!");
 				usernameInput.setText("");
 				passwordInput.setText("");
-				fejl.setFill(Color.web("#42f453"));
+				fejl.setFill(Color.web("#184c18"));
 			} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == false) {
 				fejl.setText("Du skal lige skrive et brugernavn!");
+				passwordInput.setText("");
 			} else if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == true) {
 				fejl.setText("Du skal lige skrive et kodeord!");
 			} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == true) {
 				fejl.setText("Du skal lige skrive noget i felterne!");
 			} else if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false) {
 				fejl.setText("Forkert brugernavn eller adgangskode!");
+				passwordInput.setText("");
 			}
 		});
 
