@@ -1,9 +1,51 @@
+import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
-public class Login_IO {
+public class Login_IO extends Application {
+	public void start(Stage loginStage) {
+		loginStage.setTitle("Login");
+		GridPane grid = new GridPane();
+		grid.setAlignment(Pos.TOP_CENTER);
+		grid.setHgap(5);
+		grid.setVgap(5);
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		Text username = new Text("Brugernavn: ");
+		grid.add(username, 0, 0);
 
+		TextField usernameInput = new TextField();
+		grid.add(usernameInput, 1, 0);
+
+		Text password = new Text("Password: ");
+		grid.add(password, 0, 1);
+
+		TextField passwordInput = new TextField();
+		grid.add(passwordInput, 1, 1);
+
+		Button gem = new Button("✓");
+		HBox hbGem = new HBox(10);
+		hbGem.getChildren().add(gem);
+		grid.add(hbGem, 1, 2, 2, 2);
+
+		gem.setOnAction(e -> {
+			loginStage.hide();
+		});
+
+		Scene scene = new Scene(grid);
+		loginStage.setScene(scene);
+		// logStage.setResizable(false);
+		// opretStage.setAlwaysOnTop(true);
+		loginStage.show();
 	}
 
+	public static void main(String[] args) {
+		launch(args);
+	}
+	
 }
