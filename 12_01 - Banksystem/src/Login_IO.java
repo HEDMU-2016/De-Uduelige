@@ -2,6 +2,7 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -22,10 +23,10 @@ public class Login_IO extends Application {
 		TextField usernameInput = new TextField();
 		grid.add(usernameInput, 1, 0);
 
-		Text password = new Text("Password: ");
+		Text password = new Text("Kodeord: ");
 		grid.add(password, 0, 1);
 
-		TextField passwordInput = new TextField();
+		PasswordField passwordInput = new PasswordField();
 		grid.add(passwordInput, 1, 1);
 
 		Button gem = new Button("✓");
