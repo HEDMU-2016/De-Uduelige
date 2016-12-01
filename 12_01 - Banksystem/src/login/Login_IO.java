@@ -28,7 +28,7 @@ public class Login_IO extends Application {
 		username.setId("tekst");
 
 		TextField usernameInput = new TextField();
-		usernameInput.setPrefWidth(250);
+		usernameInput.setPrefWidth(255);
 		grid.add(usernameInput, 1, 0, 3, 1);
 
 		Text password = new Text("Kodeord:");
@@ -68,8 +68,9 @@ public class Login_IO extends Application {
 				fejl.setText("Du skal lige skrive et kodeord!");
 			} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == true) {
 				fejl.setText("Du skal lige skrive noget i felterne!");
-			} else if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false){
-				fejl.setText("Forkert brugernavn eller adgangskode!");}
+			} else if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false) {
+				fejl.setText("Forkert brugernavn eller adgangskode!");
+			}
 		});
 
 		Scene scene = new Scene(grid);

@@ -16,8 +16,10 @@
     -fx-border-radius: 50.0;
     -fx-background-radius: 50.0%;
     -fx-background-color: #00FFFF;
-    -fx-min-width: 50.0px;
-    -fx-min-height: 50.0px;
+    -fx-min-width: 100px;
+    -fx-min-height: 100px;
+    -fx-max-width: 100px;
+    -fx-max-height: 100px;
     -fx-effect: dropshadow( three-pass-box , rgba(0.0,0.0,0.0,0.6) , 5.0, 0.0 , 0.0 , 1.0 );
    }
 
