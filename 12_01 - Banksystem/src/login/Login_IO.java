@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 public class Login_IO extends Application {
 
 	public void start(Stage loginStage) {
-		loginStage.setTitle("Lortebank A/S");
+		loginStage.setTitle("Log ind - Lortebank A/S");
 		loginStage.getIcons().add(new Image("login/icon.png"));
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.TOP_CENTER);
