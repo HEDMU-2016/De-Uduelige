@@ -41,7 +41,13 @@ public class Login_IO extends Application {
 		grid.add(hbLogin, 3, 2);
 
 		login.setOnAction(e -> {
-			//loginStage.hide();
+		if(usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false){
+		loginStage.hide();
+		}
+		else{
+			
+		}
+		
 		});
 
 		Scene scene = new Scene(grid);
