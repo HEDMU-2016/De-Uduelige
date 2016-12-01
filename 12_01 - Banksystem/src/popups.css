@@ -1,19 +1,19 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 .root {
 	-fx-background-color: #FF69B4;
-	-fx-padding: 10, 10, 10, 10;
+	-fx-padding: 10.0, 10.0, 10.0, 10.0;
 	-fx-background-image: url("background.jpg");
 	
 }
 #login {
     -fx-text-fill: black;
-    -fx-font-size: 20;
-    -fx-border-radius: 50;
-    -fx-background-radius: 50%;
+    -fx-font-size: 20.0;
+    -fx-border-radius: 50.0;
+    -fx-background-radius: 50.0%;
     -fx-background-color: #00FFFF;
-    -fx-min-width: 50px;
-    -fx-min-height: 50px;
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+    -fx-min-width: 50.0px;
+    -fx-min-height: 50.0px;
+    -fx-effect: dropshadow( three-pass-box , rgba(0.0,0.0,0.0,0.6) , 5.0, 0.0 , 0.0 , 1.0 );
    }
 
 #login:hover {
@@ -29,7 +29,7 @@
 #glemt{
 	-fx-text-fill: #FF0000;
 	-fx-background-color: transparent;
-	-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+	-fx-effect: dropshadow( three-pass-box , rgba(0.0,0.0,0.0,0.6) , 5.0, 0.0 , 0.0 , 1.0 );
 }
 
 #glemt:hover {
@@ -43,5 +43,5 @@
 #fejl{
   -fx-fill: FIREBRICK;
   -fx-font-weight: bold;
-  -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+  -fx-effect: dropshadow( gaussian , rgba(255.0,255.0,255.0,0.5) , 0.0,0.0,0.0,1.0 );
 }

@@ -59,7 +59,8 @@ public class Login_IO extends Application {
 				fejl.setText("Du skal lige skrive et kodeord!");
 			} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == true) {
 				fejl.setText("Du skal lige skrive noget i felterne!");
-			} else {/* Do noting */}
+			} else {
+				/* Do noting */}
 		});
 
 		Scene scene = new Scene(grid);
