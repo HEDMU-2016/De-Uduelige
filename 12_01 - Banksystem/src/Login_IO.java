@@ -44,10 +44,7 @@ public class Login_IO extends Application {
 		if(usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false){
 		loginStage.hide();
 		}
-		else{
-			
-		}
-		
+		else{/*Do noting*/}
 		});
 
 		Scene scene = new Scene(grid);
