@@ -47,7 +47,6 @@
 }
 
 #fejl{
-  -fx-fill: FIREBRICK;
   -fx-font-weight: bold;
   -fx-effect: dropshadow( gaussian , rgba(255.0,255.0,255.0,0.5) , 0.0,0.0,0.0,1.0 );
 }

@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -27,7 +28,7 @@ public class Login_IO extends Application {
 		username.setId("tekst");
 
 		TextField usernameInput = new TextField();
-		usernameInput.setPrefWidth(240);
+		usernameInput.setPrefWidth(250);
 		grid.add(usernameInput, 1, 0, 3, 1);
 
 		Text password = new Text("Kodeord:");
@@ -55,18 +56,20 @@ public class Login_IO extends Application {
 		grid.add(hbLogin, 3, 3);
 
 		login.setOnAction(e -> {
-			if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false) {
-				loginStage.hide();
-			} else if (usernameInput.getText().equals("admin")){
+			fejl.setFill(Color.RED);
+			if (usernameInput.getText().equals("admin") && passwordInput.getText().equals("password")) {
 				fejl.setText("Damn, du er logget ind som admin!");
+				usernameInput.setText("");
+				passwordInput.setText("");
+				fejl.setFill(Color.GREEN);
 			} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == false) {
 				fejl.setText("Du skal lige skrive et brugernavn!");
 			} else if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == true) {
 				fejl.setText("Du skal lige skrive et kodeord!");
 			} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == true) {
 				fejl.setText("Du skal lige skrive noget i felterne!");
-			} else {
-				/* Do noting */}
+			} else if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false){
+				fejl.setText("Forkert brugernavn eller adgangskode!");}
 		});
 
 		Scene scene = new Scene(grid);
