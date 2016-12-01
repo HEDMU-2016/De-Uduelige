@@ -35,6 +35,7 @@
 	-fx-text-fill: #FF0000;
 	-fx-background-color: transparent;
 	-fx-effect: dropshadow( three-pass-box , rgba(0.0,0.0,0.0,0.6) , 5.0, 0.0 , 0.0 , 1.0 );
+	-fx-font-size: 15;
 }
 
 #glemt:hover {
