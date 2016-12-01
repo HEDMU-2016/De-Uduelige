@@ -17,7 +17,7 @@ public class Login_IO extends Application {
 
 	public void start(Stage loginStage) {
 		loginStage.setTitle("Log ind - Lortebank A/S");
-		loginStage.getIcons().add(new Image("login/icon.png"));
+		loginStage.getIcons().add(new Image("login/ico.png"));
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.TOP_CENTER);
 		grid.setHgap(10);
