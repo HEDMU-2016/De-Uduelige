@@ -55,6 +55,7 @@ public class Login_IO extends Application {
 		glemtkode.setId("glemt");
 
 		glemtkode.setOnAction(e -> {
+			// her skal være et glemt kode vindue i stedet for
 			fejl.setFill(Color.RED);
 			fejl.setText("Det var da dumt af dig hva?");
 		});
@@ -68,12 +69,7 @@ public class Login_IO extends Application {
 
 		login.setOnAction(e -> {
 			fejl.setFill(Color.RED);
-			if (usernameInput.getText().equals("admin") && passwordInput.getText().equals("password")) {
-				fejl.setText("Damn, du er logget ind som admin!");
-				usernameInput.setText("");
-				passwordInput.setText("");
-				fejl.setFill(Color.web("#184c18"));
-			} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == false) {
+			if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == false) {
 				fejl.setText("Du skal lige skrive et brugernavn!");
 				passwordInput.setText("");
 			} else if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == true) {
@@ -81,8 +77,32 @@ public class Login_IO extends Application {
 			} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == true) {
 				fejl.setText("Du skal lige skrive noget i felterne!");
 			} else if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false) {
-				fejl.setText("Forkert brugernavn eller adgangskode!");
-				passwordInput.setText("");
+				String brugernavn = usernameInput.getText(), kodeord = passwordInput.getText();
+				boolean godkendt = false;
+
+				// Dette skal erstates af et meodekald der tjekker brugernavn og kode
+				// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				// ! 																!
+				// ! 																!
+				// ! 																!
+				if (brugernavn.equals("admin") && kodeord.equals("password")) 	  //!
+					godkendt = true; 											  //!
+				// ! 																!
+				// ! 																!
+				// ! 																!
+				// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+				if (godkendt == true) {
+					fejl.setText("Damn, du er logget ind som admin!");
+					usernameInput.setText("");
+					passwordInput.setText("");
+					fejl.setFill(Color.web("#184c18"));
+				} else {
+					fejl.setText("Forkert brugernavn eller adgangskode!");
+					passwordInput.setText("");
+				}
+				//Denne linje er useless, men rar at have til at se om den outputter det rigtige
+				System.out.println("Der er tastet: \"" + brugernavn + "\" som bruger navn og: \"" + kodeord + "\" som kodeord!");
 			}
 		});
 
