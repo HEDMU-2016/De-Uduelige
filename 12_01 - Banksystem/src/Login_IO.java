@@ -39,6 +39,7 @@ public class Login_IO extends Application {
 
 		Scene scene = new Scene(grid);
 		loginStage.setScene(scene);
+		scene.getStylesheets().add(Login_IO.class.getResource("popups.css").toExternalForm());
 		// logStage.setResizable(false);
 		// opretStage.setAlwaysOnTop(true);
 		loginStage.show();
