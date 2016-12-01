@@ -2,7 +2,7 @@
 .root {
 	-fx-padding: 10.0, 10.0, 10.0, 10.0;
 	-fx-background-image: url("BG.jpg");
-	-fx-background-size: 100%;
+	-fx-background-size: cover;
 	-fx-background-repeat: no-repeat;
 }
 
