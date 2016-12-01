@@ -10,6 +10,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Login_IO extends Application {
+	
 	public void start(Stage loginStage) {
 		loginStage.setTitle("#Bestbank");
 		GridPane grid = new GridPane();
@@ -17,23 +18,24 @@ public class Login_IO extends Application {
 		grid.setHgap(5);
 		grid.setVgap(5);
 
-		Text username = new Text("Brugernavn: ");
+		Text username = new Text("Brugernavn:");
 		grid.add(username, 0, 0);
 
 		TextField usernameInput = new TextField();
 		grid.add(usernameInput, 1, 0);
 
-		Text password = new Text("Kodeord: ");
+		Text password = new Text("Kodeord:");
 		grid.add(password, 0, 1);
 
 		PasswordField passwordInput = new PasswordField();
 		grid.add(passwordInput, 1, 1);
 		
-		Text glemtkode = new Text("Jeg har glemt min kode!");
+		Button glemtkode = new Button("Jeg har glemt min kode!");
 		grid.add(glemtkode, 0, 2, 2, 2);
 
 		Button gem = new Button("✓");
 		HBox hbGem = new HBox(10);
+		gem.setId("login");
 		hbGem.getChildren().add(gem);
 		grid.add(hbGem, 1, 2);
 		hbGem.setAlignment(Pos.TOP_RIGHT);
