@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class Login_IO extends Application {
@@ -23,29 +24,35 @@ public class Login_IO extends Application {
 		grid.setHgap(10);
 		grid.setVgap(10);
 
+		Text navn = new Text("Lortebank A/S");
+		HBox hbNavn = new HBox(10);
+		grid.add(hbNavn, 0, 0, 3, 1);
+		hbNavn.getChildren().add(navn);
+		navn.setId("logo");
+
 		Text username = new Text("Brugernavn:");
-		grid.add(username, 0, 0);
+		grid.add(username, 0, 1);
 		username.setId("tekst");
 
 		TextField usernameInput = new TextField();
 		usernameInput.setPrefWidth(300);
-		grid.add(usernameInput, 1, 0, 3, 1);
+		grid.add(usernameInput, 1, 1, 3, 1);
 
 		Text password = new Text("Kodeord:");
-		grid.add(password, 0, 1);
+		grid.add(password, 0, 2);
 		password.setId("tekst");
 
 		PasswordField passwordInput = new PasswordField();
-		grid.add(passwordInput, 1, 1, 3, 1);
+		grid.add(passwordInput, 1, 2, 3, 2);
 
 		Text fejl = new Text();
 		HBox hbFejl = new HBox(10);
 		hbFejl.getChildren().add(fejl);
-		grid.add(hbFejl, 0, 2, 3, 2);
+		grid.add(hbFejl, 0, 3, 3, 3);
 		fejl.setId("fejl");
 
 		Button glemtkode = new Button("Jeg har glemt min kode!");
-		grid.add(glemtkode, 0, 3, 2, 3);
+		grid.add(glemtkode, 0, 4, 2, 4);
 		glemtkode.setId("glemt");
 
 		glemtkode.setOnAction(e -> {
@@ -58,7 +65,7 @@ public class Login_IO extends Application {
 		login.setId("login");
 		hbLogin.getChildren().add(login);
 		hbLogin.setAlignment(Pos.BASELINE_RIGHT);
-		grid.add(hbLogin, 3, 3);
+		grid.add(hbLogin, 3, 4);
 
 		login.setOnAction(e -> {
 			fejl.setFill(Color.RED);
@@ -78,7 +85,7 @@ public class Login_IO extends Application {
 			}
 		});
 
-		Scene scene = new Scene(grid);
+		Scene scene = new Scene(grid, 550, 290);
 		loginStage.setScene(scene);
 		scene.getStylesheets().add(Login_IO.class.getResource("login.css").toExternalForm());
 		loginStage.setResizable(false);

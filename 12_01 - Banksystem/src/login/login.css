@@ -1,9 +1,9 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 .root {
-	-fx-background-color: #FF69B4;
 	-fx-padding: 10.0, 10.0, 10.0, 10.0;
 	-fx-background-image: url("BG.jpg");
 	-fx-background-size: 100%;
+	-fx-background-repeat: no-repeat;
 }
 
 #tekst{
@@ -35,10 +35,9 @@
 }
 
 #glemt{
-	-fx-text-fill: #FF0000;
+	-fx-text-fill: red;
 	-fx-background-color: transparent;
-	-fx-effect: dropshadow( three-pass-box , rgba(0.0,0.0,0.0,0.6) , 5.0, 0.0 , 0.0 , 1.0 );
-	-fx-font-size: 15;
+	-fx-font-size: 20;
 }
 
 #glemt:hover {
@@ -50,6 +49,11 @@
 }
 
 #fejl{
-  -fx-font-weight: bold;
-  -fx-font-size: 15px;
+  -fx-font-size: 16px;
+}
+
+#logo{
+	-fx-fill: #b20000;
+	-fx-font-size: 30px;
+	-fx-effect: dropshadow( three-pass-box , rgba(0.0,0.0,0.0,0.6) , 5.0, 0.0 , 0.0 , 1.0 );
 }
