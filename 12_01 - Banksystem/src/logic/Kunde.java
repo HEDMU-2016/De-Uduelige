@@ -16,6 +16,6 @@ String konto;
 	public void setKonto(String konto) {
 		this.konto = konto;
 	}
-	
+	//test
 	
 }

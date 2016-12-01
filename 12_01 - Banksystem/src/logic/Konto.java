@@ -36,6 +36,6 @@ public class Konto {
 		return "Konto: [ejer=" + ejer + ", kontonummer=" + kontonummer + ", saldo=" + saldo + "]";
 	}
 	
-	//kommentar
+	//test
 	
 }
