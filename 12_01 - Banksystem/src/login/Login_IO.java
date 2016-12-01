@@ -1,4 +1,5 @@
 package login;
+
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -45,7 +46,7 @@ public class Login_IO extends Application {
 		Button glemtkode = new Button("Jeg har glemt min kode!");
 		grid.add(glemtkode, 0, 3, 2, 3);
 		glemtkode.setId("glemt");
-		
+
 		Button login = new Button("Log ind");
 		HBox hbLogin = new HBox(10);
 		login.setId("login");
@@ -56,13 +57,16 @@ public class Login_IO extends Application {
 		login.setOnAction(e -> {
 			if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false) {
 				loginStage.hide();
+			} else if (usernameInput.getText().equals("admin")){
+				fejl.setText("Damn, du er logget ind som admin!");
 			} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == false) {
 				fejl.setText("Du skal lige skrive et brugernavn!");
 			} else if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == true) {
 				fejl.setText("Du skal lige skrive et kodeord!");
 			} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == true) {
 				fejl.setText("Du skal lige skrive noget i felterne!");
-			} else {/* Do noting */}
+			} else {
+				/* Do noting */}
 		});
 
 		Scene scene = new Scene(grid);
