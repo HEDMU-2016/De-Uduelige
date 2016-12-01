@@ -33,14 +33,14 @@ public class Login_IO extends Application {
 		Button glemtkode = new Button("Jeg har glemt min kode!");
 		grid.add(glemtkode, 0, 2, 2, 2);
 
-		Button gem = new Button("✓");
-		HBox hbGem = new HBox(10);
-		gem.setId("login");
-		hbGem.getChildren().add(gem);
-		grid.add(hbGem, 1, 2);
-		hbGem.setAlignment(Pos.TOP_RIGHT);
+		Button login = new Button("✓");
+		HBox hbLogin = new HBox(10);
+		login.setId("login");
+		hbLogin.getChildren().add(login);
+		grid.add(hbLogin, 1, 2);
+		hbLogin.setAlignment(Pos.TOP_RIGHT);
 
-		gem.setOnAction(e -> {
+		login.setOnAction(e -> {
 			loginStage.hide();
 		});
 
