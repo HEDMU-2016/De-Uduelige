@@ -2,7 +2,6 @@ package db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class dbaccess {
@@ -20,41 +19,8 @@ public class dbaccess {
 		}
 	}
 	
-	public void close() {
-		if (this.connection != null) {
-			try {
-				this.connection.close();
-			} catch (SQLException e) {
-				throw new RuntimeException("Close failed", e);
-			}
-			this.connection = null;
-		} else {
-			throw new RuntimeException("Connection not available (null). Not closed");
-		}
-	}
-	
-	public void commit() {
-		if (this.connection != null) {
-			try {
-				this.connection.commit();
-			} catch (SQLException e) {
-				throw new RuntimeException("Commit failed", e);
-			}
-		} else {
-			throw new RuntimeException("Connection not available (null). Not committed");
-		}
-	}
-
-	public void rollback() {
-		if (this.connection != null) {
-			try {
-				this.connection.rollback();
-			} catch (SQLException e) {
-				throw new RuntimeException("Rollback failed", e);
-			}
-		} else {
-			throw new RuntimeException("Connection not available (null). Not rolled back");
-		}
+	public void close(Connection connection) throws SQLException{
+		connection.close();
 	}
 
 	Connection getConnection() {
