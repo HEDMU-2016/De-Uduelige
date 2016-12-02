@@ -22,7 +22,7 @@ public class Login_IO extends Application {
 		loginStage.setTitle("Log ind - Lortebank A/S");
 		loginStage.getIcons().add(new Image("login/ico.png"));
 		GridPane grid = new GridPane();
-		grid.setAlignment(Pos.TOP_CENTER);
+		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
 
@@ -99,7 +99,7 @@ public class Login_IO extends Application {
 			}
 		});
 
-		Scene scene = new Scene(grid, 550, 290);
+		Scene scene = new Scene(grid, 550, 280);
 		loginStage.setScene(scene);
 		scene.getStylesheets().add(Login_IO.class.getResource("login.css").toExternalForm());
 		loginStage.setResizable(false);
