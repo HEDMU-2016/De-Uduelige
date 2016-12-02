@@ -4,4 +4,4 @@ userid int IDENTITY,
 username VARCHAR(50) NOT NULL,
 password VARCHAR(50) NOT NULL,
 )
-/* Vores connection: ("jdbc:hsqldb:hsql://localhost/mydb, "SA, "");
+/* Vores connection: ("jdbc:hsqldb:hsql://localhost/mydb, "SA, "");*/
