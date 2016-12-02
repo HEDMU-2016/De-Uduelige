@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 import domain.Konto;
 import domain.Kunde;
+import domain.Login;
 
 public class db {
     static final String db = "jdbc:hsqldb:hsql://localhost/mydb";
@@ -62,15 +63,23 @@ public class db {
 		statement.setDouble(2, konto.getSaldo());
 		statement.execute();
 	}
-	public boolean checkuser(String brugernavn, String kodeord)throws SQLException{
-		boolean login;
+	public boolean checkuser(Login login)throws SQLException{
+		boolean loginAuthencity;
 		statement = connection.prepareStatement("select brugernavn, kodeord FROM login");
 		while(resultset.next()){
-		if(resultset.getString(brugernavn).equals(brugernavn) && resultset.getString(kodeord).equals(kodeord)){
-			return login = true;
+		if(resultset.getString(login.getBrugernavn()).equals(login.getBrugernavn()) && resultset.getString(login.getAdgangskode()).equals(login.getAdgangskode())){
+			return loginAuthencity = true;
 			}	
 		}
-		return login = false;
+		return loginAuthencity = false;
 		}
+	public void addUser(Login login) throws SQLException{
+		statement = connection.prepareStatement("INSERT INTO login (brugernavn, adgangskode) values(?,?)");
+		statement.setString(0, login.getBrugernavn());
+		statement.setString(1, login.getAdgangskode());
+		statement.execute();
 	}
+
+
+}
 
