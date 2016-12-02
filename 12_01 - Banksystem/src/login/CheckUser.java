@@ -12,7 +12,7 @@ public class CheckUser {
 			if (password.equals("penis"));
 			return true;
 		case "penispenis":
-			if (password.equals("password"));
+			if (password.equals("penis"));
 			return true;
 		default:
 			return false;
