@@ -3,7 +3,6 @@ package login;
 public class CheckUser {
 
 	public static boolean check(String brugernavn, String password) {
-		brugernavn = brugernavn.toLowerCase();
 		
 		switch (brugernavn) {
 		case "admin":

@@ -83,7 +83,7 @@ public class Login_IO extends Application {
 					+ passwordInput.getText() + "\" som kodeord og trykket på log ind knappen!");
 
 			if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false) {
-				boolean korekt = CheckUser.check(usernameInput.getText(), passwordInput.getText());
+				boolean korekt = CheckUser.check(usernameInput.getText().toLowerCase(), passwordInput.getText());
 
 				if (korekt == true) {
 					fejl.setText("Du er nu logget ind som: \"" + usernameInput.getText() + "\"!");
