@@ -95,12 +95,10 @@ public class Login_IO extends Application {
 						fejl.setText("Forkert brugernavn eller adgangskode!");
 						passwordInput.setText("");
 					}
-				} else if (usernameInput.getText().isEmpty() == true
-						&& passwordInput.getText().isEmpty() == false) {
+				} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == false) {
 					fejl.setText("Du skal lige skrive et brugernavn!");
 					passwordInput.setText("");
-				} else if (usernameInput.getText().isEmpty() == false
-						&& passwordInput.getText().isEmpty() == true) {
+				} else if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == true) {
 					fejl.setText("Du skal lige skrive et kodeord!");
 				} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == true) {
 					fejl.setText("Du skal lige skrive noget i felterne!");
@@ -142,12 +140,10 @@ public class Login_IO extends Application {
 							fejl.setText("Forkert brugernavn eller adgangskode!");
 							passwordInput.setText("");
 						}
-					} else if (usernameInput.getText().isEmpty() == true
-							&& passwordInput.getText().isEmpty() == false) {
+					} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == false) {
 						fejl.setText("Du skal lige skrive et brugernavn!");
 						passwordInput.setText("");
-					} else if (usernameInput.getText().isEmpty() == false
-							&& passwordInput.getText().isEmpty() == true) {
+					} else if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == true) {
 						fejl.setText("Du skal lige skrive et kodeord!");
 					} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == true) {
 						fejl.setText("Du skal lige skrive noget i felterne!");
