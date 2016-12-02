@@ -74,19 +74,7 @@ public class Login_IO extends Application {
 			fejl.setFill(Color.RED);
 			if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false) {
 				String brugernavn = usernameInput.getText(), kodeord = passwordInput.getText();
-				boolean korekt = false;
-
-				// Fyr et meodekald der tjekker brugernavn og kode
-				// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				// !
-				// !
-				// !
-				if (brugernavn.equals("admin") && kodeord.equals("password")) // !
-					korekt = true; // !
-				// !
-				// !
-				// !
-				// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				boolean korekt = CheckUser.check(brugernavn, kodeord);
 
 				if (korekt == true) {
 					fejl.setText("Du er nu logget ind som: \"" + brugernavn + "\"!");
@@ -115,7 +103,7 @@ public class Login_IO extends Application {
 		loginStage.setScene(scene);
 		scene.getStylesheets().add(Login_IO.class.getResource("login.css").toExternalForm());
 		loginStage.setResizable(false);
-		// loginStage.setAlwaysOnTop(true);
+		loginStage.setAlwaysOnTop(true);
 		loginStage.show();
 
 		// Lyt efter enter
@@ -127,19 +115,7 @@ public class Login_IO extends Application {
 					fejl.setFill(Color.RED);
 					if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false) {
 						String brugernavn = usernameInput.getText(), kodeord = passwordInput.getText();
-						boolean korekt = false;
-
-						// Fyr et meodekald der tjekker brugernavn og kode
-						// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-						// !
-						// !
-						// !
-						if (brugernavn.equals("admin") && kodeord.equals("password")) // !
-							korekt = true; // !
-						// !
-						// !
-						// !
-						// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+						boolean korekt = CheckUser.check(brugernavn, kodeord);
 
 						if (korekt == true) {
 							fejl.setText("Du er nu logget ind som: \"" + brugernavn + "\"!");
