@@ -1,8 +1,9 @@
 package domain;
 
-public class Login {
+public abstract class Login {
 private String brugernavn;
 private String adgangskode;
+private int id;
 
 	public Login(String brugernavn , String adgangskode){
 		this.brugernavn=brugernavn;
@@ -24,7 +25,7 @@ private String adgangskode;
 	public void setAdgangskode(String adgangskode) {
 		this.adgangskode = adgangskode;
 	}
-
+	public abstract int getId();
 	@Override
 	public String toString() {
 		return "Login [brugernavn=" + brugernavn + ", adgangskode=" + adgangskode + "]";

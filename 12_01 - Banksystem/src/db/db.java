@@ -64,19 +64,19 @@ public class db {
 		statement.execute();
 	}
 	public boolean checkLogin(Login login)throws SQLException{
-		boolean loginAuthencity;
 		statement = connection.prepareStatement("select brugernavn, kodeord FROM login");
 		while(resultset.next()){
 		if(resultset.getString(login.getBrugernavn()).equals(login.getBrugernavn()) && resultset.getString(login.getAdgangskode()).equals(login.getAdgangskode())){
-			return loginAuthencity = true;
+			return true;
 			}	
 		}
-		return loginAuthencity = false;
+		return false;
 		}
-	public void addUser(Login login) throws SQLException{
-		statement = connection.prepareStatement("INSERT INTO login (brugernavn, adgangskode) values(?,?)");
+	public void addLogin(Login login) throws SQLException{
+		statement = connection.prepareStatement("INSERT INTO login (brugernavn, adgangskode, identity) values(?,?,?)");
 		statement.setString(0, login.getBrugernavn());
 		statement.setString(1, login.getAdgangskode());
+		statement.setInt(2,login.getId());
 		statement.execute();
 	}
 
