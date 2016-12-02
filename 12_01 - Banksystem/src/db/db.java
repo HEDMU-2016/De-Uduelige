@@ -6,8 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import logic.Konto;
-import logic.Kunde;
+import domain.Konto;
+import domain.Kunde;
 
 public class db {
     static final String db = "jdbc:hsqldb:hsql://localhost/mydb";
@@ -61,16 +61,11 @@ public class db {
 		boolean login;
 		statement = connection.prepareStatement("select brugernavn, kodeord FROM login");
 		while(resultset.next()){
-		if(resultset.getString(brugernavn).equals(brugernavn)){
-			if(resultset.getString(kodeord).equals(kodeord)){
+		if(resultset.getString(brugernavn).equals(brugernavn) && resultset.getString(kodeord).equals(kodeord)){
 			return login = true;
 			}	
 		}
 		return login = false;
 		}
-		return login=false;
 	}
 
-	
-
-}
