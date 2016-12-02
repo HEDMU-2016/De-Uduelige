@@ -1,9 +1,9 @@
 package logic;
 
 public class Konto {
-	Kunde ejer;
-	String kontonummer;
-	double saldo;
+	protected Kunde ejer;
+	protected String kontonummer;
+	protected double saldo;
 	
 	public Konto(Kunde ejer, String kontonummer){
 		this.ejer=ejer;
