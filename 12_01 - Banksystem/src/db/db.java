@@ -57,7 +57,19 @@ public class db {
 		statement.setDouble(2, konto.getSaldo());
 		statement.execute();
 	}
-	
+	public boolean checkuser(String brugernavn, String kodeord)throws SQLException{
+		boolean login;
+		statement = connection.prepareStatement("select brugernavn, kodeord FROM login");
+		while(resultset.next()){
+		if(resultset.getString(brugernavn).equals(brugernavn)){
+			if(resultset.getString(kodeord).equals(kodeord)){
+			return login = true;
+			}	
+		}
+		return login = false;
+		}
+		return login=false;
+	}
 
 	
 
