@@ -3,7 +3,7 @@ package login;
 public class CheckUser {
 
 	public static boolean check(String brugernavn, String password) {
-
+		
 		switch (brugernavn) {
 		case "admin":
 			if (password.equals("password"));

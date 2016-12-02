@@ -19,5 +19,10 @@ String konto;
 	public String getNavn(){
 		return navn;
 	}
+
+	@Override
+	public String toString() {
+		return "Kunde [navn=" + navn + ", konto=" + konto + "]";
+	}
 	
 }

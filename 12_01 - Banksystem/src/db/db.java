@@ -18,7 +18,6 @@ public class db {
     ResultSet resultset;
     PreparedStatement statement;
 
-	
     public db(Connection connection){
     	this.connection=connection;
     }
