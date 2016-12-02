@@ -63,7 +63,7 @@ public class db {
 		statement.setDouble(2, konto.getSaldo());
 		statement.execute();
 	}
-	public boolean checkuser(Login login)throws SQLException{
+	public boolean checkLogin(Login login)throws SQLException{
 		boolean loginAuthencity;
 		statement = connection.prepareStatement("select brugernavn, kodeord FROM login");
 		while(resultset.next()){
