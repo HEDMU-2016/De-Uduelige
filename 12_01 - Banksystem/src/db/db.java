@@ -17,7 +17,12 @@ public class db {
     ResultSet resultset;
     PreparedStatement statement;
 
-	public void connect() throws SQLException {
+	
+    public db(Connection connection){
+    	this.connection=connection;
+    }
+    
+    public void connect() throws SQLException {
 		
 			connection = DriverManager.getConnection(db, dbuser, dbpass);
 			connection.setAutoCommit(false);
