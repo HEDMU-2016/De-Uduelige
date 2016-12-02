@@ -1,6 +1,6 @@
 CREATE TABLE login
 (
 userid int IDENTITY,
-username VARCHAR(50) NOT NULL,
-password VARCHAR(50) NOT NULL,
+brugarnavn VARCHAR(50) NOT NULL,
+adgangskode VARCHAR(50) NOT NULL,
 )
