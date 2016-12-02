@@ -1,3 +1,5 @@
+//Første skærm brugerne mødes af når de åbner banksystemen - Dan
+
 package login;
 
 import java.sql.Connection;
