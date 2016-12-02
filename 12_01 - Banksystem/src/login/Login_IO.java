@@ -1,5 +1,7 @@
 package login;
 
+import java.sql.SQLException;
+
 import db.db;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -20,6 +22,9 @@ import javafx.stage.Stage;
 public class Login_IO extends Application {
 
 	public void start(Stage loginStage) {
+		
+		db DB = new db();
+		
 		loginStage.setTitle("Log ind - Lortebank A/S");
 		loginStage.getIcons().add(new Image("login/ico.png"));
 		GridPane grid = new GridPane();
@@ -121,7 +126,12 @@ public class Login_IO extends Application {
 					System.out.println("Der blev tastet: \"" + usernameInput.getText() + "\" som brugernavn og: \"" + passwordInput.getText()
 							+ "\" som kodeord og trykket på enter!");
 					if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false) {
-						boolean korekt = db.checkuser(usernameInput.getText(), passwordInput.getText());
+						boolean korekt;
+						try {
+							korekt = DB.checkuser(usernameInput.getText(), passwordInput.getText());
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
 
 						if (korekt == true) {
 							fejl.setText("Du er nu logget ind som: \"" + usernameInput.getText() + "\"!");
