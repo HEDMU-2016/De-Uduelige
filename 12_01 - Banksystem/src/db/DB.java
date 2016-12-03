@@ -40,14 +40,13 @@ public class db implements startable {
 		statement = connection.prepareStatement("SELECT navn FROM kunde");
 		while(resultset.next()){
 			String stmp = resultset.getString("navn");
-			statement.executeQuery(stmp);
+			System.out.println(stmp);
 		}
 	}
 	public void Kunde(String s) throws SQLException{
-		statement = connection.prepareStatement("SELECT navn FROM kunde");
+		statement = connection.prepareStatement("SELECT navn FROM kunde WHERE navn LIKE ("+s+")");
 		while(resultset.next()){
 			String stmp = resultset.getString("navn");
-			if(stmp.contains(s))
 			System.out.println(stmp);
 		}
 	}
