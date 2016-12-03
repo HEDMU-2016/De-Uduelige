@@ -10,7 +10,7 @@ import domain.Konto;
 import domain.Kunde;
 import domain.Login;
 
-public class db {
+public class db implements startable {
     static final String db = "jdbc:hsqldb:hsql://localhost/mydb";
     static final String dbuser = "SA";
     static final String dbpass = "";
@@ -19,8 +19,12 @@ public class db {
     PreparedStatement statement;
     
 
-    public db(Connection connection){
-    	this.connection=connection;
+    public void start(){
+    	connection=DriverManager.getConnection(db, dbuser, dbpass);
+    }
+
+    
+    public db(){
     }
     
     public Connection connect(Connection connection) throws SQLException {

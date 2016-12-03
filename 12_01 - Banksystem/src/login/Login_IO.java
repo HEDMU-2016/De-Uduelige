@@ -22,11 +22,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Login_IO extends Application {
-	Connection connetion;
 
 	public void start(Stage loginStage) throws SQLException {
-		// connetion = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/mydb", "SA", "");
-		// db DB = new db(connetion);
+		DB db = new DB();
+		db.start();
 
 		loginStage.setTitle("Log ind - Lortebank A/S");
 		loginStage.getIcons().add(new Image("login/ico.png"));
