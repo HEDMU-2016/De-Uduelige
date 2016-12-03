@@ -19,8 +19,8 @@ public class db implements startable {
     PreparedStatement statement;
     
 
-    public void start(){
-    	connection=DriverManager.getConnection(db, dbuser, dbpass);
+    public void start(DB db2){
+    	db2.getConnection=DriverManager.getConnection(db, dbuser, dbpass);
     }
 
     
@@ -36,9 +36,6 @@ public class db implements startable {
 		connection.close();
 	}
 
-	Connection getConnection() {
-		return connection;
-	}
 	public void Kunder() throws SQLException{
 		statement = connection.prepareStatement("SELECT navn FROM kunde");
 		while(resultset.next()){
@@ -94,6 +91,9 @@ public class db implements startable {
 			statement.executeQuery(brugernavn);
 			statement.executeQuery(adgangskode);
 		}
+	}
+	public Connection getConnection(){
+		return connection;
 	}
 
 }

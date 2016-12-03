@@ -1,9 +1,9 @@
 package domain;
 
-public abstract class Login {
+public class Login implements identifiable {
 private String brugernavn;
 private String adgangskode;
-private int id;
+private static final int id=0;
 
 	public Login(String brugernavn , String adgangskode){
 		this.brugernavn=brugernavn;
@@ -25,7 +25,9 @@ private int id;
 	public void setAdgangskode(String adgangskode) {
 		this.adgangskode = adgangskode;
 	}
-	public abstract int getId();
+	public int getId(){
+		return id;
+	}
 	@Override
 	public String toString() {
 		return "Login [brugernavn=" + brugernavn + ", adgangskode=" + adgangskode + "]";
