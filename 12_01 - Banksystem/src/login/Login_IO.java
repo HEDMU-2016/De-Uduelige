@@ -118,7 +118,10 @@ public class Login_IO extends Application {
 					+ passwordInput.getText() + "\" som kodeord og trykket på log ind knappen!");
 
 			if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false) {
-		boolean korekt = CheckUser.check(usernameInput.getText().toLowerCase(), passwordInput.getText());
+		boolean korekt;
+
+			korekt = CheckUser.check(usernameInput.getText().toLowerCase(), passwordInput.getText());
+		
 
 				if (korekt == true) {
 					fejl.setText("Du er nu logget ind som: \"" + usernameInput.getText() + "\"!");
@@ -129,6 +132,7 @@ public class Login_IO extends Application {
 					fejl.setText("Forkert brugernavn eller adgangskode!");
 					passwordInput.setText("");
 				}
+
 			} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == false) {
 				fejl.setText("Du skal lige skrive et brugernavn!");
 				passwordInput.setText("");
