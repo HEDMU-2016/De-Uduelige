@@ -116,7 +116,6 @@ public class Login_IO extends Application {
 
 		// Lyt efter Enter tast
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-
 			@Override
 			public void handle(KeyEvent event) {
 				if (event.getCode().equals(KeyCode.ENTER)) {
