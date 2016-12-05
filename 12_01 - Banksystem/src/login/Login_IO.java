@@ -5,6 +5,7 @@ package login;
 import java.sql.SQLException;
 import java.util.Optional;
 
+import DB.DB;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -28,8 +29,8 @@ import javafx.stage.StageStyle;
 public class Login_IO extends Application {
 
 	public void start(Stage loginStage) throws SQLException {
-		// DB db = new DB();
-		// db.start();
+		 DB db = new DB();
+		 db.start();
 
 		loginStage.setTitle("Log ind - Lortebank A/S");
 		loginStage.getIcons().add(new Image("login/ico.png"));
@@ -151,9 +152,32 @@ public class Login_IO extends Application {
 			@Override
 			public void handle(KeyEvent event) {
 				if (event.getCode().equals(KeyCode.ENTER)) {
-					// Funktion ved enter tast
 					fejl.setFill(Color.RED);
-					fejl.setText("Enter funktion er på vej!");
+					System.out.println("Der blev tastet: \"" + usernameInput.getText() + "\" som brugernavn og: \""
+							+ passwordInput.getText() + "\" som kodeord og trykket på log ind knappen!");
+
+					if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false) {
+						boolean korekt = CheckUser.check(usernameInput.getText().toLowerCase(), passwordInput.getText());
+
+						if (korekt == true) {
+							fejl.setText("Du er nu logget ind som: \"" + usernameInput.getText() + "\"!");
+							usernameInput.setText("");
+							passwordInput.setText("");
+							fejl.setFill(Color.web("#184c18"));
+						} else if (korekt == false) {
+							fejl.setText("Forkert brugernavn eller adgangskode!");
+							passwordInput.setText("");
+						}
+					} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == false) {
+						fejl.setText("Du skal lige skrive et brugernavn!");
+						passwordInput.setText("");
+					} else if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == true) {
+						fejl.setText("Du skal lige skrive et kodeord!");
+					} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == true) {
+						fejl.setText("Du skal lige skrive noget i felterne!");
+					}
+
+					System.out.println("og det udskrevende resultat blev \"" + fejl.getText() + "\"\n");
 				}
 			}
 		});
