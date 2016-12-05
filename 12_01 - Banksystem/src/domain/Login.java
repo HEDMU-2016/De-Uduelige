@@ -1,6 +1,6 @@
 package domain;
 
-public class Login implements identifiable {
+public abstract class Login{
 private String brugernavn;
 private String adgangskode;
 private static final int id=0;

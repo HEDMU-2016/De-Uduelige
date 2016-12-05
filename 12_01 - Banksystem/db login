@@ -1,0 +1,6 @@
+CREATE TABLE login
+(
+id int,
+brugernavn VARCHAR(50) NOT NULL PRIMARY KEY,
+adgangskode VARCHAR(50) NOT NULL,
+)
