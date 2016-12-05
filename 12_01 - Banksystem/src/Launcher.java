@@ -13,5 +13,3 @@ public class Launcher extends Application {
 		login_IO.start(loginStage);
 	}
 }	
-
-//random shit
