@@ -24,8 +24,8 @@ import javafx.stage.Stage;
 public class Login_IO extends Application {
 
 	public void start(Stage loginStage) throws SQLException {
-		DB db = new DB();
-		db.start();
+//		DB db = new DB();
+//		db.start();
 
 		loginStage.setTitle("Log ind - Lortebank A/S");
 		loginStage.getIcons().add(new Image("login/ico.png"));
