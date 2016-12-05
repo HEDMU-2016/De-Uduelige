@@ -6,7 +6,6 @@ String konto;
 
 	public Kunde(String navn){
 		this.navn=navn;
-		
 	}
 
 	public String getKonto() {
