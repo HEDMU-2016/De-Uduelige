@@ -1,10 +1,9 @@
 package domain;
 
 public class NormaltLogin extends Login {
-int id;
+private static final int id=2;
 	public NormaltLogin(String brugernavn, String adgangskode) {
 		super(brugernavn, adgangskode);
-		id=1;
 	}
 	public int getId() {
 		return id;

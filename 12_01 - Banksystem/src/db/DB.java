@@ -10,43 +10,43 @@ import domain.Konto;
 import domain.Kunde;
 import domain.Login;
 
-public class db {
+public class db implements startable {
     static final String db = "jdbc:hsqldb:hsql://localhost/mydb";
     static final String dbuser = "SA";
     static final String dbpass = "";
     private Connection connection;
     ResultSet resultset;
     PreparedStatement statement;
+    
 
-    public db(Connection connection){
-    	this.connection=connection;
+    public void start(DB db2){
+    	db2.getConnection=DriverManager.getConnection(db, dbuser, dbpass);
+    }
+
+    
+    public db(){
     }
     
-    public void connect() throws SQLException {
-		
-			connection = DriverManager.getConnection(db, dbuser, dbpass);
-			connection.setAutoCommit(false);
-	}
+    public Connection connect(Connection connection) throws SQLException {
+    	connection = DriverManager.getConnection(db, dbuser, dbpass);
+		return connection;
+    }
 	
 	public void close(Connection connection) throws SQLException{
 		connection.close();
 	}
 
-	Connection getConnection() {
-		return connection;
-	}
 	public void Kunder() throws SQLException{
 		statement = connection.prepareStatement("SELECT navn FROM kunde");
 		while(resultset.next()){
 			String stmp = resultset.getString("navn");
-			statement.executeQuery(stmp);
+			System.out.println(stmp);
 		}
 	}
 	public void Kunde(String s) throws SQLException{
-		statement = connection.prepareStatement("SELECT navn FROM kunde");
+		statement = connection.prepareStatement("SELECT navn FROM kunde WHERE navn LIKE ("+s+")");
 		while(resultset.next()){
 			String stmp = resultset.getString("navn");
-			if(stmp.contains(s))
 			System.out.println(stmp);
 		}
 	}
@@ -62,23 +62,38 @@ public class db {
 		statement.setDouble(2, konto.getSaldo());
 		statement.execute();
 	}
+	
+	
 	public boolean checkLogin(Login login)throws SQLException{
-		statement = connection.prepareStatement("select brugernavn, kodeord FROM login");
-		while(resultset.next()){
-		if(resultset.getString(login.getBrugernavn()).equals(login.getBrugernavn()) && resultset.getString(login.getAdgangskode()).equals(login.getAdgangskode())){
+		statement = connection.prepareStatement("select brugernavn, adgangskode FROM login");
+		String brugernavn = resultset.getString(login.getBrugernavn());
+		String adgangskode = resultset.getString(login.getAdgangskode());
+		
+		if(brugernavn.equals(login.getBrugernavn()) && adgangskode.equals(login.getAdgangskode())){
 			return true;
 			}	
-		}
 		return false;
 		}
 	public void addLogin(Login login) throws SQLException{
-		statement = connection.prepareStatement("INSERT INTO login (brugernavn, adgangskode, identity) values(?,?,?)");
+		statement = connection.prepareStatement("INSERT INTO login (brugernavn, adgangskode, id) values(?,?,?)");
 		statement.setString(0, login.getBrugernavn());
 		statement.setString(1, login.getAdgangskode());
 		statement.setInt(2,login.getId());
 		statement.execute();
 	}
-
+	public void findLogin() throws SQLException{
+		statement = connection.prepareStatement("SELECT brugernavn,adgangskode FROM login");
+		String brugernavn = resultset.getString("brugernavn");
+		String adgangskode = resultset.getString("adgangskode");
+		
+		while(resultset.next()){
+			statement.executeQuery(brugernavn);
+			statement.executeQuery(adgangskode);
+		}
+	}
+	public Connection getConnection(){
+		return connection;
+	}
 
 }
 
