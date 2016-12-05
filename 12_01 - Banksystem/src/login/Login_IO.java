@@ -63,7 +63,7 @@ public class Login_IO extends Application {
 			ButtonType buttonTypeJa = new ButtonType("Ja, luk det!");
 			ButtonType buttonTypeNej = new ButtonType("Nej, lad mig blive!");
 
-			alert.getButtonTypes().setAll(buttonTypeJa, buttonTypeNej);
+			alert.getButtonTypes().setAll(buttonTypeNej, buttonTypeJa);
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == buttonTypeJa) {
