@@ -16,7 +16,6 @@ Connection connection;
 DB db = new DB();
 	@org.junit.Test
 	public void test() throws SQLException {
-		db.start();
 		Login dennis = new AdminLogin("Dennis", "123");
 		Login morten = new NormaltLogin("Morten", "watup");
 		db.findKunder();
