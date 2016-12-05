@@ -2,14 +2,17 @@
 
 package login;
 
-import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Optional;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -20,6 +23,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Login_IO extends Application {
 
@@ -39,6 +43,27 @@ public class Login_IO extends Application {
 		grid.add(hbNavn, 0, 0, 3, 1);
 		hbNavn.getChildren().add(navn);
 		navn.setId("logo");
+		
+		Button luk = new Button("X");
+		HBox hbLuk = new HBox(10);
+		hbLuk.getChildren().add(luk);
+		hbLuk.setAlignment(Pos.TOP_RIGHT);
+		grid.add(hbLuk, 4, 0);
+		luk.setId("luk");
+		
+		luk.setOnAction(e -> {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Er du sikker?");
+			alert.setHeaderText("Du er ved at lukke banksystemet!");
+			alert.setContentText("Er du sikker på at du ikke vil logge ind?");
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK){
+				loginStage.hide();
+			} else {
+			   // Ingen ting
+			}
+		});
 
 		Text username = new Text("Brugernavn:");
 		grid.add(username, 0, 1);
@@ -111,7 +136,8 @@ public class Login_IO extends Application {
 		loginStage.setScene(scene);
 		scene.getStylesheets().add(Login_IO.class.getResource("login.css").toExternalForm());
 		loginStage.setResizable(false);
-		loginStage.setAlwaysOnTop(true);
+		//loginStage.setAlwaysOnTop(true);
+		loginStage.initStyle(StageStyle.UNDECORATED);
 		loginStage.show();
 
 		// Lyt efter Enter tast
