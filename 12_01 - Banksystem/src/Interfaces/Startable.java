@@ -1,3 +1,4 @@
+package Interfaces;
 
 public interface Startable {
 	public void start();
