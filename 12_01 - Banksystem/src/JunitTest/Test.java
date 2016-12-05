@@ -19,11 +19,11 @@ DB db = new DB();
 		db.start();
 		Login dennis = new AdminLogin("Dennis", "123");
 		Login morten = new NormaltLogin("Morten", "watup");
-		Kunde dennisKunde = new Kunde("Dennis");
 		db.findKunder();
 		db.findLogin();
-		assertEquals (true, db.checkLogin(dennis));
-		assertEquals (false, db.checkLogin(morten));
+		assertEquals (true, db.checkLogin(dennis.getBrugernavn(), dennis.getAdgangskode()));
+		assertEquals (false, db.checkLogin(morten.getBrugernavn(), morten.getAdgangskode()));
+		assertEquals (1, db.getLoginID(dennis.getBrugernavn(), dennis.getAdgangskode()));
 	}
 
 }
