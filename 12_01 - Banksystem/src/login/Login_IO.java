@@ -28,8 +28,8 @@ import javafx.stage.StageStyle;
 public class Login_IO extends Application {
 
 	public void start(Stage loginStage) throws SQLException {
-//		DB db = new DB();
-//		db.start();
+		// DB db = new DB();
+		// db.start();
 
 		loginStage.setTitle("Log ind - Lortebank A/S");
 		loginStage.getIcons().add(new Image("login/ico.png"));
@@ -43,27 +43,33 @@ public class Login_IO extends Application {
 		grid.add(hbNavn, 0, 0, 3, 1);
 		hbNavn.getChildren().add(navn);
 		navn.setId("logo");
-		
+
 		Button luk = new Button("X");
 		HBox hbLuk = new HBox(10);
 		hbLuk.getChildren().add(luk);
 		hbLuk.setAlignment(Pos.TOP_RIGHT);
 		grid.add(hbLuk, 4, 0);
 		luk.setId("luk");
-		
+
 		luk.setOnAction(e -> {
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Er du sikker?");
-			alert.setHeaderText("Du er ved at lukke banksystemet!");
-			alert.setContentText("Er du sikker på at du ikke vil logge ind?");
+			Alert alert = new Alert(AlertType.NONE);
+			alert.setTitle("Du er ved at lukke banksystemet!");
+			alert.setHeaderText(null);
+			alert.setContentText("Er du sikker på at du vil lukke systemet uden at logge ind?");
+
+			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+			stage.getIcons().add(new Image(this.getClass().getResource("ico.png").toString()));
 			
+			ButtonType buttonTypeJa = new ButtonType("Ja, luk det!");
+			ButtonType buttonTypeNej = new ButtonType("Nej, lad mig blive!");
+
+			alert.getButtonTypes().setAll(buttonTypeNej, buttonTypeJa);
+
 			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == ButtonType.OK){
+			if (result.get() == buttonTypeJa) {
 				loginStage.close();
-			} else {
-			   // Ingen ting
 			}
-			
+
 		});
 
 		Text username = new Text("Brugernavn:");
