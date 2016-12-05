@@ -56,13 +56,14 @@ public class Login_IO extends Application {
 			alert.setTitle("Er du sikker?");
 			alert.setHeaderText("Du er ved at lukke banksystemet!");
 			alert.setContentText("Er du sikker på at du ikke vil logge ind?");
-
+			
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK){
-				loginStage.hide();
+				loginStage.close();
 			} else {
 			   // Ingen ting
 			}
+			
 		});
 
 		Text username = new Text("Brugernavn:");
