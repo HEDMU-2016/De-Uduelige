@@ -13,6 +13,4 @@ public class Launcher extends Application {
 		Login_IO login_IO = new Login_IO();
 		login_IO.start(loginStage);
 	}
-}	
-
-//comment for at kunne commite
+}
