@@ -152,6 +152,7 @@ public class Login_IO extends Application {
 			@Override
 			public void handle(KeyEvent event) {
 				if (event.getCode().equals(KeyCode.ENTER)) {
+					// Funktion ved enter tast
 					fejl.setFill(Color.RED);
 					System.out.println("Der blev tastet: \"" + usernameInput.getText() + "\" som brugernavn og: \""
 							+ passwordInput.getText() + "\" som kodeord og trykket på log ind knappen!");
