@@ -13,4 +13,3 @@ public class Launcher extends Application {
 		login_IO.start(loginStage);
 	}
 }
-//POST DAT SHIT
