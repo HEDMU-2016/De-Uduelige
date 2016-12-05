@@ -35,7 +35,7 @@ import domain.Login;
  		return connection;
      }
  	
-	public void close(Connection connection) throws SQLException{
+	public void close() throws SQLException{
 		connection.close();
 	}
 	public void findKunder() throws SQLException{
