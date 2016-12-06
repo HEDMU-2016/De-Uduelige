@@ -15,7 +15,6 @@ public class Brugermenu {
 	grid.setHgap(30);
 	grid.setVgap(30);
 	
-	
 
 	Scene scene = new Scene(grid);
 	stage.setScene(scene);

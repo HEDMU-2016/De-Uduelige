@@ -21,10 +21,10 @@ DB db = new DB();
 		Login morten = new NormaltLogin("Morten", "watup");
 		Kunde dennis = new Kunde("dennis");
 		Konto testkonto = new Konto(dennis,"12345678");
-		db.addKonto("dennis", 100.00D);
-		
+
 		db.findKunder();
 		db.findLogin();
+		db.findKontoer();
 		assertEquals (true, db.checkLogin(dennissLogin.getBrugernavn(), dennissLogin.getAdgangskode()));
 		assertEquals (false, db.checkLogin(morten.getBrugernavn(), morten.getAdgangskode()));
 		assertEquals (1, db.getLoginID(dennissLogin.getBrugernavn(), dennissLogin.getAdgangskode()));

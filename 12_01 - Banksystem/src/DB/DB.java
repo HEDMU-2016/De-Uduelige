@@ -21,9 +21,8 @@ public class DB implements Startable {
 	private Connection connection;
 	ResultSet resultset;
 	PreparedStatement statement;
-	DB database;
 	Logic logic;
-
+	DB database = new DB();
 	public void start() {
 		try {
 			connection = DriverManager.getConnection(db, dbuser, dbpass);
@@ -32,8 +31,6 @@ public class DB implements Startable {
 		}
 	}
 
-	public DB() {
-	}
 
 	public Connection connect(Connection connection) throws SQLException {
 		connection = DriverManager.getConnection(db, dbuser, dbpass);
@@ -48,20 +45,32 @@ public class DB implements Startable {
 		System.out.println("Oprettede konto med ejer: " + ejer + "og saldo: " + saldo);
 		database.stop();
 	}
-	public void findKontoer(String id) throws SQLException{
+	public void findKontoer() throws SQLException{
 		database.start();
 		statement = connection.prepareStatement("Select ejer,id from konto");
 		resultset = statement.executeQuery();
 		while(resultset.next()){
-			if (resultset.getString(id) == id){
 				String ejer = resultset.getString("ejer");
-				System.out.println("fandt "+ejer+"s konto");
+				String id = resultset.getString("id");
+				System.out.println("fandt "+ejer+"s konto, med id: "+id);
 			}
-		}
 		database.stop();
 		
 	}
-
+	public void findKonto(String s) throws SQLException{
+		database.start();
+		statement = connection.prepareStatement("Select ejer,id from konto WHERE ejer LIKE ?");
+		statement.setString(1, "%"+s+"%");
+		resultset = statement.executeQuery();
+		while(resultset.next()){
+				String ejer = resultset.getString("ejer");
+				String id = resultset.getString("id");
+				System.out.println("fandt "+ejer+"s konto, med id: "+id);
+			}
+		database.stop();
+		
+	}
+	
 	public void findKunder() throws SQLException {
 		database.start();
 		statement = connection.prepareStatement("SELECT navn FROM kunde");
@@ -89,6 +98,7 @@ public class DB implements Startable {
 	}
 
 	public void addKunde(Kunde kunde) throws SQLException {
+		System.out.println("tilfører kunde");
 		database.start();
 		Date startdato = Date.valueOf(LocalDate.now());
 		Date slutdato = Date.valueOf(LocalDate.of(9999, 01, 01));
@@ -102,6 +112,7 @@ public class DB implements Startable {
 	}
 
 	public void addKonto(Konto konto) throws SQLException {
+		System.out.println("tilfører konto... \n");
 		database.start();
 		statement = connection.prepareStatement("insert into konto(ejer,kontonummer,saldo)values(?,?,?)");
 		statement.setString(1, konto.getEjer().getNavn());
@@ -113,6 +124,7 @@ public class DB implements Startable {
 	}
 
 	public boolean checkLogin(String brugernavn, String adgangskode) throws SQLException {
+		System.out.println("checker login...\n");
 		database.start();
 		statement = connection.prepareStatement("select brugernavn, adgangskode , id FROM login");
 		resultset = statement.executeQuery();
@@ -204,6 +216,7 @@ public class DB implements Startable {
 			
 		}
 		System.out.println("no saldo was found");
+		database.stop();
 	return "";
 	}
 
@@ -211,6 +224,8 @@ public class DB implements Startable {
 	public void stop() {
 		try {
 			connection.close();
+			resultset.close();
+			statement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

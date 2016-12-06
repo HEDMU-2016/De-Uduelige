@@ -4,3 +4,11 @@ id int,
 brugernavn VARCHAR(50) NOT NULL PRIMARY KEY,
 adgangskode VARCHAR(50) NOT NULL,
 )
+
+CREATE TABLE konto
+(
+ejer varchar(255)
+saldo double not null
+)
+alter table konto 
+add kontoID int identity
