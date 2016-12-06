@@ -20,9 +20,9 @@ public class Konto {
 	public void withdraw(double amount){
 		saldo=logic.subtract(saldo,amount);
 	}
-	public void transfer(double amount, Konto konto){
-		saldo=logic.subtract(saldo, amount);
-		konto.deposit(amount);
+	public void transfer(double amount, Konto modtager, Konto sender){
+		sender.withdraw(amount);
+		modtager.deposit(amount);
 	}
 	public Kunde getEjer(){
 		return ejer;

@@ -12,6 +12,7 @@ import Interfaces.Startable;
 import domain.Konto;
 import domain.Kunde;
 import domain.Login;
+import logic.Logic;
 
 public class DB implements Startable {
 	static final String db = "jdbc:hsqldb:hsql://localhost/mydb";
@@ -21,6 +22,7 @@ public class DB implements Startable {
 	ResultSet resultset;
 	PreparedStatement statement;
 	DB database;
+	Logic logic;
 
 	public void start() {
 		try {
@@ -36,6 +38,28 @@ public class DB implements Startable {
 	public Connection connect(Connection connection) throws SQLException {
 		connection = DriverManager.getConnection(db, dbuser, dbpass);
 		return connection;
+	}
+	public void addKonto(String ejer, Double saldo) throws SQLException{
+		database.start();
+		statement = connection.prepareStatement("INSERT INTO konto (ejer,saldo) values(?,?)");
+		statement.setString(1, ejer);
+		statement.setDouble(2, saldo);
+		statement.execute();
+		System.out.println("Oprettede konto med ejer: " + ejer + "og saldo: " + saldo);
+		database.stop();
+	}
+	public void findKontoer(String id) throws SQLException{
+		database.start();
+		statement = connection.prepareStatement("Select ejer,id from konto");
+		resultset = statement.executeQuery();
+		while(resultset.next()){
+			if (resultset.getString(id) == id){
+				String ejer = resultset.getString("ejer");
+				System.out.println("fandt "+ejer+"s konto");
+			}
+		}
+		database.stop();
+		
 	}
 
 	public void findKunder() throws SQLException {
@@ -151,6 +175,36 @@ public class DB implements Startable {
 
 	public Connection getConnection() {
 		return connection;
+	}
+	
+	public void transfer(String modtager, String sender, Double beløb) throws SQLException{
+		logic = new Logic();
+		database.start();
+		statement = connection.prepareStatement("UPDATE konto SET saldo=? WHERE ejer=?");
+		double nyesaldo = logic.add(Double.parseDouble(database.getSaldo(modtager)), beløb);
+		statement.setDouble(1, nyesaldo);
+		statement.setString(2, modtager);
+		statement.execute();
+		nyesaldo = logic.subtract(Double.parseDouble(database.getSaldo(sender)), beløb);
+		statement.setDouble(1, nyesaldo);
+		statement.setString(2, sender);
+		statement.execute();
+		database.stop();
+		
+		
+	}
+	public String getSaldo(String kunde) throws SQLException{
+		System.out.println("looking for saldo...");
+		database.start();
+		statement = connection.prepareStatement("Select saldo from konto WHERE ejer=?");
+		statement.setString(1, kunde);
+		resultset = statement.executeQuery();
+		while(resultset.next()){
+			return resultset.getString("saldo");
+			
+		}
+		System.out.println("no saldo was found");
+	return "";
 	}
 
 	@Override

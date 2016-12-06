@@ -5,8 +5,8 @@ package login;
 import java.sql.SQLException;
 import java.util.Optional;
 
+import Brugerflade.Brugermenu;
 import DB.DB;
-import domain.NormaltLogin;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -31,7 +31,8 @@ public class Login_IO extends Application {
 	 DB db = new DB();
 	public void start(Stage loginStage) throws SQLException {
 		
-		 db.start();
+		Brugermenu brugermenu = new Brugermenu();
+		brugermenu.start(new Stage());
 
 		loginStage.setTitle("Log ind - Lortebank A/S");
 		loginStage.getIcons().add(new Image("login/ico.png"));
@@ -143,6 +144,7 @@ public class Login_IO extends Application {
 			}
 
 			System.out.println("og det udskrevende resultat blev \"" + fejl.getText() + "\"\n");
+					
 		});
 
 		Scene scene = new Scene(grid, 550, 280);
@@ -158,14 +160,14 @@ public class Login_IO extends Application {
 			public void handle(KeyEvent event) {
 				if (event.getCode().equals(KeyCode.ENTER)) {
 					// Funktion ved enter tast
-					fejl.setFill(Color.RED);
+					fejl.setFill(Color.RED);					
 					System.out.println("Der blev tastet: \"" + usernameInput.getText() + "\" som brugernavn og: \""
 							+ passwordInput.getText() + "\" som kodeord og trykket på log ind knappen!");
 
 					if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false) {
 						
 						try {
-					boolean korrekt = db.checkLogin(usernameInput.getText(), passwordInput.getText());
+					boolean korrekt = db.checkLogin(usernameInput.getText(),passwordInput.getText());
 					
 						if (korrekt == true) {
 							fejl.setText("Du er nu logget ind som: \"" + usernameInput.getText() + "\"!");
