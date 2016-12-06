@@ -20,9 +20,10 @@ import javafx.stage.Stage;
 
 public class OverførselsStage extends Application {
 	DB db = new DB();
-
+	Stage stage;
 	public void start (Stage overførselsstage){
-		overførselsstage.setTitle("Overførsel");
+		this.stage=overførselsstage;
+		stage.setTitle("Overførsel");
 		
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.TOP_LEFT);
