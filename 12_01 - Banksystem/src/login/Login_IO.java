@@ -8,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Optional;
 
+import Brugerflade.Brugermenu;
 import DB.DB;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -33,9 +34,6 @@ public class Login_IO extends Application {
 	DB db = new DB();
 
 	public void start(Stage loginStage) throws SQLException {
-
-		// Brugermenu brugermenu = new Brugermenu();
-		// brugermenu.start(new Stage());
 
 		loginStage.setTitle("Log ind - Lortebank A/S");
 		loginStage.getIcons().add(new Image("login/ico.png"));
@@ -147,6 +145,9 @@ public class Login_IO extends Application {
 						usernameInput.setText("");
 						passwordInput.setText("");
 						fejl.setFill(Color.web("#184c18"));
+						Brugermenu brugermenu = new Brugermenu();
+						brugermenu.start(new Stage());
+						loginStage.hide();
 					} else if (korrekt == false) {
 						fejl.setText("Forkert brugernavn eller adgangskode!");
 						passwordInput.setText("");
@@ -201,13 +202,17 @@ public class Login_IO extends Application {
 						}
 
 						try {
-							boolean korrekt = db.checkLogin(usernameInput.getText().toLowerCase(),passwordInput.getText());
+							boolean korrekt = db.checkLogin(usernameInput.getText().toLowerCase(),
+									passwordInput.getText());
 
 							if (korrekt == true) {
 								fejl.setText("Du er nu logget ind som: \"" + usernameInput.getText() + "\"!");
 								usernameInput.setText("");
 								passwordInput.setText("");
 								fejl.setFill(Color.web("#184c18"));
+								Brugermenu brugermenu = new Brugermenu();
+								brugermenu.start(new Stage());
+								loginStage.hide();
 							} else if (korrekt == false) {
 								fejl.setText("Forkert brugernavn eller adgangskode!");
 								passwordInput.setText("");
