@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -18,8 +19,15 @@ public class Brugermenu {
 	grid.setHgap(10);
 	grid.setVgap(10);
 	
-	stage.setTitle("Main menu");
 	
+	//Dette skal bruges på alle vinduer
+	//
+	//
+	stage.setTitle("Hovedmenu - Lortebank A/S");
+	stage.getIcons().add(new Image("Brugerflade/ico.png"));
+	//
+	//
+	//Dette skal bruges på alle vinduer
 	
 	
 	Button close = new Button("x");
