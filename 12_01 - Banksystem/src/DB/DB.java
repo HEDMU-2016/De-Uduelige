@@ -11,9 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Interfaces.Startable;
+import domain.AdminLogin;
 import domain.Konto;
 import domain.Kunde;
 import domain.Login;
+import domain.NormaltLogin;
 import logic.Logic;
 
 public class DB implements Startable {
@@ -24,7 +26,6 @@ public class DB implements Startable {
 	ResultSet resultset;
 	PreparedStatement statement;
 	Logic logic;
-	
 
 	public void start() {
 		try {
@@ -34,7 +35,7 @@ public class DB implements Startable {
 		}
 	}
 
-	//INDSÆT METODER: 
+	// INDSÆT METODER:
 	public void addKonto(String ejer, Double saldo) throws SQLException {
 		System.out.println("tilfører konto...");
 		start();
@@ -45,6 +46,7 @@ public class DB implements Startable {
 		System.out.println("Oprettede konto med ejer: " + ejer + "og saldo: " + saldo);
 		stop();
 	}
+
 	public void addKunde(Kunde kunde) throws SQLException {
 		System.out.println("tilfører kunde...");
 		start();
@@ -59,6 +61,7 @@ public class DB implements Startable {
 		System.out.println("Tilførte kunde: " + kunde);
 		stop();
 	}
+
 	public void addKonto(Konto konto) throws SQLException {
 		System.out.println("tilfører konto...");
 		start();
@@ -69,6 +72,7 @@ public class DB implements Startable {
 		System.out.println("konto: " + konto + "blev lagt ind i databasen");
 		stop();
 	}
+
 	public void addLogin(Login login) throws SQLException {
 		System.out.println("tilfører login...");
 		start();
@@ -80,8 +84,8 @@ public class DB implements Startable {
 		System.out.println("Login: " + login + "blev lagt ind i databasen");
 		stop();
 	}
-	
-	//FIND METODER: 
+
+	// FIND METODER:
 
 	public void findKontoer() throws SQLException {
 		System.out.println("Leder efter kontoer...");
@@ -98,7 +102,7 @@ public class DB implements Startable {
 	}
 
 	public void findKonto(String s) throws SQLException {
-		System.out.println("Leder efter kontoer til ejeren: "+s);
+		System.out.println("Leder efter kontoer til ejeren: " + s);
 		start();
 		statement = connection.prepareStatement("Select ejer,saldo,id from konto WHERE ejer LIKE ?");
 		statement.setString(1, "%" + s + "%");
@@ -107,7 +111,7 @@ public class DB implements Startable {
 			String ejer = resultset.getString("ejer");
 			String saldo = resultset.getString("saldo");
 			String id = resultset.getString("id");
-			
+
 			System.out.println("fandt " + ejer + "s konto, med saldo: " + saldo + "og id:" + id);
 		}
 
@@ -129,7 +133,7 @@ public class DB implements Startable {
 	}
 
 	public void findKunde(String s) throws SQLException {
-		System.out.println("Finder kunder hvis navn indeholder: "+s);
+		System.out.println("Finder kunder hvis navn indeholder: " + s);
 		start();
 		statement = connection.prepareStatement("SELECT navn, email FROM kunde WHERE kunde LIKE ?");
 		statement.setString(1, "%" + s + "%");
@@ -139,26 +143,28 @@ public class DB implements Startable {
 		while (resultset.next()) {
 			String stmp = resultset.getString("navn");
 			String email = resultset.getString("email");
-			System.out.println("Fandt: "+stmp);
+			System.out.println("Fandt: " + stmp);
 		}
 		stop();
 	}
-	public Kunde mailtoKunde(String email)throws SQLException{
-		System.out.println("Finder kunden med email: "+email);
+
+	public Kunde mailtoKunde(String email) throws SQLException {
+		System.out.println("Finder kunden med email: " + email);
 		start();
 		statement = connection.prepareStatement("Select navn, email FROM kunde WHERE email LIKE ?");
-		statement.setString(1, "%"+email+"%");
+		statement.setString(1, "%" + email + "%");
 		resultset = statement.executeQuery();
-		while(resultset.next()){
-		String navn = resultset.getString("navn");
-		
-		Kunde tmpkunde = new Kunde(navn,email);
-		System.out.println("Fandt: "+tmpkunde);
-		return tmpkunde;
+		while (resultset.next()) {
+			String navn = resultset.getString("navn");
+
+			Kunde tmpkunde = new Kunde(navn, email);
+			System.out.println("Fandt: " + tmpkunde);
+			return tmpkunde;
 		}
 		System.out.println("Jeg burde ikke være noget her til");
 		return null;
 	}
+
 	public int getLoginID(String brugernavn, String adgangskode) throws SQLException {
 		System.out.println("Finder matchence login id til brugernavnet: " + brugernavn);
 		start();
@@ -171,20 +177,19 @@ public class DB implements Startable {
 
 			if (brugernavn.equals(resultset.getString("brugernavn"))
 					&& adgangskode.equals(resultset.getString("adgangskode"))) {
-				System.out.println("Fandt id: "+id);
+				System.out.println("Fandt id: " + id);
 				return id;
 			}
 			stop();
 		}
 		return 69;
 	}
-	
 
-	//TABLE METODER:
-	
+	// TABLE METODER:
+
 	public List<Konto> listkonti(Kunde ejer) throws SQLException {
 		System.out.println("finder " + ejer + "s kontoer");
-		
+
 		List<Konto> kontolist = new ArrayList<>();
 		start();
 		statement = connection.prepareStatement("select ejer,kontoid,saldo from konto where ejer = ?");
@@ -219,12 +224,12 @@ public class DB implements Startable {
 			}
 		}
 		System.out.println("Done!");
-	return kontolist;
+		return kontolist;
 	}
 
 	public List<Kunde> listKunder() throws SQLException {
-		List<Kunde> kundeliste = new ArrayList<>();
 		System.out.println("Laver en liste over alle kunder");
+		List<Kunde> kundeliste = new ArrayList<>();
 		start();
 		statement = connection.prepareStatement("Select navn, email, startdato from kunde");
 		resultset = statement.executeQuery();
@@ -241,7 +246,29 @@ public class DB implements Startable {
 		return kundeliste;
 	}
 
-	//KONTOL METODER:
+	public List<Login> listLogins() throws SQLException {
+		System.out.println("Laver en liste over alle logins");
+		List<Login> logintable = new ArrayList<>();
+		start();
+		statement = connection.prepareStatement("select brugernavn, adgangskode, id from login");
+		resultset = statement.executeQuery();
+		while (resultset.next()) {
+			String brugernavn = resultset.getString("brugernavn");
+			String adgangskode = resultset.getString("adgangskode");
+			int id = resultset.getInt("id");
+			if (id == 1) {
+				Login login = new AdminLogin(brugernavn, adgangskode);
+				logintable.add(login);
+			}
+			if (id == 2) {
+				Login login2 = new NormaltLogin(brugernavn, adgangskode);
+				logintable.add(login2);	
+			}	
+		}
+		return logintable;
+	}
+
+	// KONTOL METODER:
 
 	public boolean checkLogin(String brugernavn, String adgangskode) throws SQLException {
 		System.out.println("checker login...\n");
@@ -278,9 +305,9 @@ public class DB implements Startable {
 		}
 		return false;
 	}
-	
-	//UPDATE METODER
-	
+
+	// UPDATE METODER
+
 	public void findLogin() throws SQLException {
 		start();
 		statement = connection.prepareStatement("SELECT brugernavn,adgangskode FROM login");
@@ -294,7 +321,7 @@ public class DB implements Startable {
 		}
 		stop();
 	}
-	
+
 	public String nyKode(String brugernavn, String nyadgangskode) throws SQLException {
 		System.out.println("Finder bruger... \n");
 		start();
@@ -313,19 +340,18 @@ public class DB implements Startable {
 
 	}
 
-
 	public void transfer(String modtager, String sender, Double beløb) throws SQLException {
-		System.out.println("Overfører "+ beløb+"kr til "+modtager+" fra "+sender);
+		System.out.println("Overfører " + beløb + "kr til " + modtager + " fra " + sender);
 		logic = new Logic();
 		start();
 		statement = connection.prepareStatement("UPDATE konto SET saldo=? WHERE ejer=?");
 		double nyesaldo = logic.add((getSaldo(modtager)), beløb);
-		System.out.println("tilførte "+beløb+" til "+modtager+"s konto");
+		System.out.println("tilførte " + beløb + " til " + modtager + "s konto");
 		statement.setDouble(1, nyesaldo);
 		statement.setString(2, modtager);
 		statement.execute();
 		nyesaldo = logic.subtract((getSaldo(sender)), beløb);
-		System.out.println("træk "+beløb+" fra "+sender+"s konto");
+		System.out.println("træk " + beløb + " fra " + sender + "s konto");
 		statement.setDouble(1, nyesaldo);
 		statement.setString(2, sender);
 		statement.execute();
@@ -334,14 +360,14 @@ public class DB implements Startable {
 	}
 
 	public Double getSaldo(String kunde) throws SQLException {
-		System.out.println("looking for "+kunde+"s saldo");
+		System.out.println("looking for " + kunde + "s saldo");
 		start();
 		statement = connection.prepareStatement("Select saldo from konto WHERE ejer=?");
 		statement.setString(1, kunde);
 		resultset = statement.executeQuery();
 		while (resultset.next()) {
 			Double saldo = resultset.getDouble("saldo");
-			System.out.println(kunde+"s saldo er: "+saldo);
+			System.out.println(kunde + "s saldo er: " + saldo);
 			return saldo;
 
 		}

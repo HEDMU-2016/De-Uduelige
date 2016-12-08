@@ -91,7 +91,7 @@ public class AdministratorVindue {
 		redigermedarbejder1.start(new Stage());
 		});
 		Button kontooversigt = new Button("Se alle kontis");
-		grid.add(kontooversigt, 5, 4);
+		grid.add(kontooversigt, 0, 6);
 		kontooversigt.setOnAction(e->{
 		AdminensKontoView adminenskontoview = new AdminensKontoView();
 		try {
@@ -100,7 +100,16 @@ public class AdministratorVindue {
 			e1.printStackTrace();
 		}
 		});
-		
+		Button logins = new Button("se alle logins");
+		grid.add(logins, 0, 7);
+		logins.setOnAction(e->{
+			LoginOversigt loginoversigt = new LoginOversigt();
+			try {
+				loginoversigt.start(new Stage());
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		});
 		
 		Scene scene = new Scene(grid,400,400);
 		stage.setScene(scene);
