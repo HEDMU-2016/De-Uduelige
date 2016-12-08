@@ -9,7 +9,7 @@ import domain.Kunde;
 
 public class TestLambda {
 
-	private static void main(String[] args){
+	private static void test(){
 	TestLambda instans = new TestLambda();
 	List<Kunde> kunder = Arrays.asList(
 			new Kunde("dennis","dennis@rosenkilde.nu"),

@@ -259,10 +259,14 @@ public class DB implements Startable {
 			if (id == 1) {
 				Login login = new AdminLogin(brugernavn, adgangskode);
 				logintable.add(login);
+				System.out.println("Tilføjede Login med Brugernavn: "+brugernavn
+						+"\n og adgangskode: "+adgangskode);
 			}
 			if (id == 2) {
 				Login login2 = new NormaltLogin(brugernavn, adgangskode);
 				logintable.add(login2);	
+				System.out.println("Tilføjede Login med Brugernavn: "+brugernavn
+						+"\n og adgangskode: "+adgangskode);
 			}	
 		}
 		return logintable;
