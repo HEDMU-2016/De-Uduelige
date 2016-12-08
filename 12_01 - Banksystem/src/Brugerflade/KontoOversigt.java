@@ -58,7 +58,7 @@ ObservableList<Konto> list;
 		
 		Scene scene = new Scene(grid);
 		stage.setScene(scene);
-		scene.getStylesheets().add(Login_IO.class.getResource("login.css").toExternalForm());
+		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 		stage.setResizable(false);
 		stage.initStyle(StageStyle.UNDECORATED);
 		stage.show();

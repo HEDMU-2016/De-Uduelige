@@ -1,5 +1,7 @@
 package Brugerflade;
 
+import java.sql.SQLException;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -24,7 +26,12 @@ public class AdministratorVindue {
 		grid.add(kundeoversigt, 5, 0);
 		kundeoversigt.setOnAction(e ->{
 			Kundeoversigt kundeoversigt1 = new Kundeoversigt();
-			kundeoversigt1.start(new Stage());
+			try {
+				kundeoversigt1.start(new Stage());
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		});
 		
 		Button medarbejderoversigt = new Button("medarbejderoversigt");

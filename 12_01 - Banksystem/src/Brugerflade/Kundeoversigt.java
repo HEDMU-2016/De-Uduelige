@@ -16,19 +16,12 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class Kundeoversigt {
+	private Stage lokalstage;
 	private void createTable(ObservableList<Kunde> kundelist){
-	TableView<Kunde> kundeoversigt = new TableView<Kunde>();
-	TableColumn<Kunde,String> nameCol = new TableColumn<Kunde,String>("name");
-	nameCol.setCellValueFactory(new PropertyValueFactory<Kunde,String>("navn"));
-	TableColumn<Kunde, String> emailCol = new TableColumn<Kunde,String>("email");
-	emailCol.setCellValueFactory(new PropertyValueFactory<Kunde,String>("email"));
-	
-	
-	kundeoversigt.setItems(kundelist);
-	kundeoversigt.getColumns().addAll(nameCol, emailCol);
 	
 	}
-	public void start(Stage stage){
+	public void start(Stage stage) throws SQLException{
+		lokalstage = stage;
 		DB db = new DB();
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
@@ -41,12 +34,18 @@ public class Kundeoversigt {
 			stage.close();
 		});
 		
-		try {
-			ObservableList<Kunde> kundeliste = FXCollections.observableArrayList(db.listKunder());
-			createTable(kundeliste);
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
+			ObservableList<Kunde> kundeliste;
+			kundeliste = FXCollections.observableArrayList(db.listKunder());
+			
+			TableView<Kunde> kundeoversigt = new TableView<Kunde>();
+			TableColumn<Kunde,String> nameCol = new TableColumn<Kunde,String>("name");
+			nameCol.setCellValueFactory(new PropertyValueFactory<Kunde,String>("navn"));
+			TableColumn<Kunde, String> emailCol = new TableColumn<Kunde,String>("email");
+			emailCol.setCellValueFactory(new PropertyValueFactory<Kunde,String>("email"));
+			
+			
+			kundeoversigt.setItems(kundeliste);
+			kundeoversigt.getColumns().addAll(nameCol, emailCol);
 		
 		
 		Scene scene = new Scene(grid,450,400);
