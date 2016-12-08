@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -50,6 +51,9 @@ ObservableList<Konto> list;
 		grid.setVgap(10);
 		grid.setHgap(10);
 	
+		stage.setTitle("Konto historik - Lortebank A/S");
+		stage.getIcons().add(new Image("Brugerflade/ico.png"));
+
 
 		Kunde dennis = findKunde("Dennis Rosenkilde", db);
 		ObservableList<Konto> kontolist = FXCollections.observableArrayList(db.listkonti(dennis));

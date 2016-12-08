@@ -80,7 +80,11 @@ public class Brugermenu {
 	administrator.setId("KnapImenu");
 	administrator.setOnAction(e ->{
 		AdministratorVindue administratorvindue = new AdministratorVindue();
-		administratorvindue.start(new Stage());
+		try {
+			administratorvindue.start(new Stage());
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 	});
 	
 

@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -20,11 +21,13 @@ import javafx.stage.StageStyle;
 // PENIS!
 
 public class OverførselsStage extends Application {
-	DB db = new DB();
-	Stage stage;
-	public void start (Stage overførselsstage){
-		this.stage=overførselsstage;
-		stage.setTitle("Overførsel");
+
+	public void start (Stage stage){
+		DB db = new DB();
+		
+		stage.setTitle("Konto historik - Lortebank A/S");
+		stage.getIcons().add(new Image("Brugerflade/ico.png"));
+
 		
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.TOP_CENTER);
@@ -80,10 +83,10 @@ public class OverførselsStage extends Application {
 			}
 		});
 		Scene scene = new Scene(grid,800,400);
-		overførselsstage.initStyle(StageStyle.UNDECORATED);
+		stage.initStyle(StageStyle.UNDECORATED);
 		scene.getStylesheets().add(getClass().getResource("Brugermenu.css").toExternalForm());
-		overførselsstage.setScene(scene);
-		overførselsstage.show();
+		stage.setScene(scene);
+		stage.show();
 
 	
 	}

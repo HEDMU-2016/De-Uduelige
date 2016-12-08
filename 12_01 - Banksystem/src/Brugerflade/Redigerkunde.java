@@ -2,6 +2,7 @@ package Brugerflade;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -13,6 +14,9 @@ public class Redigerkunde {
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
 		grid.setHgap(10);
+		stage.setTitle("Konto historik - Lortebank A/S");
+		stage.getIcons().add(new Image("Brugerflade/ico.png"));
+
 		
 		Button close = new Button("x");
 		close.setId("close");
