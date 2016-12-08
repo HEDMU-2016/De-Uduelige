@@ -31,8 +31,8 @@ public class Login_IO extends Application {
 	 DB db = new DB();
 	public void start(Stage loginStage) throws SQLException {
 		
-		Brugermenu brugermenu = new Brugermenu();
-		brugermenu.start(new Stage());
+//		Brugermenu brugermenu = new Brugermenu();
+//		brugermenu.start(new Stage());
 
 		loginStage.setTitle("Log ind - Lortebank A/S");
 		loginStage.getIcons().add(new Image("login/ico.png"));
