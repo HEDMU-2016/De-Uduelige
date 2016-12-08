@@ -2,16 +2,17 @@ package Brugerflade;
 
 
 import java.sql.SQLException;
+import java.util.List;
 
 import DB.DB;
 import domain.Konto;
+import domain.Kunde;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -31,37 +32,33 @@ ObservableList<Konto> list;
 	kontooversigt.setItems(kontolist);
 	kontooversigt.getColumns().addAll(ejerCol, kontoIdCol, saldoCol);
 	}
+	public Kunde findKunde(String navn, DB db) throws SQLException{
+		List<Kunde> kundeliste = db.listKunder();
+		for(int i=0;i<=kundeliste.size();i++){
+		Kunde tmpkunde = kundeliste.get(i);
+		if(tmpkunde.getNavn()==navn)
+		return tmpkunde;
+		else continue;
+		}
+		return null;
+	}
 	
 	public void start(Stage stage)throws SQLException{
 		DB db = new DB();
+		stage = new Stage();
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
 		grid.setHgap(10);
 	
-		//Dette skal bruges på alle vinduer
-		//
-		//
-		stage.setTitle("Konto Oversigt - Lortebank A/S");
-		stage.getIcons().add(new Image("Brugerflade/ico.png"));
-		//
-		//
-		//Dette skal bruges på alle vinduer
-		
-		
-		Button close = new Button("x");
-		close.setId("close");
-		grid.add(close,0,0);
-		close.setOnAction(e->{
-		stage.close();
-		});
-		
-		
-		
+
+		Kunde dennis = findKunde("Dennis Rosenkilde", db);
+		ObservableList<Konto> kontolist = FXCollections.observableArrayList(db.listkonti(dennis));
+		createTable(kontolist);
 		
 		
 		Scene scene = new Scene(grid);
 		stage.setScene(scene);
-		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
+		scene.getStylesheets().add(Login_IO.class.getResource("login.css").toExternalForm());
 		stage.setResizable(false);
 		stage.initStyle(StageStyle.UNDECORATED);
 		stage.show();

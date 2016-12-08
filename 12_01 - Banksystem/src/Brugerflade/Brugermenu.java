@@ -54,7 +54,7 @@ public class Brugermenu {
 		try {
 			kontooversigt.start(new Stage());
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
+		
 			e1.printStackTrace();
 		}
 	});
