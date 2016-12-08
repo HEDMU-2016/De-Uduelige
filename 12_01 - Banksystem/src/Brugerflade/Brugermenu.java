@@ -35,13 +35,18 @@ public class Brugermenu {
 
 	Text navn = new Text("Lortebank A/S");
 	HBox hbNavn = new HBox(10);
-	grid.add(hbNavn, 0, 1);
+	grid.add(hbNavn, 0, 0);
 	hbNavn.getChildren().add(navn);
 	navn.setId("logo");
 	
 	Button close = new Button("x");
+	HBox hbClose = new HBox(10);
 	close.setId("close");
-	grid.add(close,1,0);
+	hbClose.getChildren().add(close);
+	hbClose.setAlignment(Pos.TOP_RIGHT);
+	grid.add(hbClose, 0 ,0);
+	
+	
 	close.setOnAction(e->{
 		stage.close();
 	});
