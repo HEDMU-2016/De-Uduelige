@@ -1,2 +1,32 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 
+.root {
+	-fx-padding: 10.0, 10.0, 10.0, 10.0;
+	-fx-background-size: cover;
+	-fx-background-repeat: no-repeat;
+}
+.button{
+	
+}
+
+
+#close{
+	-fx-text-fill: white;
+    -fx-border-radius: 50.0;
+    -fx-background-radius: 50.0%;
+    -fx-background-color: #FF0000;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-max-width: 30px;
+    -fx-max-height: 30px;
+    -fx-effect: dropshadow( three-pass-box , rgba(0.0,0.0,0.0,0.6) , 5.0, 0.0 , 0.0 , 1.0 );
+	
+}
+
+#close:hover {
+    -fx-background-color: #990000;
+}
+
+#close:pressed {
+    -fx-background-color: #330000;
+}

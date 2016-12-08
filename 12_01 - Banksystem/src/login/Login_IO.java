@@ -40,7 +40,7 @@ public class Login_IO extends Application {
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
-
+		
 		Text navn = new Text("Lortebank A/S");
 		HBox hbNavn = new HBox(10);
 		grid.add(hbNavn, 0, 0, 3, 1);

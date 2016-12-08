@@ -55,8 +55,7 @@ public class OverførselsStage extends Application {
 		Button btn = new Button("Overfør Beløb");
 		grid.add(btn, 10, 10);
 		
-		btn.setOnAction(e ->{
-			//Vi skal have 
+		btn.setOnAction(e ->{ 
 			try {
 				db.transfer(modtagerfelt.getText(),senderfelt.getText(),Double.parseDouble(beløbfelt.getText()));
 			} catch (NumberFormatException e1) {
@@ -72,7 +71,7 @@ public class OverførselsStage extends Application {
 			}
 		});
 		Scene scene = new Scene(grid);
-		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("brugermenu.css").toExternalForm());
 		overførselsstage.setScene(scene);
 		overførselsstage.show();
 

@@ -16,22 +16,31 @@ public class Brugermenu {
 	grid.setHgap(10);
 	grid.setVgap(10);
 	
+	stage.setTitle("Main menu");
+	
+	Button close = new Button("x");
+	close.setId("close");
+	grid.add(close,10,0);
+	close.setOnAction(e->{
+		stage.close();
+	});
+	
 	Button kontooversigtknap = new Button("kontooversigt");
-	grid.add(kontooversigtknap, 0, 5);
+	grid.add(kontooversigtknap, 5, 0);
 	kontooversigtknap.setOnAction(e ->{
 		KontoOversigt kontooversigt = new KontoOversigt();
 		kontooversigt.start(new Stage());
 	});
 	
 	Button overførsel = new Button("overførsel");
-	grid.add(overførsel, 1, 5);
+	grid.add(overførsel, 5, 1);
 	overførsel.setOnAction(e ->{
 		OverførselsStage overførselsstage = new OverførselsStage();
 		overførselsstage.start(new Stage());
 	});
 	
 	Button kontohistorik = new Button("kontohistorik");
-	grid.add(kontohistorik, 2, 5);
+	grid.add(kontohistorik, 5, 2);
 	kontohistorik.setOnAction(e ->{
 	KontoHistorik historikvindue = new KontoHistorik();
 	historikvindue.start(new Stage());
@@ -47,7 +56,7 @@ public class Brugermenu {
 
 	Scene scene = new Scene(grid);
 	stage.setScene(scene);
-	scene.getStylesheets().add(Login_IO.class.getResource("Brugermenu.css").toExternalForm());
+	scene.getStylesheets().add(Brugermenu.class.getResource("brugermenu.css").toExternalForm());
 	stage.setResizable(false);
 	stage.initStyle(StageStyle.UNDECORATED);
 	stage.show();
