@@ -102,9 +102,11 @@ public class Login_IO extends Application {
 		glemtkode.setId("glemt");
 
 		glemtkode.setOnAction(e -> {
-			// her skal være et glemt kode vindue i stedet for
 			fejl.setFill(Color.RED);
 			fejl.setText("Det var da dumt af dig hva?");
+			
+			GlemtKode glemtKode = new GlemtKode();
+			glemtKode.start(new Stage());
 		});
 
 		Button login = new Button("Log ind");
