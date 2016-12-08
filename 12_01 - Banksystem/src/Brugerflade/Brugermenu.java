@@ -18,6 +18,8 @@ public class Brugermenu {
 	
 	stage.setTitle("Main menu");
 	
+	
+	
 	Button close = new Button("x");
 	close.setId("close");
 	grid.add(close,10,0);

@@ -133,10 +133,11 @@ public class DB implements Startable {
 				System.out.println("DB.Checkuser: Brugernavn: \"" +brugernavn + "\" med adgangskode: \""+adgangskode +"\" er godkendt");
 				return true;
 			}
+		
+		}
 			System.out.println("DB.Checkuser: Brugernavn: \"" +brugernavn + "\" med adgangskode: \""+adgangskode +"\" blev afvist");
 
-		}
-		stop();
+			stop();
 			return false;
 	}
 

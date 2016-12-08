@@ -201,8 +201,7 @@ public class Login_IO extends Application {
 						}
 
 						try {
-							boolean korrekt = db.checkLogin(usernameInput.getText().toLowerCase(),
-									passwordInput.getText());
+							boolean korrekt = db.checkLogin(usernameInput.getText().toLowerCase(),passwordInput.getText());
 
 							if (korrekt == true) {
 								fejl.setText("Du er nu logget ind som: \"" + usernameInput.getText() + "\"!");
