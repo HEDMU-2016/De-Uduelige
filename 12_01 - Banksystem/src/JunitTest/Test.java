@@ -19,7 +19,7 @@ DB db = new DB();
 	public void test() throws SQLException {
 		Login dennissLogin = new AdminLogin("Dennis", "123");
 		Login morten = new NormaltLogin("Morten", "watup");
-		Kunde dennis = new Kunde("dennis");
+		Kunde dennis = new Kunde("dennis","dennis@rosenkilde.nu");
 		
 		
 		db.findKunder();

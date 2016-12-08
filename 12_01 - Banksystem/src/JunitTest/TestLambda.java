@@ -12,11 +12,11 @@ public class TestLambda {
 	private static void main(String[] args){
 	TestLambda instans = new TestLambda();
 	List<Kunde> kunder = Arrays.asList(
-			new Kunde("dennis"),
-			new Kunde("dan"),
-			new Kunde("christoffer"),
-			new Kunde("Jurjis"),
-			new Kunde("alan")
+			new Kunde("dennis","dennis@rosenkilde.nu"),
+			new Kunde("dan", "dan@gmail.com"),
+			new Kunde("christoffer","christoffer@gmail.com"),
+			new Kunde("Jurjis", "jurjis@gmail.com"),
+			new Kunde("alan", "alan@gmail.com")
 			
 			
 			);
