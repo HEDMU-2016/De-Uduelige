@@ -130,10 +130,10 @@ public class DB implements Startable {
 		
 			while (resultset.next()) {
 			if (brugernavn.equals(resultset.getString("brugernavn")) && adgangskode.equals(resultset.getString("adgangskode"))) {
-				System.out.println("Brugernavn:" +brugernavn + "med adgangskode:"+adgangskode +" er godkendt");
+				System.out.println("DB.Checkuser: Brugernavn: \"" +brugernavn + "\" med adgangskode: \""+adgangskode +"\" er godkendt");
 				return true;
 			}
-			System.out.println("Brugernavn:" +brugernavn + "med adgangskode:"+adgangskode +" blev afvist");
+			System.out.println("DB.Checkuser: Brugernavn: \"" +brugernavn + "\" med adgangskode: \""+adgangskode +"\" blev afvist");
 
 		}
 		stop();
