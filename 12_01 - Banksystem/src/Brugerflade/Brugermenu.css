@@ -9,10 +9,29 @@
 	-fx-border-width: 4px;
 	-fx-border-color: #00316c;
 }
-.button{
-	
+
+#KnapImenu{
+	-fx-pref-width: 300;
+	-fx-min-height: 50;
+	-fx-font-size: 15;
+	-fx-background-color: #00316c;
+	-fx-text-fill: white;
+	-fx-effect: dropshadow( three-pass-box , rgba(0.0,0.0,0.0,0.6) , 5.0, 0.0 , 0.0 , 1.0 );
 }
 
+#KnapImenu:hover {
+    -fx-background-color: #001d40;
+}
+
+#KnapImenu:pressed {
+    -fx-background-color: #000915;
+}
+
+#logo{
+	-fx-fill: #00316c;
+	-fx-font-size: 30px;
+	-fx-effect: dropshadow( three-pass-box , rgba(0.0,0.0,0.0,0.6) , 5.0, 0.0 , 0.0 , 1.0 );
+}
 
 #close{
 	-fx-text-fill: white;
