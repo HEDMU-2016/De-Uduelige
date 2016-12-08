@@ -14,7 +14,9 @@ import DB.DB;
 import domain.Kunde;
 
 public class Emailer{
-
+// SKAL HAVE EXTENSION: JAVAMAIL API FØR CLASS'EN VIRKER. Softwaren kan downloades her:
+//	https://java.net/projects/javamail/pages/Home#Download_JavaMail_Release
+// (Download den nyeste version)	
     public static void glemtekodenMail(String email, String nyadgangskode) throws SQLException {
     	DB db = new DB();
  
