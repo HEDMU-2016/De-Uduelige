@@ -7,6 +7,7 @@ import domain.Kunde;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -59,8 +60,9 @@ public class Kundeoversigt {
 		vbox.setSpacing(5);
 		vbox.setPadding(new Insets(10, 0, 0, 10));
 		vbox.getChildren().addAll(label, kundeoversigt);
-
-		Scene scene = new Scene(grid, 450, 400);
+		Scene scene = new Scene(new Group(), 450, 400);
+		 ((Group) scene.getRoot()).getChildren().addAll(vbox);
+		 
 		stage.setScene(scene);
 		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 		stage.setResizable(false);
