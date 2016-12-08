@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import login.Login_IO;
@@ -30,15 +32,23 @@ public class Brugermenu {
 	//Dette skal bruges på alle vinduer
 	
 	
+
+	Text navn = new Text("Lortebank A/S");
+	HBox hbNavn = new HBox(10);
+	grid.add(hbNavn, 0, 1);
+	hbNavn.getChildren().add(navn);
+	navn.setId("logo");
+	
 	Button close = new Button("x");
 	close.setId("close");
-	grid.add(close,10,0);
+	grid.add(close,1,0);
 	close.setOnAction(e->{
 		stage.close();
 	});
 	
 	Button kontooversigtknap = new Button("kontooversigt");
-	grid.add(kontooversigtknap, 5, 0);
+	kontooversigtknap.setId("KnapImenu");
+	grid.add(kontooversigtknap, 0, 2);
 	kontooversigtknap.setOnAction(e ->{
 		KontoOversigt kontooversigt = new KontoOversigt();
 		try {
@@ -50,28 +60,31 @@ public class Brugermenu {
 	});
 	
 	Button overførsel = new Button("overførsel");
-	grid.add(overførsel, 5, 1);
+	grid.add(overførsel, 0, 3);
+	overførsel.setId("KnapImenu");
 	overførsel.setOnAction(e ->{
 		OverførselsStage overførselsstage = new OverførselsStage();
 		overførselsstage.start(new Stage());
 	});
 	
 	Button kontohistorik = new Button("kontohistorik");
-	grid.add(kontohistorik, 5, 2);
+	grid.add(kontohistorik, 0, 4);
+	kontohistorik.setId("KnapImenu");
 	kontohistorik.setOnAction(e ->{
 	KontoHistorik historikvindue = new KontoHistorik();
 	historikvindue.start(new Stage());
 	});
 	
 	Button administrator = new Button("administrator");
-	grid.add(administrator, 10, 10);
+	grid.add(administrator, 0, 5);
+	administrator.setId("KnapImenu");
 	administrator.setOnAction(e ->{
 		AdministratorVindue administratorvindue = new AdministratorVindue();
 		administratorvindue.start(new Stage());
 	});
 	
 
-	Scene scene = new Scene(grid);
+	Scene scene = new Scene(grid, 400, 400);
 	stage.setScene(scene);
 	scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 	stage.setResizable(false);
