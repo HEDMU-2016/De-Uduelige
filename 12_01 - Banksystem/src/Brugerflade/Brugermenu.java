@@ -65,7 +65,7 @@ public class Brugermenu {
 
 	Scene scene = new Scene(grid);
 	stage.setScene(scene);
-	scene.getStylesheets().add(Brugermenu.class.getResource("brugermenu.css").toExternalForm());
+	scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 	stage.setResizable(false);
 	stage.initStyle(StageStyle.UNDECORATED);
 	stage.show();

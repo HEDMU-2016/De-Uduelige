@@ -3,7 +3,6 @@ package Brugerflade;
 import java.sql.SQLException;
 
 import DB.DB;
-import domain.Konto;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,12 +10,13 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-
+// PENIS!
 
 public class OverførselsStage extends Application {
 	DB db = new DB();
@@ -26,13 +26,13 @@ public class OverførselsStage extends Application {
 		stage.setTitle("Overførsel");
 		
 		GridPane grid = new GridPane();
-		grid.setAlignment(Pos.TOP_LEFT);
+		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 		
-		Button fastOverførsel = new Button("Fast overførsel");
-		grid.add(fastOverførsel, 0, 0);
+		CheckBox fastOverførsel = new CheckBox("Fast overførsel");
+		grid.add(fastOverførsel, 0, 1);
 		
 		Label frakonto = new Label("Hæves på: ");
 		grid.add(frakonto, 1, 0);
@@ -53,7 +53,7 @@ public class OverførselsStage extends Application {
 		grid.add(beløbfelt, 3, 1);
 		
 		Button btn = new Button("Overfør Beløb");
-		grid.add(btn, 10, 10);
+		grid.add(btn, 4, 1);
 		
 		btn.setOnAction(e ->{ 
 			try {
@@ -70,8 +70,8 @@ public class OverførselsStage extends Application {
 				
 			}
 		});
-		Scene scene = new Scene(grid);
-		scene.getStylesheets().add(getClass().getResource("brugermenu.css").toExternalForm());
+		Scene scene = new Scene(grid,800,400);
+		scene.getStylesheets().add(getClass().getResource("Brugermenu.css").toExternalForm());
 		overførselsstage.setScene(scene);
 		overførselsstage.show();
 
