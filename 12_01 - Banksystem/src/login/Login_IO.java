@@ -2,10 +2,12 @@
 
 package login;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Optional;
 
-import Brugerflade.Brugermenu;
 import DB.DB;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -28,11 +30,12 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class Login_IO extends Application {
-	 DB db = new DB();
+	DB db = new DB();
+
 	public void start(Stage loginStage) throws SQLException {
-		
-//		Brugermenu brugermenu = new Brugermenu();
-//		brugermenu.start(new Stage());
+
+		// Brugermenu brugermenu = new Brugermenu();
+		// brugermenu.start(new Stage());
 
 		loginStage.setTitle("Log ind - Lortebank A/S");
 		loginStage.getIcons().add(new Image("login/ico.png"));
@@ -40,7 +43,7 @@ public class Login_IO extends Application {
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
-		
+
 		Text navn = new Text("Lortebank A/S");
 		HBox hbNavn = new HBox(10);
 		grid.add(hbNavn, 0, 0, 3, 1);
@@ -62,7 +65,7 @@ public class Login_IO extends Application {
 
 			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
 			stage.getIcons().add(new Image(this.getClass().getResource("ico.png").toString()));
-			
+
 			ButtonType buttonTypeJa = new ButtonType("Ja, luk det!");
 			ButtonType buttonTypeNej = new ButtonType("Nej, lad mig blive!");
 
@@ -113,17 +116,32 @@ public class Login_IO extends Application {
 		hbLogin.setAlignment(Pos.BASELINE_RIGHT);
 		grid.add(hbLogin, 3, 4);
 
-		login.setOnAction(e ->{
-				// Funktion ved enter tast
-				fejl.setFill(Color.RED);					
-				System.out.println("Der blev tastet: \"" + usernameInput.getText() + "\" som brugernavn og: \""
-						+ passwordInput.getText() + "\" som kodeord og trykket på log ind knappen!");
+		login.setOnAction(e -> {
+			// Funktion ved enter tast
+			fejl.setFill(Color.RED);
+			System.out.println("Der blev tastet: \"" + usernameInput.getText() + "\" som brugernavn og: \""
+					+ passwordInput.getText() + "\" som kodeord og trykket på log ind knappen!");
 
-				if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false) {
-					
-					try {
-				boolean korrekt = db.checkLogin(usernameInput.getText(),passwordInput.getText());
-				
+			if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false) {
+
+				// MD5 kryptering
+				try {
+					MessageDigest alg;
+					alg = MessageDigest.getInstance("MD5");
+					String password1 = passwordInput.getText();
+					alg.reset();
+					alg.update(password1.getBytes());
+					byte[] msgDigest = alg.digest();
+					BigInteger number = new BigInteger(1, msgDigest);
+					String MD5krypteret = number.toString(16);
+					passwordInput.setText(MD5krypteret);
+				} catch (NoSuchAlgorithmException e1) {
+					e1.printStackTrace();
+				}
+
+				try {
+					boolean korrekt = db.checkLogin(usernameInput.getText().toLowerCase(), passwordInput.getText());
+
 					if (korrekt == true) {
 						fejl.setText("Du er nu logget ind som: \"" + usernameInput.getText() + "\"!");
 						usernameInput.setText("");
@@ -133,21 +151,20 @@ public class Login_IO extends Application {
 						fejl.setText("Forkert brugernavn eller adgangskode!");
 						passwordInput.setText("");
 					}
-					} catch (SQLException e1) {
-						e1.printStackTrace();
-					}
-				} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == false) {
-					fejl.setText("Du skal lige skrive et brugernavn!");
-					passwordInput.setText("");
-				} else if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == true) {
-					fejl.setText("Du skal lige skrive et kodeord!");
-				} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == true) {
-					fejl.setText("Du skal lige skrive noget i felterne!");
+				} catch (SQLException e1) {
+					e1.printStackTrace();
 				}
-			
+			} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == false) {
+				fejl.setText("Du skal lige skrive et brugernavn!");
+				passwordInput.setText("");
+			} else if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == true) {
+				fejl.setText("Du skal lige skrive et kodeord!");
+			} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == true) {
+				fejl.setText("Du skal lige skrive noget i felterne!");
+			}
 
-				System.out.println("og det udskrevende resultat blev \"" + fejl.getText() + "\"\n");
-			});
+			System.out.println("og det udskrevende resultat blev \"" + fejl.getText() + "\"\n");
+		});
 
 		Scene scene = new Scene(grid, 550, 280);
 		loginStage.setScene(scene);
@@ -162,40 +179,57 @@ public class Login_IO extends Application {
 			public void handle(KeyEvent event) {
 				if (event.getCode().equals(KeyCode.ENTER)) {
 					// Funktion ved enter tast
-					fejl.setFill(Color.RED);					
+					fejl.setFill(Color.RED);
 					System.out.println("Der blev tastet: \"" + usernameInput.getText() + "\" som brugernavn og: \""
-							+ passwordInput.getText() + "\" som kodeord og trykket på log ind knappen!");
+							+ passwordInput.getText() + "\" som kodeord og trykket på enter knappen!");
 
 					if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false) {
-						
+
+						// MD5 kryptering
 						try {
-					boolean korrekt = db.checkLogin(usernameInput.getText(),passwordInput.getText());
-					
-						if (korrekt == true) {
-							fejl.setText("Du er nu logget ind som: \"" + usernameInput.getText() + "\"!");
-							usernameInput.setText("");
-							passwordInput.setText("");
-							fejl.setFill(Color.web("#184c18"));
-						} else if (korrekt == false) {
-							fejl.setText("Forkert brugernavn eller adgangskode!");
-							passwordInput.setText("");
+							MessageDigest alg;
+							alg = MessageDigest.getInstance("MD5");
+							String password = passwordInput.getText();
+							alg.reset();
+							alg.update(password.getBytes());
+							byte[] msgDigest = alg.digest();
+							BigInteger number = new BigInteger(1, msgDigest);
+							String MD5krypteret = number.toString(16);
+							passwordInput.setText(MD5krypteret);
+						} catch (NoSuchAlgorithmException e1) {
+							e1.printStackTrace();
 						}
+
+						try {
+							boolean korrekt = db.checkLogin(usernameInput.getText().toLowerCase(),
+									passwordInput.getText());
+
+							if (korrekt == true) {
+								fejl.setText("Du er nu logget ind som: \"" + usernameInput.getText() + "\"!");
+								usernameInput.setText("");
+								passwordInput.setText("");
+								fejl.setFill(Color.web("#184c18"));
+							} else if (korrekt == false) {
+								fejl.setText("Forkert brugernavn eller adgangskode!");
+								passwordInput.setText("");
+							}
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
-					} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == false) {
+					} else if (usernameInput.getText().isEmpty() == true
+							&& passwordInput.getText().isEmpty() == false) {
 						fejl.setText("Du skal lige skrive et brugernavn!");
 						passwordInput.setText("");
-					} else if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == true) {
+					} else if (usernameInput.getText().isEmpty() == false
+							&& passwordInput.getText().isEmpty() == true) {
 						fejl.setText("Du skal lige skrive et kodeord!");
 					} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == true) {
 						fejl.setText("Du skal lige skrive noget i felterne!");
 					}
-				
 
 					System.out.println("og det udskrevende resultat blev \"" + fejl.getText() + "\"\n");
 				}
-				
+
 			}
 		});
 	}
