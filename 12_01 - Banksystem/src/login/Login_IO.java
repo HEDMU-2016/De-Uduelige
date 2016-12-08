@@ -83,7 +83,7 @@ public class Login_IO extends Application {
 		TextField usernameInput = new TextField();
 		usernameInput.setPrefWidth(275);
 		grid.add(usernameInput, 1, 1, 3, 1);
-
+		
 		Text password = new Text("Kodeord:");
 		grid.add(password, 0, 2);
 		password.setId("tekst");
@@ -176,6 +176,7 @@ public class Login_IO extends Application {
 		loginStage.initStyle(StageStyle.UNDECORATED);
 		loginStage.show();
 
+		usernameInput.requestFocus();
 		// Lyt efter Enter tast
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
