@@ -15,6 +15,7 @@ public class Medarbejderoversigt {
 		grid.setVgap(10);
 		grid.setHgap(10);
 		
+		
 		stage.setTitle("Konto historik - Lortebank A/S");
 		stage.getIcons().add(new Image("Brugerflade/ico.png"));
 

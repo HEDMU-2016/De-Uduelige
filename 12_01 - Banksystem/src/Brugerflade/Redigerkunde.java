@@ -11,6 +11,8 @@ import login.Login_IO;
 public class Redigerkunde {
 	public void start(Stage stage){
 	
+		
+		
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
 		grid.setHgap(10);
@@ -18,9 +20,18 @@ public class Redigerkunde {
 		stage.getIcons().add(new Image("Brugerflade/ico.png"));
 
 		
+		//Dette skal bruges på alle vinduer
+		//
+		//
+		stage.setTitle("Rediger kunde - Lortebank A/S");
+		stage.getIcons().add(new Image("Brugerflade/ico.png"));
+		//
+		//
+		//Dette skal bruges på alle vinduer
+		
 		Button close = new Button("x");
 		close.setId("close");
-		grid.add(close,10,0);
+		grid.add(close,0,0);
 		close.setOnAction(e->{
 			stage.close();
 		});
@@ -28,7 +39,7 @@ public class Redigerkunde {
 		
 		
 		
-		Scene scene = new Scene(grid,450,400);
+		Scene scene = new Scene(grid,400,400);
 		stage.setScene(scene);
 		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 		stage.setResizable(false);

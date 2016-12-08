@@ -83,6 +83,7 @@ public class GlemtKode {
 		grid.add(hbGlemt, 2, 1, 2, 3);
 
 		glemt.setOnAction(e -> {
+			fejl.setFill(Color.RED);
 			if (masterPasswordInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false
 					&& usernameInput.getText().isEmpty() == false) {
 				if (masterPasswordInput.getText().equals("password") == true) {
@@ -108,8 +109,10 @@ public class GlemtKode {
 						fejl.setText(db.nyKode(usernameInput.getText().toLowerCase(), passwordInput.getText()));
 						if (fejl.getText().equals("Dit kodeord er nu opdateret - og du kan logge ind!")) {
 							fejl.setFill(Color.GREEN);
+							passwordInput.setText("");
+							masterPasswordInput.setText("");
 						} else {
-							fejl.setFill(Color.RED);
+							
 						}
 
 					} catch (SQLException e1) {
@@ -117,11 +120,9 @@ public class GlemtKode {
 					}
 
 				} else if (masterPasswordInput.getText().equals("password") == false) {
-					fejl.setFill(Color.RED);
 					fejl.setText("Master kodeord forkert, HINT: det er ikke \"password\"");
 				}
 			} else {
-				fejl.setFill(Color.RED);
 				fejl.setText("Alle felterne skal udfyldes!");
 			}
 		});
@@ -139,6 +140,7 @@ public class GlemtKode {
 			@Override
 			public void handle(KeyEvent event) {
 				if (event.getCode().equals(KeyCode.ENTER)) {
+					fejl.setFill(Color.RED);
 					if (masterPasswordInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false
 							&& usernameInput.getText().isEmpty() == false) {
 						if (masterPasswordInput.getText().equals("password") == true) {
@@ -164,8 +166,10 @@ public class GlemtKode {
 								fejl.setText(db.nyKode(usernameInput.getText().toLowerCase(), passwordInput.getText()));
 								if (fejl.getText().equals("Dit kodeord er nu opdateret - og du kan logge ind!")) {
 									fejl.setFill(Color.GREEN);
+									passwordInput.setText("");
+									masterPasswordInput.setText("");
 								} else {
-									fejl.setFill(Color.RED);
+									
 								}
 
 							} catch (SQLException e1) {
@@ -173,11 +177,9 @@ public class GlemtKode {
 							}
 
 						} else if (masterPasswordInput.getText().equals("password") == false) {
-							fejl.setFill(Color.RED);
 							fejl.setText("Master kodeord forkert, HINT: det er ikke \"password\"");
 						}
 					} else {
-						fejl.setFill(Color.RED);
 						fejl.setText("Alle felterne skal udfyldes!");
 					}
 
