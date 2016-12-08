@@ -3,19 +3,19 @@ package login;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Optional;
+import java.sql.SQLException;
 
-import com.sun.xml.internal.ws.api.config.management.policy.ManagedClientAssertion;
-
+import Brugerflade.Brugermenu;
+import DB.DB;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -102,10 +102,19 @@ public class GlemtKode {
 						e1.printStackTrace();
 					}
 
-					//Her skal den nye kode sendes til DBen
-					
-					fejl.setFill(Color.GREEN);
-					fejl.setText("Dit kodeord er nu opdateret");
+					// Her skal den nye kode sendes til DBen
+					DB db = new DB();
+					try {
+						fejl.setText(db.nyKode(usernameInput.getText().toLowerCase(), passwordInput.getText()));
+						if (fejl.getText().equals("Dit kodeord er nu opdateret - og du kan logge ind!")) {
+							fejl.setFill(Color.GREEN);
+						} else {
+							fejl.setFill(Color.RED);
+						}
+
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
 
 				} else if (masterPasswordInput.getText().equals("password") == false) {
 					fejl.setFill(Color.RED);
@@ -123,5 +132,57 @@ public class GlemtKode {
 		glemtStage.setResizable(false);
 		glemtStage.initStyle(StageStyle.UNDECORATED);
 		glemtStage.show();
+
+		usernameInput.requestFocus();
+
+		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent event) {
+				if (event.getCode().equals(KeyCode.ENTER)) {
+					if (masterPasswordInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false
+							&& usernameInput.getText().isEmpty() == false) {
+						if (masterPasswordInput.getText().equals("password") == true) {
+
+							// MD5 Kryptering på ny kode
+							try {
+								MessageDigest alg;
+								alg = MessageDigest.getInstance("MD5");
+								String password1 = passwordInput.getText();
+								alg.reset();
+								alg.update(password1.getBytes());
+								byte[] msgDigest = alg.digest();
+								BigInteger number = new BigInteger(1, msgDigest);
+								String MD5krypteret = number.toString(16);
+								passwordInput.setText(MD5krypteret);
+							} catch (NoSuchAlgorithmException e1) {
+								e1.printStackTrace();
+							}
+
+							// Her skal den nye kode sendes til DBen
+							DB db = new DB();
+							try {
+								fejl.setText(db.nyKode(usernameInput.getText().toLowerCase(), passwordInput.getText()));
+								if (fejl.getText().equals("Dit kodeord er nu opdateret - og du kan logge ind!")) {
+									fejl.setFill(Color.GREEN);
+								} else {
+									fejl.setFill(Color.RED);
+								}
+
+							} catch (SQLException e1) {
+								e1.printStackTrace();
+							}
+
+						} else if (masterPasswordInput.getText().equals("password") == false) {
+							fejl.setFill(Color.RED);
+							fejl.setText("Master kodeord forkert, HINT: det er ikke \"password\"");
+						}
+					} else {
+						fejl.setFill(Color.RED);
+						fejl.setText("Alle felterne skal udfyldes!");
+					}
+
+				}
+			}
+		});
 	}
 }

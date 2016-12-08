@@ -59,7 +59,6 @@ public class Kundeoversigt {
 		vbox.setSpacing(5);
 		vbox.setPadding(new Insets(10, 0, 0, 10));
 		vbox.getChildren().addAll(label, kundeoversigt);
-		
 
 		Scene scene = new Scene(grid, 450, 400);
 		stage.setScene(scene);
