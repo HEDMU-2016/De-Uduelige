@@ -180,7 +180,7 @@ public class DB implements Startable {
 	}
 	public boolean checkBrugernavn(String brugernavn) throws SQLException{
 		System.out.println("Checker brugernavnet: " + brugernavn);
-		statement = connection.prepareStatement("select brugernavn, from login");
+		statement = connection.prepareStatement("select brugernavn from login");
 		resultset = statement.executeQuery();
 		
 		while(resultset.next()){
