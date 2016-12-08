@@ -178,6 +178,19 @@ public class DB implements Startable {
 			stop();
 			return false;
 	}
+	public boolean checkBrugernavn(String brugernavn) throws SQLException{
+		System.out.println("Checker brugernavnet: " + brugernavn);
+		statement = connection.prepareStatement("select brugernavn, from login");
+		resultset = statement.executeQuery();
+		
+		while(resultset.next()){
+			if(brugernavn.equals(resultset.getString(brugernavn))){
+			return true;
+			}
+			
+		}
+		return false;
+	}
 
 	public int getLoginID(String brugernavn, String adgangskode) throws SQLException {
 		start();
@@ -198,14 +211,19 @@ public class DB implements Startable {
 	public String nyKode(String brugernavn, String nyadgangskode) throws SQLException{
 		System.out.println("Finder bruger... \n");
 		start();
+		if (checkBrugernavn(brugernavn)==true){
 		statement = connection.prepareStatement("update login set adgangskode=? where brugernavn=?");
 		statement.setString(1, nyadgangskode);
 		statement.setString(2, brugernavn);
 		statement.execute();
 		System.out.println("ændrede adgangskoden for brugernavn: " +brugernavn+ " til: " + nyadgangskode);
-		if(checkLogin(brugernavn,nyadgangskode)==true)
-		return "success";
-		else return "!success";
+			if(checkLogin(brugernavn,nyadgangskode)==true){
+				return "success";	
+			}
+			else return "kunnde ikke ændre koden";
+		}
+		return "forkert brugernavn"; 
+		
 	}
 
 	public void addLogin(Login login) throws SQLException {
