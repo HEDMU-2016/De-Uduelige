@@ -7,7 +7,7 @@ adgangskode VARCHAR(50) NOT NULL,
 
 CREATE TABLE konto
 (
-ejer varchar(255)
+ejer varchar(255),
 saldo double not null
 )
 alter table konto 
