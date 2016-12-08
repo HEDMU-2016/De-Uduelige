@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 // PENIS!
 
@@ -26,10 +27,18 @@ public class OverførselsStage extends Application {
 		stage.setTitle("Overførsel");
 		
 		GridPane grid = new GridPane();
-		grid.setAlignment(Pos.CENTER);
+		grid.setAlignment(Pos.TOP_CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
+		
+		Button close = new Button("x");
+		close.setId("close");
+		grid.add(close,5,0);
+		close.setOnAction(e->{
+			stage.close();
+		});
+		
 		
 		CheckBox fastOverførsel = new CheckBox("Fast overførsel");
 		grid.add(fastOverførsel, 0, 1);
@@ -71,6 +80,7 @@ public class OverførselsStage extends Application {
 			}
 		});
 		Scene scene = new Scene(grid,800,400);
+		overførselsstage.initStyle(StageStyle.UNDECORATED);
 		scene.getStylesheets().add(getClass().getResource("Brugermenu.css").toExternalForm());
 		overførselsstage.setScene(scene);
 		overførselsstage.show();

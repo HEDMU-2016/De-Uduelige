@@ -4,6 +4,8 @@
 	-fx-background-image: url("BG.jpg");
 	-fx-background-size: cover;
 	-fx-background-repeat: no-repeat;
+	-fx-border-width: 4px;
+	-fx-border-color: #00316c;
 }
 
 #tekst{
