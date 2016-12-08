@@ -8,10 +8,9 @@ public class Konto {
 	protected double saldo;
 	private Logic logic;
 	
-	public Konto(Kunde ejer, String kontonummer){
+	public Konto(Kunde ejer, double saldo){
 		this.ejer=ejer;
-		this.kontonummer=kontonummer;
-		this.saldo=0.00;
+		this.saldo=saldo;
 	}
 
 	public void deposit(double amount){
@@ -27,6 +26,18 @@ public class Konto {
 	public Kunde getEjer(){
 		return ejer;
 	}
+	public void setEjer(Kunde ejer) {
+		this.ejer = ejer;
+	}
+
+	public void setKontonummer(String kontonummer) {
+		this.kontonummer = kontonummer;
+	}
+
+	public void setSaldo(double saldo) {
+		this.saldo = saldo;
+	}
+
 	public String getKontonummer(){
 		return kontonummer;
 	}

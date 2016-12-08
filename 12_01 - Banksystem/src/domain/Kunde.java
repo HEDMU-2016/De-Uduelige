@@ -4,16 +4,31 @@ import java.sql.Date;
 
 public class Kunde {
 String navn;
+String email;
 String konto;
 Date startdato;
 Date slutdato;
 
-	public Kunde(String navn){
+	public Kunde(String navn, String email){
 		this.navn=navn;
+		this.email=email;
 	}
 
 	public String getKonto() {
 		return konto;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setNavn(String navn) {
+		this.navn = navn;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public void setKonto(String konto) {

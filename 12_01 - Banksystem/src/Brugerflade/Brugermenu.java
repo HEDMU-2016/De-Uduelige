@@ -1,5 +1,7 @@
 package Brugerflade;
 
+import java.sql.SQLException;
+
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -31,7 +33,12 @@ public class Brugermenu {
 	grid.add(kontooversigtknap, 5, 0);
 	kontooversigtknap.setOnAction(e ->{
 		KontoOversigt kontooversigt = new KontoOversigt();
-		kontooversigt.start(new Stage());
+		try {
+			kontooversigt.start(new Stage());
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	});
 	
 	Button overførsel = new Button("overførsel");

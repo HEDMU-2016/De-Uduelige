@@ -12,3 +12,11 @@ saldo double not null
 )
 alter table konto 
 add kontoID int identity
+
+CREATE TABLE kunde
+(
+navn varchar(255),
+ID int identity,
+startdato date,
+slutdato date
+)

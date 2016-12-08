@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import Interfaces.Startable;
 import domain.Konto;
@@ -101,10 +103,11 @@ public class DB implements Startable {
 		start();
 		Date startdato = Date.valueOf(LocalDate.now());
 		Date slutdato = Date.valueOf(LocalDate.of(9999, 01, 01));
-		statement = connection.prepareStatement("insert into kunde(navn, startdato, slutdato) values (?,?,?)");
+		statement = connection.prepareStatement("insert into kunde(navn, startdato, slutdato, email) values (?,?,?,?)");
 		statement.setString(1, kunde.getNavn());
 		statement.setDate(2, startdato);
 		statement.setDate(3, slutdato);
+		statement.setString(4, kunde.getEmail());
 		statement.execute();
 		System.out.println("Tilførte kunde: " + kunde);
 		stop();
@@ -113,15 +116,49 @@ public class DB implements Startable {
 	public void addKonto(Konto konto) throws SQLException {
 		System.out.println("tilfører konto... \n");
 		start();
-		statement = connection.prepareStatement("insert into konto(ejer,kontonummer,saldo)values(?,?,?)");
+		statement = connection.prepareStatement("insert into konto(ejer,saldo)values(?,?)");
 		statement.setString(1, konto.getEjer().getNavn());
-		statement.setString(2, konto.getKontonummer());
-		statement.setDouble(3, konto.getSaldo());
+		statement.setDouble(2, konto.getSaldo());
 		statement.execute();
 		System.out.println("konto: " + konto + "blev lagt ind i databasen");
 		stop();
 	}
-
+	public List<Konto> findkonti(Kunde kunde)throws SQLException{
+		List<Konto> kontolist = new ArrayList<>();
+		System.out.println("finder "+kunde+"s kontoer");
+		start();
+		statement = connection.prepareStatement("select ejer,kontonummer,saldo from konto where ejer = ?");
+		statement.setString(1, kunde.getNavn());
+		statement.execute();
+		resultset = statement.executeQuery();
+		while(resultset.next()){
+			String kontonummer = resultset.getString("kontonummer");
+			double saldo = resultset.getDouble("saldo");
+		Konto tmpKonto = new Konto(kunde,saldo);
+		tmpKonto.setKontonummer(kontonummer);
+		kontolist.add(tmpKonto);
+		}
+	return kontolist;
+	}
+	public List<Kunde> listKunder() throws SQLException{
+		List<Kunde> kundeliste = new ArrayList<>();
+		System.out.println("Laver en liste over alle kunder");
+		start();
+		statement = connection.prepareStatement("Select navn, email, startdato from kunde");
+		resultset = statement.executeQuery();
+		
+		while(resultset.next()){
+			String navn = resultset.getString("navn");
+			String email = resultset.getString("email");
+			
+			Kunde tmpKunde = new Kunde(navn,email);			
+			kundeliste.add(tmpKunde);
+			
+		System.out.println("tilføjede "+tmpKunde.toString()+" Til listen");
+			}
+		return kundeliste;
+	}
+	
 	public boolean checkLogin(String brugernavn, String adgangskode) throws SQLException {
 		System.out.println("checker login...\n");
 		start();
@@ -222,7 +259,7 @@ public class DB implements Startable {
 	public void stop() {
 		try {
 			connection.close();
-			if(resultset.isClosed()==false){
+			if(resultset != null){
 			resultset.close();
 			}
 			statement.close();
