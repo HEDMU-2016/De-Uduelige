@@ -113,39 +113,41 @@ public class Login_IO extends Application {
 		hbLogin.setAlignment(Pos.BASELINE_RIGHT);
 		grid.add(hbLogin, 3, 4);
 
-		login.setOnAction(e -> {
-			fejl.setFill(Color.RED);
-			System.out.println("Der blev tastet: \"" + usernameInput.getText() + "\" som brugernavn og: \""
-					+ passwordInput.getText() + "\" som kodeord og trykket på log ind knappen!");
+		login.setOnAction(e ->{
+				// Funktion ved enter tast
+				fejl.setFill(Color.RED);					
+				System.out.println("Der blev tastet: \"" + usernameInput.getText() + "\" som brugernavn og: \""
+						+ passwordInput.getText() + "\" som kodeord og trykket på log ind knappen!");
 
-			if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false) {
-		boolean korekt;
-
-			korekt = CheckUser.check(usernameInput.getText().toLowerCase(), passwordInput.getText());
-		
-
-				if (korekt == true) {
-					fejl.setText("Du er nu logget ind som: \"" + usernameInput.getText() + "\"!");
-					usernameInput.setText("");
-					passwordInput.setText("");
-					fejl.setFill(Color.web("#184c18"));
-				} else if (korekt == false) {
-					fejl.setText("Forkert brugernavn eller adgangskode!");
-					passwordInput.setText("");
-				}
-
-			} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == false) {
-				fejl.setText("Du skal lige skrive et brugernavn!");
-				passwordInput.setText("");
-			} else if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == true) {
-				fejl.setText("Du skal lige skrive et kodeord!");
-			} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == true) {
-				fejl.setText("Du skal lige skrive noget i felterne!");
-			}
-
-			System.out.println("og det udskrevende resultat blev \"" + fejl.getText() + "\"\n");
+				if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false) {
 					
-		});
+					try {
+				boolean korrekt = db.checkLogin(usernameInput.getText(),passwordInput.getText());
+				
+					if (korrekt == true) {
+						fejl.setText("Du er nu logget ind som: \"" + usernameInput.getText() + "\"!");
+						usernameInput.setText("");
+						passwordInput.setText("");
+						fejl.setFill(Color.web("#184c18"));
+					} else if (korrekt == false) {
+						fejl.setText("Forkert brugernavn eller adgangskode!");
+						passwordInput.setText("");
+					}
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+				} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == false) {
+					fejl.setText("Du skal lige skrive et brugernavn!");
+					passwordInput.setText("");
+				} else if (usernameInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == true) {
+					fejl.setText("Du skal lige skrive et kodeord!");
+				} else if (usernameInput.getText().isEmpty() == true && passwordInput.getText().isEmpty() == true) {
+					fejl.setText("Du skal lige skrive noget i felterne!");
+				}
+			
+
+				System.out.println("og det udskrevende resultat blev \"" + fejl.getText() + "\"\n");
+			});
 
 		Scene scene = new Scene(grid, 550, 280);
 		loginStage.setScene(scene);
