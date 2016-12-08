@@ -184,7 +184,7 @@ public class DB implements Startable {
 		resultset = statement.executeQuery();
 		
 		while(resultset.next()){
-			if(brugernavn.equals(resultset.getString(brugernavn))){
+			if(brugernavn.equals(resultset.getString("brugernavn"))){
 			return true;
 			}
 			
