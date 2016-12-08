@@ -195,6 +195,18 @@ public class DB implements Startable {
 		}
 	return 69;
 	}
+	public String nyKode(String brugernavn, String nyadgangskode) throws SQLException{
+		System.out.println("Finder bruger... \n");
+		start();
+		statement = connection.prepareStatement("update login set adgangskode=? where brugernavn=?");
+		statement.setString(1, nyadgangskode);
+		statement.setString(2, brugernavn);
+		statement.execute();
+		System.out.println("ændrede adgangskoden for brugernavn: " +brugernavn+ " til: " + nyadgangskode);
+		if(checkLogin(brugernavn,nyadgangskode)==true)
+		return "success";
+		else return "!success";
+	}
 
 	public void addLogin(Login login) throws SQLException {
 		start();
