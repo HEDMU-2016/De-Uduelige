@@ -6,6 +6,8 @@
 	-fx-background-size: cover;
 	-fx-background-position: bottom ;
 	-fx-background-repeat: no-repeat;
+	-fx-border-width: 4px;
+	-fx-border-color: #00316c;
 }
 .button{
 	

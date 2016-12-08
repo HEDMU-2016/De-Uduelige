@@ -121,7 +121,7 @@ public class GlemtKode {
 		glemtStage.setScene(scene);
 		scene.getStylesheets().add(Login_IO.class.getResource("login.css").toExternalForm());
 		glemtStage.setResizable(false);
-		// glemtStage.initStyle(StageStyle.UNDECORATED);
+		glemtStage.initStyle(StageStyle.UNDECORATED);
 		glemtStage.show();
 	}
 }
