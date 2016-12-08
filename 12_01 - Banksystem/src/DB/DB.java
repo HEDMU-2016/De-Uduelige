@@ -235,7 +235,7 @@ public class DB implements Startable {
 			} else
 				return "Der skete en teknisk fejl!";
 		}
-		return "Brugernavn ikke fundet!";
+		return "Brugernavn ikke fundet!!";
 
 	}
 
