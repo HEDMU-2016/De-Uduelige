@@ -11,10 +11,10 @@ public class Launcher extends Application {
 	}
 
 	public void start(Stage loginStage) throws Exception {
-//		Login_IO login_IO = new Login_IO();
-//		login_IO.start(loginStage);
-		Brugermenu brugermenu = new Brugermenu();
-		Stage tmpStage = new Stage();
-		brugermenu.start(tmpStage);
+		Login_IO login_IO = new Login_IO();
+		login_IO.start(loginStage);
+//		Brugermenu brugermenu = new Brugermenu();
+//		Stage tmpStage = new Stage();
+//		brugermenu.start(tmpStage);
 	}
 }
