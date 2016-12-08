@@ -97,7 +97,7 @@ public class DB implements Startable {
 	}
 
 	public void addKunde(Kunde kunde) throws SQLException {
-		System.out.println("tilfører kunde");
+		System.out.println("tilfører kunde... \n");
 		start();
 		Date startdato = Date.valueOf(LocalDate.now());
 		Date slutdato = Date.valueOf(LocalDate.of(9999, 01, 01));
