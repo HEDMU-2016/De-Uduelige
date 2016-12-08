@@ -231,11 +231,11 @@ public class DB implements Startable {
 			statement.execute();
 			System.out.println("ændrede adgangskoden for brugernavn: " + brugernavn + " til: " + nyadgangskode);
 			if (checkLogin(brugernavn, nyadgangskode) == true) {
-				return "success";
+				return "Dit kodeord er nu opdateret - og du kan logge ind!";
 			} else
-				return "kunnde ikke ændre koden";
+				return "Der skete en teknisk fejl!";
 		}
-		return "forkert brugernavn";
+		return "Brugernavn ikke fundet!";
 
 	}
 
