@@ -1,12 +1,9 @@
 
 import java.sql.SQLException;
-import java.util.List;
 
-import Brugerflade.Brugermenu;
-import DB.DB;
-import domain.Kunde;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import login.Login_IO;
 
 public class Launcher extends Application {
 
