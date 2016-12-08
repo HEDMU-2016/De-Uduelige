@@ -123,18 +123,19 @@ public class DB implements Startable {
 		System.out.println("konto: " + konto + "blev lagt ind i databasen");
 		stop();
 	}
-	public List<Konto> findkonti(Kunde kunde)throws SQLException{
+	public List<Konto> listkonti(Kunde ejer)throws SQLException{
 		List<Konto> kontolist = new ArrayList<>();
-		System.out.println("finder "+kunde+"s kontoer");
+		System.out.println("finder "+ejer+"s kontoer");
 		start();
 		statement = connection.prepareStatement("select ejer,kontonummer,saldo from konto where ejer = ?");
-		statement.setString(1, kunde.getNavn());
+		statement.setString(1, ejer.getNavn());
 		statement.execute();
 		resultset = statement.executeQuery();
 		while(resultset.next()){
 			String kontonummer = resultset.getString("kontonummer");
 			double saldo = resultset.getDouble("saldo");
-		Konto tmpKonto = new Konto(kunde,saldo);
+		
+		Konto tmpKonto = new Konto(ejer,saldo);
 		tmpKonto.setKontonummer(kontonummer);
 		kontolist.add(tmpKonto);
 		}
