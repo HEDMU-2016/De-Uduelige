@@ -34,6 +34,7 @@ public class DB implements Startable {
 	public void start() {
 		try {
 			connection = DriverManager.getConnection(db, dbuser, dbpass);
+			checkifdayhaspassed();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -418,21 +419,45 @@ public class DB implements Startable {
 		stop();
 		return null;
 	}
+	public void fastoverførsel(Date slutdato, String sender, String modtager,double beløb, int id) throws SQLException{
+		start();
+		System.out.println("Tilfører fast overførsel");
+		statement= connection.prepareStatement("insert into fastoverførsel (sender,modtager,beløb,slutdato,id) "
+				+ "values(?,?,?,?,?)");
+		statement.setString(1, sender);
+		statement.setString(2, modtager);
+		statement.setDouble(3, beløb);
+		statement.setDate(4, slutdato);
+		statement.setInt(5, id);
+		statement.execute();
+		if(id==1){
+			System.out.println("oprettede daglige overførsel på "+beløb+"kr fra "+sender+" til "+modtager+" med startdato: "+slutdato);
+		}
+		if(id==2){
+			System.out.println("oprettede ugentlig overførsel på "+beløb+"kr fra "+sender+" til "+modtager+" med startdato: "+slutdato);			
+		}
+		if(id==3){
+			System.out.println("oprettede månedlig overførsel på "+beløb+"kr fra "+sender+" til "+modtager+" med startdato: "+slutdato);
+			
+		}
+		if(id==4){
+			System.out.println("oprettede årlig overførsel på "+beløb+"kr fra "+sender+" til "+modtager+" med startdato: "+slutdato);		
+		}
+	}
 
-	public void fastOverførselprDag() throws SQLException {
+	private void updatefasteoverførsler() throws SQLException {
+		System.out.println("Updatere fasteoverførsler...");
 		DB db = new DB();
-		LocalDate kontol = LocalDate.of(0, 0, 0);
 		System.out.println("lister overførsels datoer");
 		List<LocalDate> slutdatoliste = new ArrayList<>();
-		start();
-		statement = connection.prepareStatement("select slutdato,sender, modtager, beløb from fastoverførsel");
+		statement = connection.prepareStatement("select slutdato,sender, modtager, beløb, id from fastoverførsel");
 		resultset = statement.executeQuery();
 		while (resultset.next()) {
 			Date tmpslutdato = resultset.getDate("slutdato");
 			String sender = resultset.getString("sender");
 			String modtager = resultset.getString("modtager");
 			double beløb = resultset.getDouble("beløb");
-
+			int id = resultset.getInt("id");
 			LocalDate slutdato = tmpslutdato.toLocalDate();
 			slutdatoliste.add(slutdato);
 			for (int i = 0; i <= slutdatoliste.size(); i++) {
@@ -440,96 +465,74 @@ public class DB implements Startable {
 
 				if (nu.isAfter(slutdatoliste.get(i)) == true) {
 					db.transfer(modtager, sender, beløb);
+					if(id==1){
 					slutdatoliste.get(i).plusDays(1);
-
+					transfer(modtager,sender,beløb);
+					
+					}
+					if(id==2){
+					slutdatoliste.get(i).plusWeeks(1);
+					transfer(modtager,sender,beløb);
+					
+					}
+					if(id==3){
+					slutdatoliste.get(i).plusMonths(1);
+					transfer(modtager,sender,beløb);
+					
+					}
+					if(id==4){
+					slutdatoliste.get(i).plusYears(1);	
+					transfer(modtager,sender,beløb);
+					}
 				}
-
+				System.out.println("Done!");
 			}
 		}
 	}
-	public void fastOverførselpruge() throws SQLException {
-		DB db = new DB();
-		LocalDate kontol = LocalDate.of(0, 0, 0);
-		System.out.println("lister overførsels datoer");
-		List<LocalDate> slutdatoliste = new ArrayList<>();
-		start();
-		statement = connection.prepareStatement("select slutdato,sender, modtager, beløb from fastoverførsel");
-		resultset = statement.executeQuery();
-		while (resultset.next()) {
-			Date tmpslutdato = resultset.getDate("slutdato");
-			String sender = resultset.getString("sender");
-			String modtager = resultset.getString("modtager");
-			double beløb = resultset.getDouble("beløb");
 
-			LocalDate slutdato = tmpslutdato.toLocalDate();
-			slutdatoliste.add(slutdato);
-			for (int i = 0; i <= slutdatoliste.size(); i++) {
-				LocalDate nu = LocalDateTime.now().toLocalDate();
 
-				if (nu.isAfter(slutdatoliste.get(i)) == true) {
-					db.transfer(modtager, sender, beløb);
-					slutdatoliste.get(i).plusWeeks(1);
-
-				}
+		private void checkifdayhaspassed() throws SQLException{
+			Long nu = System.currentTimeMillis();
+			Long lastnuplusdag = getTimer();
+			if(nu>lastnuplusdag){
+				nu =nu+3600000;
+				nu =nu*24;
+				setTimer(nu);
+				System.out.println("Der er gået en dag, så jeg skal lige opdatere de faste overførsler, vent venligst");
+				updatefasteoverførsler();
 			}
-		}}
-		public void fastOverførselprmåned() throws SQLException {
-			DB db = new DB();
-			LocalDate kontol = LocalDate.of(0, 0, 0);
-			System.out.println("lister overførsels datoer");
-			List<LocalDate> slutdatoliste = new ArrayList<>();
-			start();
-			statement = connection.prepareStatement("select slutdato,sender, modtager, beløb from fastoverførsel");
-			resultset = statement.executeQuery();
-			while (resultset.next()) {
-				Date tmpslutdato = resultset.getDate("slutdato");
-				String sender = resultset.getString("sender");
-				String modtager = resultset.getString("modtager");
-				double beløb = resultset.getDouble("beløb");
-
-				LocalDate slutdato = tmpslutdato.toLocalDate();
-				slutdatoliste.add(slutdato);
-				for (int i = 0; i <= slutdatoliste.size(); i++) {
-					LocalDate nu = LocalDateTime.now().toLocalDate();
-
-					if (nu.isAfter(slutdatoliste.get(i)) == true) {
-						db.transfer(modtager, sender, beløb);
-						slutdatoliste.get(i).plusMonths(1);
-
-					}
-
-				}
-			}
+			else System.out.println("Der er ikke gået en dag");
 		}
-		public void fastOverførselpryear() throws SQLException {
-			DB db = new DB();
-			LocalDate kontol = LocalDate.of(0, 0, 0);
-			System.out.println("lister overførsels datoer");
-			List<LocalDate> slutdatoliste = new ArrayList<>();
-			start();
-			statement = connection.prepareStatement("select slutdato,sender, modtager, beløb from fastoverførsel");
-			resultset = statement.executeQuery();
-			while (resultset.next()) {
-				Date tmpslutdato = resultset.getDate("slutdato");
-				String sender = resultset.getString("sender");
-				String modtager = resultset.getString("modtager");
-				double beløb = resultset.getDouble("beløb");
-
-				LocalDate slutdato = tmpslutdato.toLocalDate();
-				slutdatoliste.add(slutdato);
-				for (int i = 0; i <= slutdatoliste.size(); i++) {
-					LocalDate nu = LocalDateTime.now().toLocalDate();
-
-					if (nu.isAfter(slutdatoliste.get(i)) == true) {
-						db.transfer(modtager, sender, beløb);
-						slutdatoliste.get(i).plusYears(1);
-
-					}
-
-				}
-			}
+		public void setTimer(Long timer) throws SQLException{
+		String tmptimer=timer.toString();
+		statement = connection.prepareStatement("update timer set tid=? where id=?");
+		statement.setString(1, tmptimer);
+		statement.setInt(2, 1);
+		statement.execute();
 		}
-
+		public Long getTimer() throws SQLException{
+			statement = connection.prepareStatement("select tid, id from timer");
+			resultset = statement.executeQuery();
+				while(resultset.next()){
+				String tmptimer = resultset.getString("tid");
+				Long timer = Long.parseLong(tmptimer);
+				return timer;
+				}
+			return null;
+		
+		}
+//		public void addTimer(Long timer) throws SQLException{
+//			String tmptimer = timer.toString();
+//			start();
+//			statement=connection.prepareStatement("insert into timer (timer,id) values(?,?)");
+//			statement.setString(1, tmptimer);
+//			statement.setInt(2, 1);
+//			statement.execute();
+//			stop();
+//			System.out.println("did it");
+//		}
+		
+		
 	@Override
 	public void stop() {
 		try {

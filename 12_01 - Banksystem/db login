@@ -20,3 +20,11 @@ ID int identity,
 startdato date,
 slutdato date
 )
+create table fastoverførsel
+(
+slutdato Date,
+sender varchar(255),
+modtager varchar(255),
+beløb double not null,
+id int not null
+)
