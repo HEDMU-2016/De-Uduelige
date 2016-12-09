@@ -44,14 +44,16 @@ public class LoginOversigt {
 		});
 
 		TableView<Login> loginoversigt = tablecreator.logintable();
+		loginoversigt.setPrefWidth(350);
+//		loginoversigt.getSelectionModel().setCellSelectionEnabled(true);
+//		loginoversigt.setEditable(true);
+		grid.add(loginoversigt, 0, 1, 2, 2);
 
-		grid.add(loginoversigt, 0, 1, 2, 1);
-
-		Scene scene = new Scene(grid);
+		Scene scene = new Scene(grid, 400, 500);
 		stage.setScene(scene);
 		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
-		//stage.setResizable(false);
-		//stage.initStyle(StageStyle.UNDECORATED);
+		stage.setResizable(false);
+		stage.initStyle(StageStyle.UNDECORATED);
 		stage.show();
 	}
 }
