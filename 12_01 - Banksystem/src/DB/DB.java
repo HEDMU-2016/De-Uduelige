@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDate;
+import java.time.chrono.ChronoLocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,7 @@ import domain.NormaltLogin;
 import domain.Postering;
 import logic.Logic;
 
-public class DB implements Startable{
+public class DB implements Startable {
 	static final String db = "jdbc:hsqldb:hsql://localhost/mydb";
 	static final String dbuser = "SA";
 	static final String dbpass = "";
@@ -36,7 +38,6 @@ public class DB implements Startable{
 			e.printStackTrace();
 		}
 	}
-
 
 	// INDSÆT METODER:
 	public void addKonto(String ejer, Double saldo) throws SQLException {
@@ -89,7 +90,6 @@ public class DB implements Startable{
 	}
 
 	// FIND METODER:
-
 
 	public void findKontoer() throws SQLException {
 		System.out.println("Leder efter kontoer...");
@@ -190,35 +190,37 @@ public class DB implements Startable{
 	}
 
 	// TABLE METODER:
-	public List<Postering> listPostering() throws SQLException{
+	public List<Postering> listPostering() throws SQLException {
 		System.out.println("Finder posteringer...");
 		List<Postering> posteringslist = new ArrayList<>();
 		start();
 		statement = connection.prepareStatement("select sender, modtager, sendt, beløb from postering");
 		resultset = statement.executeQuery();
-		while(resultset.next()){
+		while (resultset.next()) {
 			String sender = resultset.getString("sender");
 			String modtager = resultset.getString("modtager");
 			Date startdato = resultset.getDate("sendt");
 			double beløb = resultset.getDouble("beløb");
-			Postering tmppostering = new Postering(sender,modtager,startdato,beløb);
+			Postering tmppostering = new Postering(sender, modtager, startdato, beløb);
 			posteringslist.add(tmppostering);
 		}
 		return posteringslist;
 	}
-	public List<Postering> listPostering(Konto konto) throws SQLException{
+
+	public List<Postering> listPostering(Konto konto) throws SQLException {
 		System.out.println("Finder posteringer...");
 		List<Postering> posteringslist = new ArrayList<>();
 		start();
-		statement = connection.prepareStatement("select sender, modtager, sendt, beløb from postering where sender like ?");
+		statement = connection
+				.prepareStatement("select sender, modtager, sendt, beløb from postering where sender like ?");
 		statement.setString(1, konto.getEjer().getNavn());
 		resultset = statement.executeQuery();
-		while(resultset.next()){
+		while (resultset.next()) {
 			String sender = resultset.getString("sender");
 			String modtager = resultset.getString("modtager");
 			Date startdato = resultset.getDate("sendt");
 			double beløb = resultset.getDouble("beløb");
-			Postering tmppostering = new Postering(sender,modtager,startdato,beløb);
+			Postering tmppostering = new Postering(sender, modtager, startdato, beløb);
 			posteringslist.add(tmppostering);
 		}
 		return posteringslist;
@@ -296,15 +298,15 @@ public class DB implements Startable{
 			if (id == 1) {
 				Login login = new AdminLogin(brugernavn, adgangskode);
 				logintable.add(login);
-				System.out.println("Tilføjede Login med Brugernavn: "+brugernavn
-						+"\n og adgangskode: "+adgangskode);
+				System.out
+						.println("Tilføjede Login med Brugernavn: " + brugernavn + "\n og adgangskode: " + adgangskode);
 			}
 			if (id == 2) {
 				Login login2 = new NormaltLogin(brugernavn, adgangskode);
-				logintable.add(login2);	
-				System.out.println("Tilføjede Login med Brugernavn: "+brugernavn
-						+"\n og adgangskode: "+adgangskode);
-			}	
+				logintable.add(login2);
+				System.out
+						.println("Tilføjede Login med Brugernavn: " + brugernavn + "\n og adgangskode: " + adgangskode);
+			}
 		}
 		return logintable;
 	}
@@ -347,13 +349,6 @@ public class DB implements Startable{
 		return false;
 	}
 
-	// UPDATE METODER
-	public void fastoverførsel() throws SQLException{
-		System.out.println("opretter fast overførsel");
-		
-		
-		start();
-	}
 
 	public void findLogin() throws SQLException {
 		System.out.println("finder logins");
@@ -424,6 +419,117 @@ public class DB implements Startable{
 		return null;
 	}
 
+	public void fastOverførselprDag() throws SQLException {
+		DB db = new DB();
+		LocalDate kontol = LocalDate.of(0, 0, 0);
+		System.out.println("lister overførsels datoer");
+		List<LocalDate> slutdatoliste = new ArrayList<>();
+		start();
+		statement = connection.prepareStatement("select slutdato,sender, modtager, beløb from fastoverførsel");
+		resultset = statement.executeQuery();
+		while (resultset.next()) {
+			Date tmpslutdato = resultset.getDate("slutdato");
+			String sender = resultset.getString("sender");
+			String modtager = resultset.getString("modtager");
+			double beløb = resultset.getDouble("beløb");
+
+			LocalDate slutdato = tmpslutdato.toLocalDate();
+			slutdatoliste.add(slutdato);
+			for (int i = 0; i <= slutdatoliste.size(); i++) {
+				LocalDate nu = LocalDateTime.now().toLocalDate();
+
+				if (nu.isAfter(slutdatoliste.get(i)) == true) {
+					db.transfer(modtager, sender, beløb);
+					slutdatoliste.get(i).plusDays(1);
+
+				}
+
+			}
+		}
+	}
+	public void fastOverførselpruge() throws SQLException {
+		DB db = new DB();
+		LocalDate kontol = LocalDate.of(0, 0, 0);
+		System.out.println("lister overførsels datoer");
+		List<LocalDate> slutdatoliste = new ArrayList<>();
+		start();
+		statement = connection.prepareStatement("select slutdato,sender, modtager, beløb from fastoverførsel");
+		resultset = statement.executeQuery();
+		while (resultset.next()) {
+			Date tmpslutdato = resultset.getDate("slutdato");
+			String sender = resultset.getString("sender");
+			String modtager = resultset.getString("modtager");
+			double beløb = resultset.getDouble("beløb");
+
+			LocalDate slutdato = tmpslutdato.toLocalDate();
+			slutdatoliste.add(slutdato);
+			for (int i = 0; i <= slutdatoliste.size(); i++) {
+				LocalDate nu = LocalDateTime.now().toLocalDate();
+
+				if (nu.isAfter(slutdatoliste.get(i)) == true) {
+					db.transfer(modtager, sender, beløb);
+					slutdatoliste.get(i).plusWeeks(1);
+
+				}
+			}
+		}}
+		public void fastOverførselprmåned() throws SQLException {
+			DB db = new DB();
+			LocalDate kontol = LocalDate.of(0, 0, 0);
+			System.out.println("lister overførsels datoer");
+			List<LocalDate> slutdatoliste = new ArrayList<>();
+			start();
+			statement = connection.prepareStatement("select slutdato,sender, modtager, beløb from fastoverførsel");
+			resultset = statement.executeQuery();
+			while (resultset.next()) {
+				Date tmpslutdato = resultset.getDate("slutdato");
+				String sender = resultset.getString("sender");
+				String modtager = resultset.getString("modtager");
+				double beløb = resultset.getDouble("beløb");
+
+				LocalDate slutdato = tmpslutdato.toLocalDate();
+				slutdatoliste.add(slutdato);
+				for (int i = 0; i <= slutdatoliste.size(); i++) {
+					LocalDate nu = LocalDateTime.now().toLocalDate();
+
+					if (nu.isAfter(slutdatoliste.get(i)) == true) {
+						db.transfer(modtager, sender, beløb);
+						slutdatoliste.get(i).plusMonths(1);
+
+					}
+
+				}
+			}
+		}
+		public void fastOverførselpryear() throws SQLException {
+			DB db = new DB();
+			LocalDate kontol = LocalDate.of(0, 0, 0);
+			System.out.println("lister overførsels datoer");
+			List<LocalDate> slutdatoliste = new ArrayList<>();
+			start();
+			statement = connection.prepareStatement("select slutdato,sender, modtager, beløb from fastoverførsel");
+			resultset = statement.executeQuery();
+			while (resultset.next()) {
+				Date tmpslutdato = resultset.getDate("slutdato");
+				String sender = resultset.getString("sender");
+				String modtager = resultset.getString("modtager");
+				double beløb = resultset.getDouble("beløb");
+
+				LocalDate slutdato = tmpslutdato.toLocalDate();
+				slutdatoliste.add(slutdato);
+				for (int i = 0; i <= slutdatoliste.size(); i++) {
+					LocalDate nu = LocalDateTime.now().toLocalDate();
+
+					if (nu.isAfter(slutdatoliste.get(i)) == true) {
+						db.transfer(modtager, sender, beløb);
+						slutdatoliste.get(i).plusYears(1);
+
+					}
+
+				}
+			}
+		}
+
 	@Override
 	public void stop() {
 		try {
@@ -437,6 +543,5 @@ public class DB implements Startable{
 		}
 
 	}
-
 
 }
