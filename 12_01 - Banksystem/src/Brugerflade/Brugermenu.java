@@ -39,7 +39,7 @@ public class Brugermenu {
 	hbNavn.getChildren().add(navn);
 	navn.setId("logo");
 	
-	Button close = new Button("x");
+	Button close = new Button("X");
 	HBox hbClose = new HBox(10);
 	close.setId("close");
 	hbClose.getChildren().add(close);

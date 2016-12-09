@@ -20,9 +20,9 @@ public class Medarbejderoversigt {
 		stage.getIcons().add(new Image("Brugerflade/ico.png"));
 
 		
-		Button close = new Button("x");
+		Button close = new Button("X");
 		close.setId("close");
-		grid.add(close,10,0);
+		grid.add(close,0,0);
 		close.setOnAction(e->{
 			stage.close();
 		});

@@ -24,7 +24,7 @@ public class KontoHistorik {
 		//Dette skal bruges på alle vinduer
 		
 		
-		Button close = new Button("x");
+		Button close = new Button("X");
 		close.setId("close");
 		grid.add(close, 0,0);
 		close.setOnAction(e->{
