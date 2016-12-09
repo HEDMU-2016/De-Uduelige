@@ -24,10 +24,10 @@ public class TableCreator {
 
 		TableView<Kunde> kundeoversigt = new TableView<Kunde>();
 
-		TableColumn<Kunde, String> nameCol = new TableColumn<Kunde, String>("navn");
+		TableColumn<Kunde, String> nameCol = new TableColumn<Kunde, String>("Navn");
 		nameCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("navn"));
 
-		TableColumn<Kunde, String> emailCol = new TableColumn<Kunde, String>("email");
+		TableColumn<Kunde, String> emailCol = new TableColumn<Kunde, String>("Email");
 		emailCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("email"));
 
 		TableColumn<Kunde, Date> dateCol = new TableColumn<Kunde, Date>("Oprettet");
@@ -43,13 +43,13 @@ public class TableCreator {
 
 		TableView<Konto> kontooversigt = new TableView<Konto>();
 
-		TableColumn<Konto, String> ejerCol = new TableColumn<Konto, String>("Ejer: ");
+		TableColumn<Konto, String> ejerCol = new TableColumn<Konto, String>("Ejer ");
 		ejerCol.setCellValueFactory(new PropertyValueFactory<Konto, String>("ejer"));
 
-		TableColumn<Konto, Integer> kontoCol = new TableColumn<Konto, Integer>("KontoID: ");
+		TableColumn<Konto, Integer> kontoCol = new TableColumn<Konto, Integer>("KontoID ");
 		kontoCol.setCellValueFactory(new PropertyValueFactory<Konto, Integer>("kontoid"));
 
-		TableColumn<Konto, Double> saldoCol = new TableColumn<Konto, Double>("Saldo: ");
+		TableColumn<Konto, Double> saldoCol = new TableColumn<Konto, Double>("Saldo ");
 		saldoCol.setCellValueFactory(new PropertyValueFactory<Konto, Double>("saldo"));
 
 		kontooversigt.setItems(kontotabel);
@@ -64,13 +64,13 @@ public class TableCreator {
 
 		TableView<Login> loginoversigt = new TableView();
 
-		TableColumn<Login, String> bnCol = new TableColumn<Login, String>("Brugernavn: ");
+		TableColumn<Login, String> bnCol = new TableColumn<Login, String>("Brugernavn ");
 		bnCol.setCellValueFactory(new PropertyValueFactory<Login, String>("brugernavn"));
 
-		TableColumn<Login, String> pwCol = new TableColumn<Login, String>("Password: ");
+		TableColumn<Login, String> pwCol = new TableColumn<Login, String>("Password ");
 		pwCol.setCellValueFactory(new PropertyValueFactory<Login, String>("adgangskode"));
 
-		TableColumn<Login, Integer> idCol = new TableColumn<Login, Integer>("ID: ");
+		TableColumn<Login, Integer> idCol = new TableColumn<Login, Integer>("ID ");
 		idCol.setCellValueFactory(new PropertyValueFactory<Login, Integer>("id"));
 		
 		loginoversigt.setItems(logintabel);
@@ -83,13 +83,13 @@ public class TableCreator {
 
 		TableView<Konto> kontooversigt = new TableView<Konto>();
 
-		TableColumn<Konto, String> ejerCol = new TableColumn<Konto, String>("Ejer: ");
+		TableColumn<Konto, String> ejerCol = new TableColumn<Konto, String>("Ejer ");
 		ejerCol.setCellValueFactory(new PropertyValueFactory<Konto, String>("ejer"));
 
-		TableColumn<Konto, Integer> kontoCol = new TableColumn<Konto, Integer>("kontoID: ");
+		TableColumn<Konto, Integer> kontoCol = new TableColumn<Konto, Integer>("kontoID ");
 		kontoCol.setCellValueFactory(new PropertyValueFactory<Konto, Integer>("kontoid"));
 
-		TableColumn<Konto, Double> saldoCol = new TableColumn<Konto, Double>("Saldo: ");
+		TableColumn<Konto, Double> saldoCol = new TableColumn<Konto, Double>("Saldo ");
 		saldoCol.setCellValueFactory(new PropertyValueFactory<Konto, Double>("saldo"));
 
 		kontooversigt.setItems(kontotabel);
@@ -104,16 +104,16 @@ public class TableCreator {
 		
 		TableView<Postering> posteringsoversigt = new TableView<Postering>();
 		
-		TableColumn<Postering, String> senderCol = new TableColumn<Postering, String>("Sender: ");
+		TableColumn<Postering, String> senderCol = new TableColumn<Postering, String>("Sender ");
 		senderCol.setCellValueFactory(new PropertyValueFactory<Postering, String>("sender"));
 		
-		TableColumn<Postering, String> modtagerCol = new TableColumn<Postering, String>("Modtager: ");
+		TableColumn<Postering, String> modtagerCol = new TableColumn<Postering, String>("Modtager ");
 		modtagerCol.setCellValueFactory(new PropertyValueFactory<Postering,String>("modtager"));
 		
-		TableColumn<Postering, Date> sendtCol = new TableColumn<Postering, Date>("Sendt: ");
+		TableColumn<Postering, Date> sendtCol = new TableColumn<Postering, Date>("Sendt ");
 		sendtCol.setCellValueFactory(new PropertyValueFactory<Postering, Date>("sendt"));
 		
-		TableColumn<Postering, Double> beløbCol = new TableColumn<Postering, Double>("Beløb: ");
+		TableColumn<Postering, Double> beløbCol = new TableColumn<Postering, Double>("Beløb ");
 		beløbCol.setCellValueFactory(new PropertyValueFactory<Postering, Double>("beløb"));
 		
 		posteringsoversigt.setItems(posteringstable);
@@ -127,16 +127,16 @@ public class TableCreator {
 		
 		TableView<Postering> posteringsoversigt = new TableView<Postering>();
 		
-		TableColumn<Postering, String> senderCol = new TableColumn<Postering, String>("Sender: ");
+		TableColumn<Postering, String> senderCol = new TableColumn<Postering, String>("Sender ");
 		senderCol.setCellValueFactory(new PropertyValueFactory<Postering, String>("sender"));
 		
-		TableColumn<Postering, String> modtagerCol = new TableColumn<Postering, String>("Modtager: ");
+		TableColumn<Postering, String> modtagerCol = new TableColumn<Postering, String>("Modtager ");
 		modtagerCol.setCellValueFactory(new PropertyValueFactory<Postering,String>("modtager"));
 		
-		TableColumn<Postering, Date> sendtCol = new TableColumn<Postering, Date>("Sendt: ");
+		TableColumn<Postering, Date> sendtCol = new TableColumn<Postering, Date>("Sendt ");
 		sendtCol.setCellValueFactory(new PropertyValueFactory<Postering, Date>("sendt"));
 		
-		TableColumn<Postering, Double> beløbCol = new TableColumn<Postering, Double>("Beløb: ");
+		TableColumn<Postering, Double> beløbCol = new TableColumn<Postering, Double>("Beløb ");
 		beløbCol.setCellValueFactory(new PropertyValueFactory<Postering, Double>("beløb"));
 		
 		posteringsoversigt.setItems(posteringstable);
