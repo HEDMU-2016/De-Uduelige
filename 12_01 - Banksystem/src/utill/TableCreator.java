@@ -69,7 +69,7 @@ public class TableCreator {
 		bnCol.setCellValueFactory(new PropertyValueFactory<Login, String>("brugernavn"));
 
 		TableColumn<Login, String> pwCol = new TableColumn<Login, String>("Password: ");
-		pwCol.setCellValueFactory(new PropertyValueFactory<Login, String>("password"));
+		pwCol.setCellValueFactory(new PropertyValueFactory<Login, String>("adgangskode"));
 
 		TableColumn<Login, Integer> idCol = new TableColumn<Login, Integer>("ID: ");
 		idCol.setCellValueFactory(new PropertyValueFactory<Login, Integer>("id"));
