@@ -21,7 +21,7 @@ public class LoginOversigt {
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
 		grid.setHgap(10);
-		grid.setAlignment(Pos.TOP_CENTER);
+		grid.setAlignment(Pos.CENTER);
 
 		stage.setTitle("Loginoversigt - Lortebank A/S");
 		stage.getIcons().add(new Image("Brugerflade/ico.png"));
@@ -47,11 +47,11 @@ public class LoginOversigt {
 
 		grid.add(loginoversigt, 0, 1, 2, 1);
 
-		Scene scene = new Scene(grid, 400, 500);
+		Scene scene = new Scene(grid);
 		stage.setScene(scene);
 		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
-		stage.setResizable(false);
-		stage.initStyle(StageStyle.UNDECORATED);
+		//stage.setResizable(false);
+		//stage.initStyle(StageStyle.UNDECORATED);
 		stage.show();
 	}
 }
