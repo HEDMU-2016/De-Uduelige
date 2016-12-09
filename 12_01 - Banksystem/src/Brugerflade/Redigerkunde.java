@@ -39,7 +39,7 @@ public class Redigerkunde {
 		
 		
 		
-		Scene scene = new Scene(grid,400,400);
+		Scene scene = new Scene(grid,400, 500);
 		stage.setScene(scene);
 		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 		stage.setResizable(false);
