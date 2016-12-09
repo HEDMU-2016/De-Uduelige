@@ -48,7 +48,7 @@ public class OverførselsStage extends Application {
 		grid.add(hbNavn, 0, 0);
 		hbNavn.getChildren().add(navn);
 		navn.setId("logo");
-		
+
 		Button close = new Button("X");
 		HBox hbClose = new HBox(10);
 		close.setId("close");
@@ -86,7 +86,8 @@ public class OverførselsStage extends Application {
 		fastOverførsel.setId("labelting");
 		grid.add(fastOverførsel, 0, 4, 2, 4);
 
-		ObservableList<String> options = FXCollections.observableArrayList("Dagligt", "Ugentligt", "Månedligt", "Kvartaligt","Halvårligt","Årligt");
+		ObservableList<String> options = FXCollections.observableArrayList("Dagligt", "Ugentligt", "Månedligt",
+				"Kvartaligt", "Halvårligt", "Årligt");
 		final ComboBox comboBox = new ComboBox(options);
 		HBox hbBox = new HBox();
 		hbBox.getChildren().add(comboBox);
