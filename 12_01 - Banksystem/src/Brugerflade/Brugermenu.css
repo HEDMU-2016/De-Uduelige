@@ -10,6 +10,11 @@
 	-fx-border-color: #00316c;
 }
 
+#overskrift{
+	-fx-font-size: 30px;
+	-fx-fill: #00316c;
+}
+
 #KnapImenu{
 	-fx-pref-width: 300;
 	-fx-min-height: 50;

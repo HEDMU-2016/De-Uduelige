@@ -31,6 +31,10 @@ public class BasicScene {
 		hbClose.getChildren().add(close);
 		hbClose.setAlignment(Pos.TOP_RIGHT);
 		grid.add(hbClose, 0, 0);
+		
+		close.setOnAction(e -> {
+			stage.close();
+		});
 
 		Scene scene = new Scene(grid, 400, 400);
 		stage.setScene(scene);
