@@ -1,17 +1,20 @@
 package Brugerflade;
 
 import java.sql.SQLException;
+import java.util.Optional;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import login.Login_IO;
 
 public class Brugermenu {
 	public void start(Stage stage){
@@ -47,8 +50,25 @@ public class Brugermenu {
 	grid.add(hbClose, 0 ,0);
 	
 	
-	close.setOnAction(e->{
-		stage.close();
+	close.setOnAction(e -> {
+		Alert alert = new Alert(AlertType.NONE);
+		alert.setTitle("Du er ved at lukke banksystemet!");
+		alert.setHeaderText(null);
+		alert.setContentText("Hvis du lukker nu vil du blive logget ud af systemet?");
+
+		Stage stage1 = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage1.getIcons().add(new Image(this.getClass().getResource("ico.png").toString()));
+
+		ButtonType buttonTypeJa = new ButtonType("Ja, luk det!");
+		ButtonType buttonTypeNej = new ButtonType("Nej, lad mig blive!");
+
+		alert.getButtonTypes().setAll(buttonTypeNej, buttonTypeJa);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == buttonTypeJa) {
+			stage.close();
+		}
+
 	});
 	
 	Button kontooversigtknap = new Button("Kontooversigt");
