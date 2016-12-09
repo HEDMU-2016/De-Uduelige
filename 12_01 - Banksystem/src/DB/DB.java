@@ -498,10 +498,10 @@ public class DB implements Startable {
 				nu =nu+3600000;
 				nu =nu*24;
 				setTimer(nu);
-				System.out.println("Der er gået en dag, så jeg skal lige opdatere de faste overførsler, vent venligst");
+				System.out.println("Holy shit, Der er gået en dag! Jeg skal lige updatere nogen kontoer, brb");
 				updatefasteoverførsler();
 			}
-			else System.out.println("Der er ikke gået en dag");
+			else System.out.println("Der er stadigvæk ikke gået en dag");
 		}
 		public void setTimer(Long timer) throws SQLException{
 		String tmptimer=timer.toString();
