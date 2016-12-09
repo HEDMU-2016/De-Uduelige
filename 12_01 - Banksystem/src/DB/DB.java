@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +17,10 @@ import domain.Konto;
 import domain.Kunde;
 import domain.Login;
 import domain.NormaltLogin;
+import domain.Postering;
 import logic.Logic;
 
-public class DB implements Startable {
+public class DB implements Startable{
 	static final String db = "jdbc:hsqldb:hsql://localhost/mydb";
 	static final String dbuser = "SA";
 	static final String dbpass = "";
@@ -34,6 +36,7 @@ public class DB implements Startable {
 			e.printStackTrace();
 		}
 	}
+
 
 	// INDSÆT METODER:
 	public void addKonto(String ejer, Double saldo) throws SQLException {
@@ -86,6 +89,7 @@ public class DB implements Startable {
 	}
 
 	// FIND METODER:
+
 
 	public void findKontoer() throws SQLException {
 		System.out.println("Leder efter kontoer...");
@@ -186,6 +190,39 @@ public class DB implements Startable {
 	}
 
 	// TABLE METODER:
+	public List<Postering> listPostering() throws SQLException{
+		System.out.println("Finder posteringer...");
+		List<Postering> posteringslist = new ArrayList<>();
+		start();
+		statement = connection.prepareStatement("select sender, modtager, sendt, beløb from postering");
+		resultset = statement.executeQuery();
+		while(resultset.next()){
+			String sender = resultset.getString("sender");
+			String modtager = resultset.getString("modtager");
+			Date startdato = resultset.getDate("sendt");
+			double beløb = resultset.getDouble("beløb");
+			Postering tmppostering = new Postering(sender,modtager,startdato,beløb);
+			posteringslist.add(tmppostering);
+		}
+		return posteringslist;
+	}
+	public List<Postering> listPostering(Konto konto) throws SQLException{
+		System.out.println("Finder posteringer...");
+		List<Postering> posteringslist = new ArrayList<>();
+		start();
+		statement = connection.prepareStatement("select sender, modtager, sendt, beløb from postering where sender like ?");
+		statement.setString(1, konto.getEjer().getNavn());
+		resultset = statement.executeQuery();
+		while(resultset.next()){
+			String sender = resultset.getString("sender");
+			String modtager = resultset.getString("modtager");
+			Date startdato = resultset.getDate("sendt");
+			double beløb = resultset.getDouble("beløb");
+			Postering tmppostering = new Postering(sender,modtager,startdato,beløb);
+			posteringslist.add(tmppostering);
+		}
+		return posteringslist;
+	}
 
 	public List<Konto> listkonti(Kunde ejer) throws SQLException {
 		System.out.println("finder " + ejer + "s kontoer");
@@ -272,7 +309,7 @@ public class DB implements Startable {
 		return logintable;
 	}
 
-	// KONTOL METODER:
+	// KONTROL METODER:
 
 	public boolean checkLogin(String brugernavn, String adgangskode) throws SQLException {
 		System.out.println("checker login...\n");
@@ -311,8 +348,15 @@ public class DB implements Startable {
 	}
 
 	// UPDATE METODER
+	public void fastoverførsel() throws SQLException{
+		System.out.println("opretter fast overførsel");
+		
+		
+		start();
+	}
 
 	public void findLogin() throws SQLException {
+		System.out.println("finder logins");
 		start();
 		statement = connection.prepareStatement("SELECT brugernavn,adgangskode FROM login");
 		resultset = statement.executeQuery();
@@ -393,5 +437,6 @@ public class DB implements Startable {
 		}
 
 	}
+
 
 }
