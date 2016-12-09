@@ -45,7 +45,7 @@ public class OverførselsStage extends Application {
 
 		Text navn = new Text("Overførsel");
 		HBox hbNavn = new HBox(10);
-		grid.add(hbNavn, 0, 0);
+		grid.add(hbNavn, 0, 0, 1, 1);
 		hbNavn.getChildren().add(navn);
 		navn.setId("logo");
 
@@ -60,7 +60,7 @@ public class OverførselsStage extends Application {
 			stage.close();
 		});
 
-		Label beløb = new Label("beløb: ");
+		Label beløb = new Label("Beløb: ");
 		beløb.setId("labelting");
 		grid.add(beløb, 0, 1);
 
@@ -72,8 +72,15 @@ public class OverførselsStage extends Application {
 		frakonto.setId("labelting");
 		grid.add(frakonto, 0, 2);
 
-		TextField senderfelt = new TextField();
-		grid.add(senderfelt, 1, 2);
+		ObservableList<String> Kundekontoer = FXCollections.observableArrayList("Konto1", "Konto2", "Konto3");
+		final ComboBox senderfelt = new ComboBox(Kundekontoer);
+		HBox hbSendefelt = new HBox();
+		hbSendefelt.getChildren().add(senderfelt);
+		senderfelt.setPrefWidth(175);
+		grid.add(hbSendefelt, 1, 2);
+
+//		TextField senderfelt = new TextField();
+//		grid.add(senderfelt, 1, 2);
 
 		Label tilKonto = new Label("Modtager: ");
 		tilKonto.setId("labelting");
@@ -115,7 +122,7 @@ public class OverførselsStage extends Application {
 
 		btn.setOnAction(e -> {
 			try {
-				db.transfer(modtagerfelt.getText(), senderfelt.getText(), Double.parseDouble(beløbfelt.getText()));
+				db.transfer(modtagerfelt.getText(), senderfelt.getPromptText(), Double.parseDouble(beløbfelt.getText()));
 			} catch (NumberFormatException e1) {
 				e1.printStackTrace();
 			} catch (SQLException e1) {
