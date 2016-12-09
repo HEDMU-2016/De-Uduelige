@@ -51,7 +51,7 @@ public class Brugermenu {
 		stage.close();
 	});
 	
-	Button kontooversigtknap = new Button("kontooversigt");
+	Button kontooversigtknap = new Button("Kontooversigt");
 	kontooversigtknap.setId("KnapImenu");
 	grid.add(kontooversigtknap, 0, 2);
 	kontooversigtknap.setOnAction(e ->{
@@ -64,7 +64,7 @@ public class Brugermenu {
 		}
 	});
 	
-	Button overførsel = new Button("overførsel");
+	Button overførsel = new Button("Overførsel");
 	grid.add(overførsel, 0, 3);
 	overførsel.setId("KnapImenu");
 	overførsel.setOnAction(e ->{
@@ -72,7 +72,7 @@ public class Brugermenu {
 		overførselsstage.start(new Stage());
 	});
 	
-	Button kontohistorik = new Button("kontohistorik");
+	Button kontohistorik = new Button("Kontohistorik");
 	grid.add(kontohistorik, 0, 4);
 	kontohistorik.setId("KnapImenu");
 	kontohistorik.setOnAction(e ->{
@@ -80,7 +80,7 @@ public class Brugermenu {
 	historikvindue.start(new Stage());
 	});
 	
-	Button administrator = new Button("administrator");
+	Button administrator = new Button("Administrator");
 	grid.add(administrator, 0, 5);
 	administrator.setId("KnapImenu");
 	administrator.setOnAction(e ->{

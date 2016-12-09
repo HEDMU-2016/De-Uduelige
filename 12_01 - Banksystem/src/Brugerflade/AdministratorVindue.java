@@ -50,7 +50,7 @@ public class AdministratorVindue {
 			stage.close();
 		});
 
-		Button kundeoversigt = new Button("kundeoversigt");
+		Button kundeoversigt = new Button("Kundeoversigt");
 		grid.add(kundeoversigt, 0, 2);
 		kundeoversigt.setId("KnapImenu");
 		kundeoversigt.setOnAction(e -> {
@@ -63,7 +63,7 @@ public class AdministratorVindue {
 
 		});
 
-		Button medarbejderoversigt = new Button("medarbejderoversigt");
+		Button medarbejderoversigt = new Button("Medarbejderoversigt");
 		grid.add(medarbejderoversigt, 0, 3);
 		medarbejderoversigt.setId("KnapImenu");
 		medarbejderoversigt.setOnAction(e -> {
@@ -71,7 +71,7 @@ public class AdministratorVindue {
 			medarbejderoversigt1.start(new Stage());
 		});
 
-		Button redigerkunde = new Button("opret/rediger/slet kunde");
+		Button redigerkunde = new Button("Opret/rediger/slet kunde");
 		grid.add(redigerkunde, 0, 4);
 		redigerkunde.setId("KnapImenu");
 		redigerkunde.setOnAction(e -> {
@@ -79,7 +79,7 @@ public class AdministratorVindue {
 			redigerkunde1.start(new Stage());
 		});
 
-		Button redigermedarbejder = new Button("opret/rediger/slet medarbejder");
+		Button redigermedarbejder = new Button("Opret/rediger/slet medarbejder");
 		grid.add(redigermedarbejder, 0, 5);
 		redigermedarbejder.setId("KnapImenu");
 		redigermedarbejder.setOnAction(e -> {
@@ -99,7 +99,7 @@ public class AdministratorVindue {
 			}
 		});
 		
-		Button logins = new Button("se alle logins");
+		Button logins = new Button("Se alle logins");
 		grid.add(logins, 0, 7);
 		logins.setId("KnapImenu");
 		logins.setOnAction(e -> {
@@ -111,7 +111,7 @@ public class AdministratorVindue {
 			}
 		});
 
-		Scene scene = new Scene(grid, 400, 400);
+		Scene scene = new Scene(grid, 400, 500);
 		stage.setScene(scene);
 		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 		stage.setResizable(false);
