@@ -170,7 +170,7 @@ public class Login_IO extends Application {
 		loginStage.setScene(scene);
 		scene.getStylesheets().add(Login_IO.class.getResource("login.css").toExternalForm());
 		//loginStage.setResizable(false);
-		loginStage.setMaximized(true);
+		//loginStage.setMaximized(true);
 		loginStage.initStyle(StageStyle.UNDECORATED);
 		loginStage.show();
 
