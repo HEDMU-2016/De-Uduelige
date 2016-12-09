@@ -22,6 +22,7 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -117,22 +118,23 @@ public class OverførselsStage extends Application {
 		HBox hbBtn = new HBox(10);
 		hbBtn.getChildren().add(btn);
 		btn.setId("KnapImenu");
-		hbBtn.setStyle("-fx-padding: 10px 0px 0px 0px;");
+		hbBtn.setStyle("-fx-padding: 10px 0px 20px 0px;");
 		grid.add(hbBtn, 0, 6, 2, 6);
 
+		Text fejl = new Text("");
+		grid.add(fejl, 0, 8, 2, 8);
+		fejl.setId("fejl");
+		
 		btn.setOnAction(e -> {
+			fejl.setFill(Color.RED);
+			fejl.setText("Overførsel fejlede (tror jeg?)");
+			
 			try {
 				db.transfer(modtagerfelt.getText(), senderfelt.getPromptText(), Double.parseDouble(beløbfelt.getText()));
 			} catch (NumberFormatException e1) {
 				e1.printStackTrace();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
-			}
-		});
-
-		btn.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent e) {
-
 			}
 		});
 		Scene scene = new Scene(grid, 400, 400);
