@@ -8,8 +8,10 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Optional;
 
+import Brugerflade.AdministratorMenu;
 import Brugerflade.Brugermenu;
 import DB.DB;
+import domain.Login;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -140,12 +142,21 @@ public class Login_IO extends Application {
 					boolean korrekt = db.checkLogin(usernameInput.getText().toLowerCase(), passwordInput.getText());
 
 					if (korrekt == true) {
+						Login tmplogin = db.findLogin(usernameInput.getText());
+						
 						fejl.setText("Du er nu logget ind som: \"" + usernameInput.getText() + "\"!");
 						usernameInput.setText("");
 						passwordInput.setText("");
 						fejl.setFill(Color.web("#184c18"));
-						Brugermenu brugermenu = new Brugermenu();
-						brugermenu.start(new Stage());
+						if (tmplogin.getId() == 2) {
+							Brugermenu brugermenu = new Brugermenu();
+							brugermenu.start(new Stage(), tmplogin);
+
+						}
+						if (tmplogin.getId() == 1) {
+							AdministratorMenu administratormenu = new AdministratorMenu();
+							administratormenu.start(new Stage(), tmplogin);
+						}
 						loginStage.hide();
 					} else if (korrekt == false) {
 						fejl.setText("Forkert brugernavn eller adgangskode!");
@@ -169,8 +180,8 @@ public class Login_IO extends Application {
 		Scene scene = new Scene(grid, 550, 280);
 		loginStage.setScene(scene);
 		scene.getStylesheets().add(Login_IO.class.getResource("login.css").toExternalForm());
-		//loginStage.setResizable(false);
-		//loginStage.setMaximized(true);
+		// loginStage.setResizable(false);
+		// loginStage.setMaximized(true);
 		loginStage.initStyle(StageStyle.UNDECORATED);
 		loginStage.show();
 
@@ -208,12 +219,20 @@ public class Login_IO extends Application {
 									passwordInput.getText());
 
 							if (korrekt == true) {
+								Login tmplogin = db.findLogin(usernameInput.getText());
 								fejl.setText("Du er nu logget ind som: \"" + usernameInput.getText() + "\"!");
 								usernameInput.setText("");
 								passwordInput.setText("");
 								fejl.setFill(Color.web("#184c18"));
-								Brugermenu brugermenu = new Brugermenu();
-								brugermenu.start(new Stage());
+								if (tmplogin.getId() == 2) {
+									Brugermenu brugermenu = new Brugermenu();
+									brugermenu.start(new Stage(), tmplogin);
+
+								}
+								if (tmplogin.getId() == 1) {
+									AdministratorMenu administratormenu = new AdministratorMenu();
+									administratormenu.start(new Stage(), tmplogin);
+								}
 								loginStage.hide();
 							} else if (korrekt == false) {
 								fejl.setText("Forkert brugernavn eller adgangskode!");

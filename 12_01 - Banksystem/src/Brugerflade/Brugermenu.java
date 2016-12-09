@@ -3,6 +3,7 @@ package Brugerflade;
 import java.sql.SQLException;
 import java.util.Optional;
 
+import domain.Login;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -17,7 +18,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class Brugermenu {
-	public void start(Stage stage){
+	public void start(Stage stage, Login bruger){
 
 	GridPane grid = new GridPane();
 	grid.setAlignment(Pos.CENTER);
@@ -99,19 +100,6 @@ public class Brugermenu {
 	KontoHistorik historikvindue = new KontoHistorik();
 	historikvindue.start(new Stage());
 	});
-	
-	Button administrator = new Button("Administrator");
-	grid.add(administrator, 0, 5);
-	administrator.setId("KnapImenu");
-	administrator.setOnAction(e ->{
-		AdministratorVindue administratorvindue = new AdministratorVindue();
-		try {
-			administratorvindue.start(new Stage());
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-	});
-	
 
 	Scene scene = new Scene(grid, 400, 400);
 	stage.setScene(scene);

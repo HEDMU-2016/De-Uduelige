@@ -2,6 +2,7 @@ package Brugerflade;
 
 import java.sql.SQLException;
 
+import domain.Login;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,9 +13,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class AdministratorVindue {
+public class AdministratorMenu {
 
-	public void start(Stage stage) throws SQLException {
+	public void start(Stage stage, Login bruger) throws SQLException {
 
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
@@ -45,6 +46,13 @@ public class AdministratorVindue {
 
 		close.setOnAction(e -> {
 			stage.close();
+		});
+		Button brugermenuknap = new Button("Brugermenu");
+		grid.add(brugermenuknap, 0, 1);
+		brugermenuknap.setId("knapImenu");
+		brugermenuknap.setOnAction(e->{
+			Brugermenu brugermenu = new Brugermenu();
+			brugermenu.start(new Stage(), bruger);
 		});
 
 		Button kundeoversigt = new Button("Kundeoversigt");

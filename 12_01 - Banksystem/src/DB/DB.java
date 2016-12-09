@@ -91,6 +91,18 @@ public class DB implements Startable {
 	}
 
 	// FIND METODER:
+	public Login findLogin(String brugernavn) throws SQLException{
+	System.out.println("Finder loginnet med brugernavn: "+ brugernavn);
+	List<Login> loginlist = listLogins();
+	for(int i=0; i<=loginlist.size();i++){
+		Login tmplogin = loginlist.get(i);
+		if(tmplogin.getBrugernavn().equals(brugernavn)){
+			return tmplogin;
+			}
+		}
+		System.out.println("Loginnet du prøvede at finde findes ikke.");
+		return null;
+	}
 
 	public void findKontoer() throws SQLException {
 		System.out.println("Leder efter kontoer...");
@@ -261,6 +273,7 @@ public class DB implements Startable {
 				Konto tmpKonto = tmpList.get(j);
 
 				kontolist.add(tmpKonto);
+				System.out.println("tilføjede : "+tmpkunde.toString()+" til listen");
 			}
 		}
 		System.out.println("Done!");
@@ -422,7 +435,7 @@ public class DB implements Startable {
 	public void fastoverførsel(Date slutdato, String sender, String modtager,double beløb, int id) throws SQLException{
 		start();
 		System.out.println("Tilfører fast overførsel");
-		statement= connection.prepareStatement("insert into fastoverførsel (sender,modtager,beløb,slutdato,id) "
+		statement= connection.prepareStatement("insert into fastoverførsel (sender,modtager,beløb,slutdato,id) values "
 				+ "values(?,?,?,?,?)");
 		statement.setString(1, sender);
 		statement.setString(2, modtager);
