@@ -26,16 +26,10 @@ public class Brugermenu {
 	grid.setVgap(10);
 	
 	
-	//Dette skal bruges på alle vinduer
-	//
-	//
+
 	stage.setTitle("Hovedmenu - Lortebank A/S");
 	stage.getIcons().add(new Image("Brugerflade/ico.png"));
-	//
-	//
-	//Dette skal bruges på alle vinduer
-	
-	
+
 
 	Text navn = new Text("Lortebank A/S");
 	HBox hbNavn = new HBox(10);
@@ -78,7 +72,7 @@ public class Brugermenu {
 	kontooversigtknap.setOnAction(e ->{
 		KontoOversigt kontooversigt = new KontoOversigt();
 		try {
-			kontooversigt.start(new Stage());
+			kontooversigt.start(new Stage(), bruger);
 		} catch (SQLException e1) {
 		
 			e1.printStackTrace();
@@ -98,7 +92,12 @@ public class Brugermenu {
 	kontohistorik.setId("KnapImenu");
 	kontohistorik.setOnAction(e ->{
 	KontoHistorik historikvindue = new KontoHistorik();
-	historikvindue.start(new Stage());
+	try {
+		historikvindue.start(new Stage(),bruger);
+	} catch (SQLException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
 	});
 
 	Scene scene = new Scene(grid, 400, 400);

@@ -3,15 +3,25 @@ package domain;
 import java.sql.Date;
 
 public class Kunde {
-String navn;
-String email;
-String konto;
-Date startdato;
-Date slutdato;
+	String navn;
+	String email;
+	String konto;
+	String brugernavn;
 
-	public Kunde(String navn, String email){
-		this.navn=navn;
-		this.email=email;
+	Date startdato;
+	Date slutdato;
+
+	public Kunde(String navn, String email) {
+		this.navn = navn;
+		this.email = email;
+	}
+
+	public String getBrugernavn() {
+		return brugernavn;
+	}
+
+	public void setBrugernavn(String brugernavn) {
+		this.brugernavn = brugernavn;
 	}
 
 	public String getKonto() {
@@ -21,7 +31,6 @@ Date slutdato;
 	public String getEmail() {
 		return email;
 	}
-
 
 	public void setNavn(String navn) {
 		this.navn = navn;
@@ -34,7 +43,8 @@ Date slutdato;
 	public void setKonto(String konto) {
 		this.konto = konto;
 	}
-	public String getNavn(){
+
+	public String getNavn() {
 		return navn;
 	}
 
@@ -56,7 +66,7 @@ Date slutdato;
 
 	@Override
 	public String toString() {
-		return "Kunde [navn=" + navn + ", konto=" + konto + "Oprettet: "+startdato + "]";
+		return "Kunde [navn=" + navn + ", konto=" + konto + "Oprettet: " + startdato + "brugernavn= "+brugernavn+"]";
 	}
-	
+
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import DB.DB;
 import domain.Konto;
 import domain.Kunde;
+import domain.Login;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -17,7 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import login.Login_IO;
+import utill.TableCreator;
 public class KontoOversigt {
 ObservableList<Konto> list;
 	
@@ -44,8 +45,9 @@ ObservableList<Konto> list;
 		return null;
 	}
 	
-	public void start(Stage stage)throws SQLException{
+	public void start(Stage stage, Login bruger)throws SQLException{
 		DB db = new DB();
+		TableCreator tablecreator = new TableCreator();
 		stage = new Stage();
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
@@ -55,10 +57,11 @@ ObservableList<Konto> list;
 		stage.getIcons().add(new Image("Brugerflade/ico.png"));
 
 
-		Kunde dennis = findKunde("Dennis Rosenkilde", db);
-		ObservableList<Konto> kontolist = FXCollections.observableArrayList(db.listkonti(dennis));
-		createTable(kontolist);
-		
+
+		Kunde tmpkunde = db.matchkundemedlogin(bruger.getBrugernavn());
+		ObservableList<Konto> kontolist = FXCollections.observableArrayList(db.listkonti(tmpkunde));
+		TableView kundeoversigt = tablecreator.kontotable(tmpkunde);
+		grid.add(kundeoversigt, 0, 0);
 		
 		Scene scene = new Scene(grid);
 		stage.setScene(scene);

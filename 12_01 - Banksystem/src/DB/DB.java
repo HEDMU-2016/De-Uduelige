@@ -8,8 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDate;
-import java.time.chrono.ChronoLocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,11 +55,12 @@ public class DB implements Startable {
 		start();
 		Date startdato = Date.valueOf(LocalDate.now());
 		Date slutdato = Date.valueOf(LocalDate.of(9999, 01, 01));
-		statement = connection.prepareStatement("insert into kunde(navn, startdato, slutdato, email) values (?,?,?,?)");
+		statement = connection.prepareStatement("insert into kunde(navn, startdato, slutdato, email,brugernavn) values (?,?,?,?,?)");
 		statement.setString(1, kunde.getNavn());
 		statement.setDate(2, startdato);
 		statement.setDate(3, slutdato);
 		statement.setString(4, kunde.getEmail());
+		statement.setString(5, kunde.getBrugernavn());
 		statement.execute();
 		System.out.println("Tilførte kunde: " + kunde);
 		stop();
@@ -89,6 +88,18 @@ public class DB implements Startable {
 		System.out.println("Login: " + login + "blev lagt ind i databasen");
 		stop();
 	}
+	public void addPostering(Postering postering) throws SQLException{
+		System.out.println("tilfører postering...");
+		start();
+		statement = connection.prepareStatement("insert into postering(modtager,sender,sendt,beløb) values(?,?,?,?)");
+		statement.setString(1, postering.getModtager());
+		statement.setString(2, postering.getSender());
+		statement.setDate(3, postering.getSendt());
+		statement.setDouble(4, postering.getBeløb());
+		statement.execute();
+		System.out.println("postering: "+postering+" blev lagt ind i databasen");
+		stop();
+	}
 
 	// FIND METODER:
 	public Login findLogin(String brugernavn) throws SQLException{
@@ -102,6 +113,18 @@ public class DB implements Startable {
 		}
 		System.out.println("Loginnet du prøvede at finde findes ikke.");
 		return null;
+	}
+	public Kunde matchkundemedlogin(String brugernavn)throws SQLException{
+		System.out.println("finder kunden med brugernavn: "+brugernavn);
+		List<Kunde> kundeliste = listKunder();
+		for(int i=0;i<=kundeliste.size();i++){
+			Kunde tmpkunde = kundeliste.get(i);
+			if(tmpkunde.getBrugernavn().equals(brugernavn)){
+				System.out.println("matchede "+brugernavn+" med Kunde "+tmpkunde);
+				return tmpkunde;
+			}
+		}
+	return null;
 	}
 
 	public void findKontoer() throws SQLException {
@@ -128,13 +151,12 @@ public class DB implements Startable {
 			String ejer = resultset.getString("ejer");
 			String saldo = resultset.getString("saldo");
 			String id = resultset.getString("id");
-
+		
 			System.out.println("fandt " + ejer + "s konto, med saldo: " + saldo + "og id:" + id);
 		}
 
 		stop();
 		System.out.println("Noget gik galt da jeg skulle finde " + s + "s konto");
-
 	}
 
 	public void findKunder() throws SQLException {
@@ -202,7 +224,7 @@ public class DB implements Startable {
 		return 69;
 	}
 
-	// TABLE METODER:
+	// LIST METODER:
 	public List<Postering> listPostering() throws SQLException {
 		System.out.println("Finder posteringer...");
 		List<Postering> posteringslist = new ArrayList<>();
@@ -284,14 +306,15 @@ public class DB implements Startable {
 		System.out.println("Laver en liste over alle kunder");
 		List<Kunde> kundeliste = new ArrayList<>();
 		start();
-		statement = connection.prepareStatement("Select navn, email, startdato from kunde");
+		statement = connection.prepareStatement("Select navn, email, startdato, brugernavn from kunde");
 		resultset = statement.executeQuery();
 
 		while (resultset.next()) {
 			String navn = resultset.getString("navn");
 			String email = resultset.getString("email");
-
+			String brugernavn = resultset.getString("brugernavn");
 			Kunde tmpKunde = new Kunde(navn, email);
+			tmpKunde.setBrugernavn(brugernavn);
 			kundeliste.add(tmpKunde);
 
 			System.out.println("tilføjede " + tmpKunde.toString() + " Til listen");
@@ -412,6 +435,9 @@ public class DB implements Startable {
 		statement.setDouble(1, nyesaldo);
 		statement.setString(2, sender);
 		statement.execute();
+		Date dato = Date.valueOf(LocalDateTime.now().toLocalDate());
+		Postering postering = new Postering(sender, modtager,dato , beløb);
+		addPostering(postering);
 		stop();
 
 	}
@@ -444,7 +470,7 @@ public class DB implements Startable {
 		statement.setInt(5, id);
 		statement.execute();
 		if(id==1){
-			System.out.println("oprettede daglige overførsel på "+beløb+"kr fra "+sender+" til "+modtager+" med startdato: "+slutdato);
+			System.out.println("oprettede daglig overførsel på "+beløb+"kr fra "+sender+" til "+modtager+" med startdato: "+slutdato);
 		}
 		if(id==2){
 			System.out.println("oprettede ugentlig overførsel på "+beløb+"kr fra "+sender+" til "+modtager+" med startdato: "+slutdato);			
@@ -508,13 +534,16 @@ public class DB implements Startable {
 			Long nu = System.currentTimeMillis();
 			Long lastnuplusdag = getTimer();
 			if(nu>lastnuplusdag){
-				nu =nu+3600000;
-				nu =nu*24;
+				nu =nu+(3600000*24);
 				setTimer(nu);
 				System.out.println("Holy shit, Der er gået en dag! Jeg skal lige updatere nogen kontoer, brb");
 				updatefasteoverførsler();
 			}
-			else System.out.println("Der er stadigvæk ikke gået en dag");
+			
+			else {
+			Long tidtilbage = lastnuplusdag-nu;
+			System.out.println("Der er "+tidtilbage+"ms indtil der er gået en dag");
+			}
 		}
 		public void setTimer(Long timer) throws SQLException{
 		String tmptimer=timer.toString();
@@ -534,17 +563,7 @@ public class DB implements Startable {
 			return null;
 		
 		}
-//		public void addTimer(Long timer) throws SQLException{
-//			String tmptimer = timer.toString();
-//			start();
-//			statement=connection.prepareStatement("insert into timer (timer,id) values(?,?)");
-//			statement.setString(1, tmptimer);
-//			statement.setInt(2, 1);
-//			statement.execute();
-//			stop();
-//			System.out.println("did it");
-//		}
-		
+
 		
 	@Override
 	public void stop() {

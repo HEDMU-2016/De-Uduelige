@@ -20,6 +20,9 @@ ID int identity,
 startdato date,
 slutdato date
 )
+alter table kunde add brugernavn varchar(255)
+update kunde set brugernavn='dit brugernavn' where navn='jeres navn'
+
 create table fastoverførsel
 (
 slutdato Date,
