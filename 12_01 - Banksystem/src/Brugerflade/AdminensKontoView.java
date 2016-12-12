@@ -65,7 +65,7 @@ public class AdminensKontoView {
 			opret.setId("opret");
 			opret.setOnAction(e->{
 			try {
-				db.addKonto(new Konto(db.matchkundemedlogin(ejerfelt.getText()), BigDecimal.valueOf(Double.parseDouble(saldofelt.getText()))));
+				db.addKonto(ejerfelt.getText(), BigDecimal.valueOf(Double.parseDouble(saldofelt.getText())));
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}	

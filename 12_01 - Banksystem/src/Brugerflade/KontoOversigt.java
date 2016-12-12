@@ -54,7 +54,6 @@ ObservableList<Konto> list;
 	public void start(Stage stage, Login bruger)throws SQLException{
 		DB db = new DB();
 		TableCreator tablecreator = new TableCreator();
-		stage = new Stage();
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
 		grid.setHgap(10);
@@ -62,9 +61,17 @@ ObservableList<Konto> list;
 		stage.setTitle("Konto historik - Lortebank A/S");
 		stage.getIcons().add(new Image("Brugerflade/ico.png"));
 
+		Button close = new Button("X");
+		close.setId("close");
+		grid.add(close, 0,0);
 		
+		close.setOnAction(e -> {
+		stage.close();
+		});
 		
 		Kunde tmpkunde = db.matchkundemedlogin(bruger.getBrugernavn());
+		
+		
 		TableView<Konto> kundeoversigt = tablecreator.kontotable(tmpkunde);
 		grid.add(kundeoversigt, 0, 0);
 		

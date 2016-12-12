@@ -6,7 +6,7 @@ import logic.Logic;
 
 public class Konto {
 	protected Kunde ejer;
-	protected int kontonummer;
+	protected int kontoid;
 	protected BigDecimal saldo;
 	private Logic logic;
 	
@@ -32,8 +32,8 @@ public class Konto {
 		this.ejer = ejer;
 	}
 
-	public void setKontonummer(int kontonummer) {
-		this.kontonummer = kontonummer;
+	public void setKontonummer(int kontoid) {
+		this.kontoid = kontoid;
 	}
 
 	public void setSaldo(BigDecimal saldo) {
@@ -41,7 +41,7 @@ public class Konto {
 	}
 
 	public int getKontonummer(){
-		return kontonummer;
+		return kontoid;
 	}
 	public BigDecimal getSaldo(){
 		return saldo;
@@ -49,6 +49,6 @@ public class Konto {
 
 	@Override
 	public String toString() {
-		return "Konto: [ejer=" + ejer + ", kontonummer=" + kontonummer + ", saldo=" + saldo + "]";
+		return "Konto: "+kontoid;
 	}
 }

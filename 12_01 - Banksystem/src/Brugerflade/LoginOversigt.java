@@ -75,6 +75,7 @@ public class LoginOversigt {
 		
 		
 		ObservableList<String> options = FXCollections.observableArrayList("admin","kunde");
+		
 		final ComboBox idfeltoptions = new ComboBox(options);
 		HBox hbidfelt = new HBox();
 		hbidfelt.getChildren().add(idfeltoptions);
@@ -88,12 +89,18 @@ public class LoginOversigt {
 		opret.setId("opret");
 		opret.setOnAction(e->{
 		try {
-			if(idfeltoptions.getPromptText().equals("admin")){
+			if(idfeltoptions.getValue().equals("admins")){
 			db.addLogin(new AdminLogin(brugernavnfelt.getText(), passwordfelt.getText()));
 			}
-			if(idfeltoptions.getPromptText().equals("kunde")){
-				db.addLogin(new NormaltLogin(brugernavnfelt.getText(), passwordfelt.getText()));
+			if(idfeltoptions.getValue().equals("kunde")){
+			Login tmplogin = new NormaltLogin(brugernavnfelt.getText(), passwordfelt.getText());
+			db.addLogin(tmplogin);
 				}
+			if(idfeltoptions.getPromptText().equals(null)){
+			System.out.println("jeg registrede ikke noget id");
+			}
+			else System.out.println(idfeltoptions.getPromptText());
+		
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}	

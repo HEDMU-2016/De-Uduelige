@@ -40,28 +40,7 @@ public class TableCreator {
 		return kundeoversigt;
 	}
 
-	public TableView<Konto> kontotable(Kunde kunde) throws SQLException {
-		TableView<Konto> kontooversigt = new TableView<Konto>();
-		List<Konto> kontolist = db.listkonti(kunde);
-		for(int i=1;i<kontolist.size();i++){
-		
-		ObservableList<Konto> kontotabel;
-		kontotabel = FXCollections.observableArrayList(kontolist.get(i));
 
-		TableColumn<Konto, String> ejerCol = new TableColumn<Konto, String>("Ejer ");
-		ejerCol.setCellValueFactory(new PropertyValueFactory<Konto, String>("ejer"));
-
-		TableColumn<Konto, Integer> kontoCol = new TableColumn<Konto, Integer>("KontoID ");
-		kontoCol.setCellValueFactory(new PropertyValueFactory<Konto, Integer>("kontoid"));
-
-		TableColumn<Konto, Double> saldoCol = new TableColumn<Konto, Double>("Saldo ");
-		saldoCol.setCellValueFactory(new PropertyValueFactory<Konto, Double>("saldo"));
-
-		kontooversigt.setItems(kontotabel);
-		kontooversigt.getColumns().addAll(ejerCol, kontoCol, saldoCol);
-		}
-		return kontooversigt;
-	}
 
 	public TableView<Login> logintable() throws SQLException {
 		ObservableList<Login> logintabel;
@@ -82,6 +61,29 @@ public class TableCreator {
 		loginoversigt.getColumns().addAll(bnCol, pwCol, idCol);
 		return loginoversigt;
 	}
+	public TableView<Konto> kontotable(Kunde kunde) throws SQLException {
+		TableView<Konto> kontooversigt = new TableView<Konto>();
+		List<Konto> kontolist = db.listkonti(kunde);
+
+			ObservableList<Konto> kontotabel;
+			kontotabel = FXCollections.observableArrayList(kontolist);
+
+			TableColumn<Konto, String> ejerCol = new TableColumn<Konto, String>("Ejer ");
+			ejerCol.setCellValueFactory(new PropertyValueFactory<Konto, String>("ejer"));
+
+			TableColumn<Konto, Integer> kontoCol = new TableColumn<Konto, Integer>("KontoID ");
+			kontoCol.setCellValueFactory(new PropertyValueFactory<Konto, Integer>("kontoid"));
+
+			TableColumn<Konto, Double> saldoCol = new TableColumn<Konto, Double>("Saldo ");
+			saldoCol.setCellValueFactory(new PropertyValueFactory<Konto, Double>("saldo"));
+
+			kontooversigt.setItems(kontotabel);
+			kontooversigt.getColumns().addAll(ejerCol, kontoCol, saldoCol);
+			
+			return kontooversigt;
+			
+	}
+	
 
 	public TableView<Konto> kontotable() throws SQLException {
 		ObservableList<Konto> kontotabel;
@@ -103,7 +105,7 @@ public class TableCreator {
 		return kontooversigt;
 	}
 
-	public TableView<Postering> posteringtable() throws SQLException {
+	public TableView<Postering> posteringstable(Konto konto) throws SQLException {
 		ObservableList<Postering> posteringstable;
 		posteringstable = FXCollections.observableArrayList(db.listPostering());
 
@@ -132,30 +134,12 @@ public class TableCreator {
 		List<Konto> kontolist =db.listkonti(kunde);
 		TableView<Postering> posteringsoversigt = new TableView<Postering>();
 
-		for(int i=1; i<kontolist.size();i++){
-		posteringstable = FXCollections.observableArrayList(
-			
-				db.listPostering(kontolist.get(i))
-			);
-		
-		TableColumn<Postering, String> senderCol = new TableColumn<Postering, String>("Sender ");
-		senderCol.setCellValueFactory(new PropertyValueFactory<Postering, String>("sender"));
-
-		TableColumn<Postering, String> modtagerCol = new TableColumn<Postering, String>("Modtager ");
-		modtagerCol.setCellValueFactory(new PropertyValueFactory<Postering, String>("modtager"));
-
-		TableColumn<Postering, Date> sendtCol = new TableColumn<Postering, Date>("Sendt ");
-		sendtCol.setCellValueFactory(new PropertyValueFactory<Postering, Date>("sendt"));
-
-		TableColumn<Postering, Double> beløbCol = new TableColumn<Postering, Double>("Beløb ");
-		beløbCol.setCellValueFactory(new PropertyValueFactory<Postering, Double>("beløb"));
-
-		posteringsoversigt.setItems(posteringstable);
-		posteringsoversigt.getColumns().addAll(senderCol, modtagerCol, sendtCol, beløbCol);
+		for(int i=0; i<kontolist.size();i++){
+		posteringsoversigt = posteringstable(kontolist.get(i));
 		
 		}
-	return posteringsoversigt;
-	}
+		return posteringsoversigt;
+		}
 
 	public TableView<Kontakt> Kontakttable(Login bruger) throws SQLException {
 		Kunde tmpkunde = db.matchkundemedlogin(bruger.getBrugernavn());
@@ -168,13 +152,12 @@ public class TableCreator {
 
 		TableColumn<Kontakt, Long> kontonrCol = new TableColumn<Kontakt, Long>("Kontonr ");
 		kontonrCol.setCellValueFactory(new PropertyValueFactory<Kontakt, Long>("kontonr"));
-		
+
 		kontaktoversigt.setItems(kontakttable);
-		kontaktoversigt.getColumns().addAll(navnCol,kontonrCol);
+		kontaktoversigt.getColumns().addAll(navnCol, kontonrCol);
 
 		return kontaktoversigt;
 
 	}
-
 
 }

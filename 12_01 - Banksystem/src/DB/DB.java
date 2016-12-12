@@ -41,10 +41,14 @@ public class DB implements Startable {
 	}
 
 	// INDSÆT METODER:
-	public void addKontakt (Kontakt kontakt, String ejer) throws SQLException{ //ejer ligger sig til brugernavn
-		System.out.println("tilførert kontakt: "+kontakt);
+	public void addKontakt(Kontakt kontakt, String ejer) throws SQLException { // ejer
+																				// ligger
+																				// sig
+																				// til
+																				// brugernavn
+		System.out.println("tilførert kontakt: " + kontakt);
 		start();
-		statement =  connection.prepareStatement("insert into kontakt (navn, kontonr, ejer) values(?,?,?)");
+		statement = connection.prepareStatement("insert into kontakt (navn, kontonr, ejer) values(?,?,?)");
 		statement.setString(1, kontakt.getKontakt());
 		statement.setInt(2, kontakt.getKontonr());
 		statement.setString(3, ejer);
@@ -52,6 +56,7 @@ public class DB implements Startable {
 		System.out.println("done");
 		stop();
 	}
+
 	public void addKonto(String ejer, Double saldo) throws SQLException {
 		System.out.println("tilfører konto...");
 		start();
@@ -68,7 +73,8 @@ public class DB implements Startable {
 		start();
 		Date startdato = Date.valueOf(LocalDate.now());
 		Date slutdato = Date.valueOf(LocalDate.of(9999, 01, 01));
-		statement = connection.prepareStatement("insert into kunde(navn, startdato, slutdato, email,brugernavn) values (?,?,?,?,?)");
+		statement = connection
+				.prepareStatement("insert into kunde(navn, startdato, slutdato, email,brugernavn) values (?,?,?,?,?)");
 		statement.setString(1, kunde.getNavn());
 		statement.setDate(2, startdato);
 		statement.setDate(3, slutdato);
@@ -79,14 +85,14 @@ public class DB implements Startable {
 		stop();
 	}
 
-	public void addKonto(Konto konto) throws SQLException {
+	public void addKonto(String ejer, BigDecimal saldo) throws SQLException {
 		System.out.println("tilfører konto...");
 		start();
 		statement = connection.prepareStatement("insert into konto(ejer,saldo)values(?,?)");
-		statement.setString(1, konto.getEjer().getNavn());
-		statement.setDouble(2, konto.getSaldo().doubleValue());
+		statement.setString(1, ejer);
+		statement.setDouble(2, saldo.doubleValue());
 		statement.execute();
-		System.out.println("konto: " + konto + "blev lagt ind i databasen");
+		System.out.println("konto med ejer " + ejer + "blev lagt ind i databasen");
 		stop();
 	}
 
@@ -101,55 +107,58 @@ public class DB implements Startable {
 		System.out.println("Login: " + login + "blev lagt ind i databasen");
 		stop();
 	}
-	public void addPostering(Postering postering) throws SQLException{
+
+	public void addPostering(Postering postering) throws SQLException {
 		System.out.println("tilfører postering...");
 		start();
 		statement = connection.prepareStatement("insert into postering(modtager,sender,sendt,beløb) values(?,?,?,?)");
-		statement.setInt (1, postering.getModtager());
+		statement.setInt(1, postering.getModtager());
 		statement.setInt(2, postering.getSender());
 		statement.setDate(3, postering.getSendt());
 		statement.setDouble(4, postering.getBeløb().doubleValue());
 		statement.execute();
-		System.out.println("postering: "+postering+" blev lagt ind i databasen");
+		System.out.println("postering: " + postering + " blev lagt ind i databasen");
 		stop();
 	}
 
 	// FIND METODER:
-	public Login findLogin(String brugernavn) throws SQLException{
-	System.out.println("Finder loginnet med brugernavn: "+ brugernavn);
-	List<Login> loginlist = listLogins();
-	for(int i=0; i<=loginlist.size();i++){
-		Login tmplogin = loginlist.get(i);
-		if(tmplogin.getBrugernavn().equals(brugernavn)){
-			return tmplogin;
+	public Login findLogin(String brugernavn) throws SQLException {
+		System.out.println("Finder loginnet med brugernavn: " + brugernavn);
+		List<Login> loginlist = listLogins();
+		for (int i = 0; i <= loginlist.size(); i++) {
+			Login tmplogin = loginlist.get(i);
+			if (tmplogin.getBrugernavn().equals(brugernavn)) {
+				return tmplogin;
 			}
 		}
 		System.out.println("Loginnet du prøvede at finde findes ikke.");
 		return null;
 	}
-	public Kunde matchkundemedlogin(Login bruger)throws SQLException{
-		System.out.println("finder kunden med brugernavn: "+bruger);
+
+	public Kunde matchkundemedlogin(Login bruger) throws SQLException {
+		System.out.println("finder kunden med brugernavn: " + bruger);
 		List<Kunde> kundeliste = listKunder();
-		for(int i=1;i<=kundeliste.size();i++){
+		for (int i = 0; i < kundeliste.size(); i++) {
 			Kunde tmpkunde = kundeliste.get(i);
-			if(tmpkunde.getBrugernavn().equals(bruger)){
-				System.out.println("matchede "+bruger+" med Kunde "+tmpkunde);
+			if (tmpkunde.getBrugernavn().equals(bruger)) {
+				System.out.println("matchede " + bruger + " med Kunde " + tmpkunde);
 				return tmpkunde;
 			}
 		}
-	return null;
+		return null;
 	}
-	public Kunde matchkundemedlogin(String brugernavn)throws SQLException{
-		System.out.println("finder kunden med brugernavn: "+brugernavn);
+
+	public Kunde matchkundemedlogin(String brugernavn) throws SQLException {
+		System.out.println("finder kunden med brugernavn: " + brugernavn);
 		List<Kunde> kundeliste = listKunder();
-		for(int i=0;i<=kundeliste.size();i++){
+		for (int i = 0; i < kundeliste.size(); i++) {
 			Kunde tmpkunde = kundeliste.get(i);
-			if(tmpkunde.getBrugernavn().equals(brugernavn)){
-				System.out.println("matchede "+brugernavn+" med Kunde "+tmpkunde);
+			if (tmpkunde.getBrugernavn().equals(brugernavn)) {
+				System.out.println("matchede " + brugernavn + " med Kunde " + tmpkunde);
 				return tmpkunde;
 			}
 		}
-	return null;
+		return null;
 	}
 
 	public void findKontoer() throws SQLException {
@@ -170,15 +179,15 @@ public class DB implements Startable {
 		System.out.println("Leder efter kontoen med id: " + kontoid);
 		start();
 		statement = connection.prepareStatement("Select ejer,saldo,kontoid from konto WHERE kontoid= ?");
-		statement.setInt(1,kontoid);
+		statement.setInt(1, kontoid);
 		resultset = statement.executeQuery();
 		while (resultset.next()) {
 			String ejer = resultset.getString("ejer");
 			double saldo = resultset.getDouble("saldo");
 			String id = resultset.getString("id");
 			BigDecimal saldoasBD = BigDecimal.valueOf(saldo);
-			Konto tmpkonto = new Konto(findKunde(ejer),saldoasBD);
-			System.out.println("fandt " + ejer + "s konto, med saldo: " + saldo + "og id:" + id);	
+			Konto tmpkonto = new Konto(findKunde(ejer), saldoasBD);
+			System.out.println("fandt " + ejer + "s konto, med saldo: " + saldo + "og id:" + id);
 			return tmpkonto;
 		}
 
@@ -210,15 +219,15 @@ public class DB implements Startable {
 		while (resultset.next()) {
 			String stmp = resultset.getString("navn");
 			String email = resultset.getString("email");
-			String brugernavn=resultset.getString("brugernavn");
-			Kunde tmpkunde = new Kunde(stmp,email,brugernavn);
+			String brugernavn = resultset.getString("brugernavn");
+			Kunde tmpkunde = new Kunde(stmp, email, brugernavn);
 			System.out.println("Fandt: " + stmp);
 			stop();
 			return tmpkunde;
-			
+
 		}
 		return null;
-		
+
 	}
 
 	public Kunde mailtoKunde(String email) throws SQLException {
@@ -229,8 +238,8 @@ public class DB implements Startable {
 		resultset = statement.executeQuery();
 		while (resultset.next()) {
 			String navn = resultset.getString("navn");
-			String  brugernavn = resultset.getString("brugernavn");
-			Kunde tmpkunde = new Kunde(navn, email,brugernavn);
+			String brugernavn = resultset.getString("brugernavn");
+			Kunde tmpkunde = new Kunde(navn, email, brugernavn);
 			System.out.println("Fandt: " + tmpkunde);
 			return tmpkunde;
 		}
@@ -259,38 +268,39 @@ public class DB implements Startable {
 	}
 
 	// LIST METODER:
-	public List<Kontakt> listkontakter(Kunde ejer) throws SQLException{
+	public List<Kontakt> listkontakter(Kunde ejer) throws SQLException {
 		System.out.println("lister kontakter...");
 		List<Kontakt> kontaktlist = new ArrayList<>();
 		start();
 		statement = connection.prepareStatement("select navn, kontonr, ejer from kontakt where ejer like ?");
 		statement.setString(1, ejer.getBrugernavn());
 		resultset = statement.executeQuery();
-		while(resultset.next()){
+		while (resultset.next()) {
 			String navn = resultset.getString("navn");
 			int kontonr = resultset.getInt("kontonr");
-			Kontakt tmpkontakt = new Kontakt(navn,kontonr);
+			Kontakt tmpkontakt = new Kontakt(navn, kontonr);
 			kontaktlist.add(tmpkontakt);
-			System.out.println("tilføjede "+tmpkontakt+" til listen");
-			
+			System.out.println("tilføjede " + tmpkontakt + " til listen");
+
 		}
 		System.out.println("done");
 		return kontaktlist;
 	}
+
 	public List<Postering> listPostering() throws SQLException {
 		System.out.println("Finder posteringer...");
 		List<Postering> posteringslist = new ArrayList<>();
 		start();
 		statement = connection.prepareStatement("select sender, modtager, sendt, beløb from postering");
 		resultset = statement.executeQuery();
-		
+
 		while (resultset.next()) {
 			int senderkontonr = resultset.getInt("sender");
 			int modtagerskontonr = resultset.getInt("modtager");
 			Date startdato = resultset.getDate("sendt");
 			double beløb = resultset.getDouble("beløb");
-			BigDecimal beløbinBD = BigDecimal.valueOf(beløb);	
-			
+			BigDecimal beløbinBD = BigDecimal.valueOf(beløb);
+
 			Postering tmppostering = new Postering(senderkontonr, modtagerskontonr, startdato, beløbinBD);
 			posteringslist.add(tmppostering);
 		}
@@ -301,7 +311,8 @@ public class DB implements Startable {
 		System.out.println("Finder posteringer...");
 		List<Postering> posteringslist = new ArrayList<>();
 		start();
-		statement = connection.prepareStatement("select sender, modtager, sendt, beløb from postering where sender like ?");
+		statement = connection
+				.prepareStatement("select sender, modtager, sendt, beløb from postering where sender like ?");
 		statement.setString(1, konto.getEjer().getNavn());
 		resultset = statement.executeQuery();
 		while (resultset.next()) {
@@ -329,7 +340,7 @@ public class DB implements Startable {
 			int kontonummer = resultset.getInt("kontoid");
 			double saldo = resultset.getDouble("saldo");
 			BigDecimal saldoinBD = BigDecimal.valueOf(saldo);
-			
+
 			Konto tmpKonto = new Konto(ejer, saldoinBD);
 			tmpKonto.setKontonummer(kontonummer);
 			kontolist.add(tmpKonto);
@@ -344,16 +355,18 @@ public class DB implements Startable {
 		start();
 
 		List<Kunde> kundeliste = listKunder();
-		for (int i = 0; i <= kundeliste.size(); i++) {
+		
+		for (int i = 0; i < kundeliste.size();i++) {
 			Kunde tmpkunde = kundeliste.get(i);
 			List<Konto> tmpList = listkonti(tmpkunde);
-
-			for (int j = 0; i <= tmpList.size(); i++) {
+			 
+			for (int j = 0; j < tmpList.size(); j++) {
 				Konto tmpKonto = tmpList.get(j);
-
 				kontolist.add(tmpKonto);
-				System.out.println("tilføjede : "+tmpkunde.toString()+" til listen");
+				
+				System.out.println("tilføjede : " + tmpkunde.toString() + "s "+tmpKonto+" til listen");
 			}
+			
 		}
 		System.out.println("Done!");
 		return kontolist;
@@ -366,14 +379,17 @@ public class DB implements Startable {
 		statement = connection.prepareStatement("Select navn, email, startdato, brugernavn from kunde");
 		resultset = statement.executeQuery();
 
+		for(int i=0;i<= kundeliste.size();i++){
+		
 		while (resultset.next()) {
 			String navn = resultset.getString("navn");
 			String email = resultset.getString("email");
 			String brugernavn = resultset.getString("brugernavn");
-			Kunde tmpKunde = new Kunde(navn, email,brugernavn);
+			Kunde tmpKunde = new Kunde(navn, email, brugernavn);
 			kundeliste.add(tmpKunde);
 
 			System.out.println("tilføjede " + tmpKunde.toString() + " Til listen");
+		}
 		}
 		return kundeliste;
 	}
@@ -398,7 +414,7 @@ public class DB implements Startable {
 				Login login2 = new NormaltLogin(brugernavn, adgangskode);
 				logintable.add(login2);
 				System.out
-						.println("Tilføjede Login med Brugernavn: " + brugernavn + "\n og adgangskode: " + adgangskode);
+						.println("Tilføjede Login med Brugernavn: " + brugernavn + "\n og adgangskode: " + adgangskode+"til listen");
 			}
 		}
 		return logintable;
@@ -442,7 +458,6 @@ public class DB implements Startable {
 		return false;
 	}
 
-
 	public void findLogin() throws SQLException {
 		System.out.println("finder logins");
 		start();
@@ -476,78 +491,88 @@ public class DB implements Startable {
 
 	}
 
-	public void transfer(int modtagerskontoid, int senderskontoid, BigDecimal beløb) throws SQLException {
-		System.out.println("Overfører " + beløb + "kr til konto med id" + modtagerskontoid + " fra konto med id " + senderskontoid);
+	public void transfer(int senderskontoid, int modtagerskontoid, BigDecimal beløb) throws SQLException {
+		PreparedStatement statement2;
 		logic = new Logic();
 		Date dato = Date.valueOf(LocalDateTime.now().toLocalDate());
-		
-		start();
-		statement = connection.prepareStatement("UPDATE konto SET saldo=? WHERE kontoid=?");
 		BigDecimal nyesaldo = logic.add((BigDecimal.valueOf(getSaldo(modtagerskontoid))), beløb);
 		
-		System.out.println("tilførte " + beløb + " til konto med id " + modtagerskontoid + "s konto");
+		System.out.println("forsøger at Overføre " + beløb + "kr til konto med id" + modtagerskontoid + " fra konto med id "
+				+ senderskontoid);
+		start();
+		statement = connection.prepareStatement("UPDATE konto SET saldo=? WHERE kontoid=?");
 		statement.setDouble(1, nyesaldo.doubleValue());
 		statement.setInt(2, modtagerskontoid);
 		statement.execute();
-		addPostering(new Postering(modtagerskontoid,senderskontoid,dato, beløb));
-		nyesaldo = logic.subtract((BigDecimal.valueOf(getSaldo(modtagerskontoid))), beløb);
-		System.out.println("træk " + beløb + " fra konto med id " + senderskontoid + "s konto");
-		statement.setDouble(1, nyesaldo.doubleValue());
-		statement.setInt(2, senderskontoid);
-		statement.execute();
+		System.out.println("tilførte " + beløb + " til konto med id " + modtagerskontoid + "s konto");
 		
+		nyesaldo = logic.subtract((BigDecimal.valueOf(getSaldo(senderskontoid))), beløb);
+		System.out.println("træk " + beløb + " fra konto med id " + senderskontoid + " konto");
+		
+		statement2 = connection.prepareStatement("UPDATE konto SET saldo=? WHERE kontoid=?");
+		statement2.setDouble(1, nyesaldo.doubleValue());
+		statement2.setInt(2, senderskontoid);
+		statement2.execute();
 		BigDecimal inversemultiplicand = BigDecimal.valueOf(-1);
 		beløb.multiply(inversemultiplicand);
 		
-		Postering postering = new Postering(senderskontoid, modtagerskontoid,dato , beløb);
-		addPostering(postering);
+		Postering senderenspostering = new Postering(modtagerskontoid, senderskontoid, dato, beløb);
+		Postering modtagerenspostering = new Postering(senderskontoid, modtagerskontoid, dato, beløb);
+		
+		addPostering(senderenspostering);
+		addPostering(modtagerenspostering);
+		
 		stop();
 
 	}
 
-	
-	
 	public Double getSaldo(int kontoid) throws SQLException {
 		System.out.println("finder saldoen på konto med id " + kontoid);
-		
+
 		start();
 		statement = connection.prepareStatement("Select saldo, ejer from konto WHERE kontoid=?");
 		statement.setInt(1, kontoid);
 		resultset = statement.executeQuery();
-		
+
 		while (resultset.next()) {
 			Double saldo = resultset.getDouble("saldo");
+			System.out.println("fandt saldoen "+saldo+"på kontoid: "+kontoid);
 			return saldo;
-			}
+		}
 
-		
 		System.out.println("no saldo was found");
 		stop();
 		return null;
 	}
-	public void fastoverførsel(Date slutdato, String sender, String modtager,double beløb, int id) throws SQLException{
+
+	public void fastoverførsel(Date slutdato, String sender, String modtager, double beløb, int id)
+			throws SQLException {
 		start();
 		System.out.println("Tilfører fast overførsel");
-		statement= connection.prepareStatement("insert into fastoverførsel (sender,modtager,beløb,slutdato,id) values "
-				+ "values(?,?,?,?,?)");
+		statement = connection.prepareStatement(
+				"insert into fastoverførsel (sender,modtager,beløb,slutdato,id) values " + "values(?,?,?,?,?)");
 		statement.setString(1, sender);
 		statement.setString(2, modtager);
 		statement.setDouble(3, beløb);
 		statement.setDate(4, slutdato);
 		statement.setInt(5, id);
 		statement.execute();
-		if(id==1){
-			System.out.println("oprettede daglig overførsel på "+beløb+"kr fra "+sender+" til "+modtager+" med startdato: "+slutdato);
+		if (id == 1) {
+			System.out.println("oprettede daglig overførsel på " + beløb + "kr fra " + sender + " til " + modtager
+					+ " med startdato: " + slutdato);
 		}
-		if(id==2){
-			System.out.println("oprettede ugentlig overførsel på "+beløb+"kr fra "+sender+" til "+modtager+" med startdato: "+slutdato);			
+		if (id == 2) {
+			System.out.println("oprettede ugentlig overførsel på " + beløb + "kr fra " + sender + " til " + modtager
+					+ " med startdato: " + slutdato);
 		}
-		if(id==3){
-			System.out.println("oprettede månedlig overførsel på "+beløb+"kr fra "+sender+" til "+modtager+" med startdato: "+slutdato);
-			
+		if (id == 3) {
+			System.out.println("oprettede månedlig overførsel på " + beløb + "kr fra " + sender + " til " + modtager
+					+ " med startdato: " + slutdato);
+
 		}
-		if(id==4){
-			System.out.println("oprettede årlig overførsel på "+beløb+"kr fra "+sender+" til "+modtager+" med startdato: "+slutdato);		
+		if (id == 4) {
+			System.out.println("oprettede årlig overførsel på " + beløb + "kr fra " + sender + " til " + modtager
+					+ " med startdato: " + slutdato);
 		}
 	}
 
@@ -572,24 +597,24 @@ public class DB implements Startable {
 
 				if (nu.isAfter(slutdatoliste.get(i)) == true) {
 					db.transfer(modtager, sender, beløbinBD);
-					if(id==1){
-					slutdatoliste.get(i).plusDays(1);
-					transfer(modtager,sender,beløbinBD);
-					
+					if (id == 1) {
+						slutdatoliste.get(i).plusDays(1);
+						transfer(modtager, sender, beløbinBD);
+
 					}
-					if(id==2){
-					slutdatoliste.get(i).plusWeeks(1);
-					transfer(modtager,sender,beløbinBD);
-					
+					if (id == 2) {
+						slutdatoliste.get(i).plusWeeks(1);
+						transfer(modtager, sender, beløbinBD);
+
 					}
-					if(id==3){
-					slutdatoliste.get(i).plusMonths(1);
-					transfer(modtager,sender,beløbinBD);
-					
+					if (id == 3) {
+						slutdatoliste.get(i).plusMonths(1);
+						transfer(modtager, sender, beløbinBD);
+
 					}
-					if(id==4){
-					slutdatoliste.get(i).plusYears(1);	
-					transfer(modtager,sender,beløbinBD);
+					if (id == 4) {
+						slutdatoliste.get(i).plusYears(1);
+						transfer(modtager, sender, beløbinBD);
 					}
 				}
 				System.out.println("Done!");
@@ -597,46 +622,46 @@ public class DB implements Startable {
 		}
 	}
 
-
-		private void checkifdayhaspassed() throws SQLException{
-			Long nu = System.currentTimeMillis();
-			Long lastnuplusdag = getTimer();
-			if(nu>lastnuplusdag){
-				nu =nu+(3600000*24);
-				setTimer(nu);
-				System.out.println("Holy shit, Der er gået en dag! Jeg skal lige updatere nogen kontoer, brb");
-				updatefasteoverførsler();
-			}
-			
-			else {
-			Long tidtilbage = lastnuplusdag-nu;
-			double timertilbage=tidtilbage/(3600000*24);
-			
-			long minuttertilbage=-(long)timertilbage;
-			System.out.println("Der er "+tidtilbage+"ms indtil der er gået en dag");
-			}
-		
+	private void checkifdayhaspassed() throws SQLException {
+		Long nu = System.currentTimeMillis();
+		Long lastnuplusdag = getTimer();
+		if (nu > lastnuplusdag) {
+			nu = nu + (3600000 * 24);
+			setTimer(nu);
+			System.out.println("Holy shit, Der er gået en dag! Jeg skal lige updatere nogen kontoer, brb");
+			updatefasteoverførsler();
 		}
-		public void setTimer(Long timer) throws SQLException{
-		String tmptimer=timer.toString();
+
+		else {
+			Long tidtilbage = lastnuplusdag - nu;
+			double timertilbage = tidtilbage / (3600000 * 24);
+
+			long minuttertilbage = -(long) timertilbage;
+			System.out.println("Der er " + tidtilbage + "ms indtil der er gået en dag");
+		}
+
+	}
+
+	public void setTimer(Long timer) throws SQLException {
+		String tmptimer = timer.toString();
 		statement = connection.prepareStatement("update timer set tid=? where id=?");
 		statement.setString(1, tmptimer);
 		statement.setInt(2, 1);
 		statement.execute();
-		}
-		public Long getTimer() throws SQLException{
-			statement = connection.prepareStatement("select tid, id from timer");
-			resultset = statement.executeQuery();
-				while(resultset.next()){
-				String tmptimer = resultset.getString("tid");
-				Long timer = Long.parseLong(tmptimer);
-				return timer;
-				}
-			return null;
-		
-		}
+	}
 
-		
+	public Long getTimer() throws SQLException {
+		statement = connection.prepareStatement("select tid, id from timer");
+		resultset = statement.executeQuery();
+		while (resultset.next()) {
+			String tmptimer = resultset.getString("tid");
+			Long timer = Long.parseLong(tmptimer);
+			return timer;
+		}
+		return null;
+
+	}
+
 	@Override
 	public void stop() {
 		try {

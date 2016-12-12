@@ -69,7 +69,7 @@ public class OverførselsStage{
 		grid.add(beløb, 0, 1);
 
 		TextField beløbfelt = new TextField();
-		beløbfelt.setTextFormatter(new TextFormatter<>(new NumberStringConverter()));
+//		beløbfelt.setTextFormatter(new TextFormatter<>(new NumberStringConverter()));
 		grid.add(beløbfelt, 1, 1);
 
 		Label frakonto = new Label("fra kontonr: ");
@@ -78,17 +78,17 @@ public class OverførselsStage{
 
 		
 		
-		ObservableList<String> Kundekontoer = FXCollections.observableArrayList("konto 1","konto 2", "konto 3");
-		
-		
-		final ComboBox senderfelt = new ComboBox(Kundekontoer);
-		HBox hbSendefelt = new HBox();
-		hbSendefelt.getChildren().add(senderfelt);
-		senderfelt.setPrefWidth(175);
-		grid.add(hbSendefelt, 1, 2);
+//		ObservableList<String> Kundekontoer = FXCollections.observableArrayList(db.listkonti(db.matchkundemedlogin(bruger)).toString());
+//		
+//		
+//		final ComboBox senderfelt = new ComboBox(Kundekontoer);
+//		HBox hbSendefelt = new HBox();
+//		hbSendefelt.getChildren().add(senderfelt);
+//		senderfelt.setPrefWidth(175);
+//		grid.add(hbSendefelt, 1, 2);
 
-//		TextField senderfelt = new TextField();
-//		grid.add(senderfelt, 1, 2);
+		TextField senderfelt = new TextField();
+		grid.add(senderfelt, 1, 2);
 
 		Label tilKonto = new Label("til kontonr: ");
 		tilKonto.setId("labelting");
@@ -148,12 +148,16 @@ public class OverførselsStage{
 			fejl.setFill(Color.RED);
 			fejl.setText("Overførsel fejlede (tror jeg?)");
 			
+			
+			
 			try {
-			db.transfer(Integer.parseInt(modtagerfelt.getText()),
-				Integer.parseInt(senderfelt.getPromptText()),
+				System.out.println("modtagerfelt:"+modtagerfelt.getText());
+				System.out.println("senderfelt:"+senderfelt.getText());
+				System.out.println("beløbfelt:"+beløbfelt.getText());
+				
+				db.transfer(Integer.parseInt(modtagerfelt.getText()),
+				Integer.parseInt(senderfelt.getText()),
 				BigDecimal.valueOf(Double.parseDouble(beløbfelt.getText())));
-			} catch (NumberFormatException e1) {
-				e1.printStackTrace();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
