@@ -613,7 +613,7 @@ public class DB implements Startable {
 			double timertilbage=tidtilbage/(3600000*24);
 			
 			long minuttertilbage=-(long)timertilbage;
-			System.out.println("Der er "+timertilbage+"timer og "+minuttertilbage+" indtil der er gået en dag");
+			System.out.println("Der er "+tidtilbage+"ms indtil der er gået en dag");
 			}
 		
 		}
