@@ -585,8 +585,8 @@ public class DB implements Startable {
 		resultset = statement.executeQuery();
 		while (resultset.next()) {
 			Date tmpslutdato = resultset.getDate("slutdato");
-			int sender = resultset.getInt("sender");
-			int modtager = resultset.getInt("modtager");
+			int modtager = resultset.getInt("sender");
+			int sender = resultset.getInt("modtager");
 			double beløb = resultset.getDouble("beløb");
 			BigDecimal beløbinBD = BigDecimal.valueOf(beløb);
 			int id = resultset.getInt("id");
@@ -596,25 +596,29 @@ public class DB implements Startable {
 				LocalDate nu = LocalDateTime.now().toLocalDate();
 
 				if (nu.isAfter(slutdatoliste.get(i)) == true) {
-					db.transfer(modtager, sender, beløbinBD);
 					if (id == 1) {
 						slutdatoliste.get(i).plusDays(1);
-						transfer(modtager, sender, beløbinBD);
-
+						transfer(sender, modtager, beløbinBD);
 					}
 					if (id == 2) {
 						slutdatoliste.get(i).plusWeeks(1);
-						transfer(modtager, sender, beløbinBD);
-
+						transfer(sender, modtager, beløbinBD);
 					}
 					if (id == 3) {
 						slutdatoliste.get(i).plusMonths(1);
-						transfer(modtager, sender, beløbinBD);
-
+						transfer(sender, modtager, beløbinBD);
 					}
 					if (id == 4) {
+						slutdatoliste.get(i).plusMonths(3);
+						transfer(sender, modtager, beløbinBD);
+					}
+					if(id ==5){
+						slutdatoliste.get(i).plusMonths(6);
+						transfer(sender, modtager, beløbinBD);
+					}
+					if(id == 6){
 						slutdatoliste.get(i).plusYears(1);
-						transfer(modtager, sender, beløbinBD);
+						transfer(sender,modtager,beløbinBD);
 					}
 				}
 				System.out.println("Done!");
