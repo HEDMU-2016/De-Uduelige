@@ -1,5 +1,6 @@
 package DB;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -83,7 +84,7 @@ public class DB implements Startable {
 		start();
 		statement = connection.prepareStatement("insert into konto(ejer,saldo)values(?,?)");
 		statement.setString(1, konto.getEjer().getNavn());
-		statement.setDouble(2, konto.getSaldo());
+		statement.setDouble(2, konto.getSaldo().doubleValue());
 		statement.execute();
 		System.out.println("konto: " + konto + "blev lagt ind i databasen");
 		stop();
@@ -107,7 +108,7 @@ public class DB implements Startable {
 		statement.setString(1, postering.getModtager());
 		statement.setString(2, postering.getSender());
 		statement.setDate(3, postering.getSendt());
-		statement.setDouble(4, postering.getBeløb());
+		statement.setDouble(4, postering.getBeløb().doubleValue());
 		statement.execute();
 		System.out.println("postering: "+postering+" blev lagt ind i databasen");
 		stop();
@@ -202,13 +203,13 @@ public class DB implements Startable {
 	public Kunde mailtoKunde(String email) throws SQLException {
 		System.out.println("Finder kunden med email: " + email);
 		start();
-		statement = connection.prepareStatement("Select navn, email FROM kunde WHERE email LIKE ?");
+		statement = connection.prepareStatement("Select navn, email, brugernavn FROM kunde WHERE email LIKE ?");
 		statement.setString(1, "%" + email + "%");
 		resultset = statement.executeQuery();
 		while (resultset.next()) {
 			String navn = resultset.getString("navn");
-
-			Kunde tmpkunde = new Kunde(navn, email);
+			String  brugernavn = resultset.getString("brugernavn");
+			Kunde tmpkunde = new Kunde(navn, email,brugernavn);
 			System.out.println("Fandt: " + tmpkunde);
 			return tmpkunde;
 		}
@@ -266,7 +267,8 @@ public class DB implements Startable {
 			String modtager = resultset.getString("modtager");
 			Date startdato = resultset.getDate("sendt");
 			double beløb = resultset.getDouble("beløb");
-			Postering tmppostering = new Postering(sender, modtager, startdato, beløb);
+			BigDecimal beløbinBD = BigDecimal.valueOf(beløb);
+			Postering tmppostering = new Postering(sender, modtager, startdato, beløbinBD);
 			posteringslist.add(tmppostering);
 		}
 		return posteringslist;
@@ -285,7 +287,8 @@ public class DB implements Startable {
 			String modtager = resultset.getString("modtager");
 			Date startdato = resultset.getDate("sendt");
 			double beløb = resultset.getDouble("beløb");
-			Postering tmppostering = new Postering(sender, modtager, startdato, beløb);
+			BigDecimal beløbinBD = BigDecimal.valueOf(beløb);
+			Postering tmppostering = new Postering(sender, modtager, startdato, beløbinBD);
 			posteringslist.add(tmppostering);
 		}
 		return posteringslist;
@@ -303,7 +306,8 @@ public class DB implements Startable {
 		while (resultset.next()) {
 			String kontonummer = resultset.getString("kontoid");
 			double saldo = resultset.getDouble("saldo");
-			Konto tmpKonto = new Konto(ejer, saldo);
+			BigDecimal saldoinBD = BigDecimal.valueOf(saldo);
+			Konto tmpKonto = new Konto(ejer, saldoinBD);
 			tmpKonto.setKontonummer(kontonummer);
 			kontolist.add(tmpKonto);
 			System.out.println("fandt og listede: " + tmpKonto.toString());
@@ -343,8 +347,7 @@ public class DB implements Startable {
 			String navn = resultset.getString("navn");
 			String email = resultset.getString("email");
 			String brugernavn = resultset.getString("brugernavn");
-			Kunde tmpKunde = new Kunde(navn, email);
-			tmpKunde.setBrugernavn(brugernavn);
+			Kunde tmpKunde = new Kunde(navn, email,brugernavn);
 			kundeliste.add(tmpKunde);
 
 			System.out.println("tilføjede " + tmpKunde.toString() + " Til listen");
@@ -450,23 +453,24 @@ public class DB implements Startable {
 
 	}
 
-	public void transfer(String modtager, String sender, Double beløb) throws SQLException {
+	public void transfer(String modtager, String sender, BigDecimal beløb) throws SQLException {
 		System.out.println("Overfører " + beløb + "kr til " + modtager + " fra " + sender);
 		logic = new Logic();
+		Date dato = Date.valueOf(LocalDateTime.now().toLocalDate());
+		
 		start();
 		statement = connection.prepareStatement("UPDATE konto SET saldo=? WHERE ejer=?");
-		double nyesaldo = logic.add((getSaldo(modtager)), beløb);
+		BigDecimal nyesaldo = logic.add((BigDecimal.valueOf(getSaldo(modtager))), beløb);
 		System.out.println("tilførte " + beløb + " til " + modtager + "s konto");
-		statement.setDouble(1, nyesaldo);
+		statement.setDouble(1, nyesaldo.doubleValue());
 		statement.setString(2, modtager);
 		statement.execute();
 		addPostering(new Postering(modtager,sender,dato, beløb));
-		nyesaldo = logic.subtract((getSaldo(sender)), beløb);
+		nyesaldo = logic.subtract((BigDecimal.valueOf(getSaldo(modtager))), beløb);
 		System.out.println("træk " + beløb + " fra " + sender + "s konto");
-		statement.setDouble(1, nyesaldo);
+		statement.setDouble(1, nyesaldo.doubleValue());
 		statement.setString(2, sender);
 		statement.execute();
-		Date dato = Date.valueOf(LocalDateTime.now().toLocalDate());
 		Postering postering = new Postering(sender, modtager,dato , beløb);
 		addPostering(postering);
 		stop();
@@ -527,6 +531,7 @@ public class DB implements Startable {
 			String sender = resultset.getString("sender");
 			String modtager = resultset.getString("modtager");
 			double beløb = resultset.getDouble("beløb");
+			BigDecimal beløbinBD = BigDecimal.valueOf(beløb);
 			int id = resultset.getInt("id");
 			LocalDate slutdato = tmpslutdato.toLocalDate();
 			slutdatoliste.add(slutdato);
@@ -534,25 +539,25 @@ public class DB implements Startable {
 				LocalDate nu = LocalDateTime.now().toLocalDate();
 
 				if (nu.isAfter(slutdatoliste.get(i)) == true) {
-					db.transfer(modtager, sender, beløb);
+					db.transfer(modtager, sender, beløbinBD);
 					if(id==1){
 					slutdatoliste.get(i).plusDays(1);
-					transfer(modtager,sender,beløb);
+					transfer(modtager,sender,beløbinBD);
 					
 					}
 					if(id==2){
 					slutdatoliste.get(i).plusWeeks(1);
-					transfer(modtager,sender,beløb);
+					transfer(modtager,sender,beløbinBD);
 					
 					}
 					if(id==3){
 					slutdatoliste.get(i).plusMonths(1);
-					transfer(modtager,sender,beløb);
+					transfer(modtager,sender,beløbinBD);
 					
 					}
 					if(id==4){
 					slutdatoliste.get(i).plusYears(1);	
-					transfer(modtager,sender,beløb);
+					transfer(modtager,sender,beløbinBD);
 					}
 				}
 				System.out.println("Done!");

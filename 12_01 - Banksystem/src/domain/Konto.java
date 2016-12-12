@@ -1,25 +1,27 @@
 package domain;
 
+import java.math.BigDecimal;
+
 import logic.Logic;
 
 public class Konto {
 	protected Kunde ejer;
 	protected String kontonummer;
-	protected double saldo;
+	protected BigDecimal saldo;
 	private Logic logic;
 	
-	public Konto(Kunde ejer, double saldo){
+	public Konto(Kunde ejer, BigDecimal saldo){
 		this.ejer=ejer;
 		this.saldo=saldo;
 	}
 
-	public void deposit(double amount){
+	public void deposit(BigDecimal amount){
 		saldo=logic.add(saldo,amount);
 	}
-	public void withdraw(double amount){
+	public void withdraw(BigDecimal amount){
 		saldo=logic.subtract(saldo,amount);
 	}
-	public void transfer(double amount, Konto modtager, Konto sender){
+	public void transfer(BigDecimal amount, Konto modtager, Konto sender){
 		sender.withdraw(amount);
 		modtager.deposit(amount);
 	}
@@ -34,14 +36,14 @@ public class Konto {
 		this.kontonummer = kontonummer;
 	}
 
-	public void setSaldo(double saldo) {
+	public void setSaldo(BigDecimal saldo) {
 		this.saldo = saldo;
 	}
 
 	public String getKontonummer(){
 		return kontonummer;
 	}
-	public Double getSaldo(){
+	public BigDecimal getSaldo(){
 		return saldo;
 	}
 
