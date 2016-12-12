@@ -42,14 +42,9 @@ public class AdminensKontoView {
 
 			TableView<Konto> kompletteKontoliste = tablecreator.kontotable();
 			kompletteKontoliste.autosize();
-			final VBox vbox = new VBox();
-			vbox.setSpacing(5);
-			vbox.setPadding(new Insets(10, 0, 0, 10));
-			vbox.getChildren().addAll(allekontoer, kompletteKontoliste);
-			Scene scene = new Scene(new Group(), 450, 400);
-			 ((Group) scene.getRoot()).getChildren().addAll(vbox);
-		
+			grid.add(kompletteKontoliste, 0, 1);
 		 
+			Scene scene = new Scene(grid, 400, 400);
 			stage.setScene(scene);
 			scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 			stage.setResizable(false);
