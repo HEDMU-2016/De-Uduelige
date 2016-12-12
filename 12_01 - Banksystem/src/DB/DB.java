@@ -477,18 +477,23 @@ public class DB implements Startable {
 
 	}
 
-	public Double getSaldo(String kunde) throws SQLException {
-		System.out.println("looking for " + kunde + "s saldo");
+	
+	
+	public Double getSaldo(Konto konto) throws SQLException {
+		System.out.println("looking for " + konto.getEjer() + "s saldo");
+		
 		start();
-		statement = connection.prepareStatement("Select saldo from konto WHERE ejer=?");
-		statement.setString(1, kunde);
+		statement = connection.prepareStatement("Select saldo from konto WHERE kontoid=?");
+		statement.setString(1, konto.getKontonummer());
 		resultset = statement.executeQuery();
+		
 		while (resultset.next()) {
 			Double saldo = resultset.getDouble("saldo");
-			System.out.println(kunde + "s saldo er: " + saldo);
+			System.out.println(konto.getEjer() + "s saldo er: " + saldo);
 			return saldo;
+			}
 
-		}
+		
 		System.out.println("no saldo was found");
 		stop();
 		return null;

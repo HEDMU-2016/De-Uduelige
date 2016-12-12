@@ -1,9 +1,14 @@
+import java.sql.SQLException;
+
+import DB.DB;
+import domain.Kunde;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import login.Login_IO;
 
 public class launcher extends Application {
-	public static void main(String[] args){
+	public static void main(String[] args) throws SQLException{
+
 		launch (args);
 	}
 
