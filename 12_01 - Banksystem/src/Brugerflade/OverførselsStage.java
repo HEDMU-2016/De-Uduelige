@@ -1,11 +1,12 @@
 package Brugerflade;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.SQLException;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import DB.DB;
-import domain.Konto;
 import domain.Login;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -19,7 +20,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -27,13 +27,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.converter.NumberStringConverter;
 import utill.TableCreator;
 
 // PENIS!
 
-public class OverførselsStage{
+public class OverførselsStage {
 
+	@SuppressWarnings("deprecation")
 	public void start(Stage stage, Login bruger) throws Exception {
 		DB db = new DB();
 		TableCreator tablecreator = new TableCreator();
@@ -69,23 +69,23 @@ public class OverførselsStage{
 		grid.add(beløb, 0, 1);
 
 		TextField beløbfelt = new TextField();
-//		beløbfelt.setTextFormatter(new TextFormatter<>(new NumberStringConverter()));
+		// beløbfelt.setTextFormatter(new TextFormatter<>(new
+		// NumberStringConverter()));
 		grid.add(beløbfelt, 1, 1);
 
 		Label frakonto = new Label("fra kontonr: ");
 		frakonto.setId("labelting");
 		grid.add(frakonto, 0, 2);
 
-		
-		
-//		ObservableList<String> Kundekontoer = FXCollections.observableArrayList(db.listkonti(db.matchkundemedlogin(bruger)).toString());
-//		
-//		
-//		final ComboBox senderfelt = new ComboBox(Kundekontoer);
-//		HBox hbSendefelt = new HBox();
-//		hbSendefelt.getChildren().add(senderfelt);
-//		senderfelt.setPrefWidth(175);
-//		grid.add(hbSendefelt, 1, 2);
+		// ObservableList<String> Kundekontoer =
+		// FXCollections.observableArrayList(db.listkonti(db.matchkundemedlogin(bruger)).toString());
+		//
+		//
+		// final ComboBox senderfelt = new ComboBox(Kundekontoer);
+		// HBox hbSendefelt = new HBox();
+		// hbSendefelt.getChildren().add(senderfelt);
+		// senderfelt.setPrefWidth(175);
+		// grid.add(hbSendefelt, 1, 2);
 
 		TextField senderfelt = new TextField();
 		grid.add(senderfelt, 1, 2);
@@ -96,12 +96,12 @@ public class OverførselsStage{
 
 		TextField modtagerfelt = new TextField();
 		grid.add(modtagerfelt, 1, 3);
-		
+
 		Button kontaktbogknap = new Button("Kontaktbog");
 		grid.add(kontaktbogknap, 2, 3);
 		Kontaktbog kontaktbog = new Kontaktbog();
-		kontaktbogknap.setOnAction(e->{
-		
+		kontaktbogknap.setOnAction(e -> {
+
 			try {
 				kontaktbog.start(new Stage(), bruger);
 			} catch (SQLException e1) {
@@ -143,21 +143,48 @@ public class OverførselsStage{
 		Text fejl = new Text("");
 		grid.add(fejl, 0, 8, 2, 8);
 		fejl.setId("fejl");
-		
+
 		btn.setOnAction(e -> {
 			fejl.setFill(Color.RED);
 			fejl.setText("Overførsel fejlede (tror jeg?)");
-			
-			
-			
 			try {
-				System.out.println("modtagerfelt:"+modtagerfelt.getText());
-				System.out.println("senderfelt:"+senderfelt.getText());
-				System.out.println("beløbfelt:"+beløbfelt.getText());
-				
-				db.transfer(Integer.parseInt(modtagerfelt.getText()),
-				Integer.parseInt(senderfelt.getText()),
-				BigDecimal.valueOf(Double.parseDouble(beløbfelt.getText())));
+
+				if (fastOverførsel.isArmed() == false) {
+					System.out.println("modtagerfelt:" + modtagerfelt.getText());
+					System.out.println("senderfelt:" + senderfelt.getText());
+					System.out.println("beløbfelt:" + beløbfelt.getText());
+					System.out.println("en gangs overførsel");
+					db.transfer(Integer.parseInt(modtagerfelt.getText()), Integer.parseInt(senderfelt.getText()),
+							BigDecimal.valueOf(Double.parseDouble(beløbfelt.getText())));
+					
+					if (fastOverførsel.isArmed() == true) {
+						if (comboBox.getValue() == "Dagligt") {
+							db.fastoverførsel(Date.valueOf(LocalDate.now()), senderfelt.getText(),
+									modtagerfelt.getText(), Double.parseDouble(beløbfelt.getText()), 1);
+						}
+						if (comboBox.getValue() == "Ugentligt") {
+							db.fastoverførsel(Date.valueOf(LocalDate.now()), senderfelt.getText(),
+									modtagerfelt.getText(), Double.parseDouble(beløbfelt.getText()), 2);
+						}
+						if (comboBox.getValue() == "Månedligt") {
+							db.fastoverførsel(Date.valueOf(LocalDate.now()), senderfelt.getText(),
+									modtagerfelt.getText(), Double.parseDouble(beløbfelt.getText()), 3);
+						}
+						if (comboBox.getValue() == "Kvartaligt") {
+							db.fastoverførsel(Date.valueOf(LocalDate.now()), senderfelt.getText(),
+									modtagerfelt.getText(), Double.parseDouble(beløbfelt.getText()), 4);
+						}
+						if (comboBox.getValue() == "Halvårligt") {
+							db.fastoverførsel(Date.valueOf(LocalDate.now()), senderfelt.getText(),
+									modtagerfelt.getText(), Double.parseDouble(beløbfelt.getText()), 5);
+						}
+						if (comboBox.getValue() == "Årligt") {
+							db.fastoverførsel(Date.valueOf(LocalDate.now()), senderfelt.getText(),
+									modtagerfelt.getText(), Double.parseDouble(beløbfelt.getText()), 6);
+						}
+					}
+
+				}
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -168,7 +195,6 @@ public class OverførselsStage{
 		stage.setScene(scene);
 		stage.show();
 
-		
 	}
 
 }
