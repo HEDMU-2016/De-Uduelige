@@ -46,7 +46,7 @@ public class LoginOversigt {
 		close.setId("close");
 		hbClose.getChildren().add(close);
 		hbClose.setAlignment(Pos.TOP_RIGHT);
-		grid.add(hbClose, 1, 0);
+		grid.add(hbClose, 3, 0);
 
 		close.setOnAction(e -> {
 			stage.close();
@@ -54,24 +54,27 @@ public class LoginOversigt {
 
 		TableView<Login> loginoversigt = tablecreator.logintable();
 		loginoversigt.setPrefWidth(350);
-		loginoversigt.getSelectionModel().setCellSelectionEnabled(true);
-		loginoversigt.setEditable(true);
-		grid.add(loginoversigt, 0, 1, 2, 2);
+//		loginoversigt.getSelectionModel().setCellSelectionEnabled(true);
+//		loginoversigt.setEditable(true);
+		grid.add(loginoversigt, 0, 1, 1, 4);
 
-		Label brugernavnlabel = new Label("brugernavn");
+		Label brugernavnlabel = new Label("Brugernavn: ");
 		grid.add(brugernavnlabel, 2, 1);
+		brugernavnlabel.setId("tekst");
 		
 		TextField brugernavnfelt = new TextField();
-		grid.add(brugernavnfelt, 2, 2);
+		grid.add(brugernavnfelt, 3, 1);
 		
-		Label passwordlabel = new Label("password");
-		grid.add(passwordlabel, 3, 1);
+		Label passwordlabel = new Label("Kodeord:");
+		grid.add(passwordlabel, 2, 2);
+		passwordlabel.setId("tekst");
 		
 		TextField passwordfelt = new TextField();
 		grid.add(passwordfelt, 3, 2);
 		
-		Label idlabel = new Label("id");
-		grid.add(idlabel, 4, 1);
+		Label idlabel = new Label("ID:");
+		grid.add(idlabel, 2, 3);
+		idlabel.setId("tekst");
 		
 		
 		ObservableList<String> options = FXCollections.observableArrayList("admin","kunde");
@@ -80,14 +83,17 @@ public class LoginOversigt {
 		HBox hbidfelt = new HBox();
 		hbidfelt.getChildren().add(idfeltoptions);
 		idfeltoptions.setPrefWidth(175);
-		grid.add(hbidfelt, 4, 2);
+		grid.add(hbidfelt, 3, 3);
 		
+		Label fejl = new Label("TEST TEST TEST");
+		fejl.setId("fejl");
+		grid.add(fejl, 2,6);
 		
-		
-		Button opret = new Button("opret");
-		grid.add(opret, 5, 1);
-		opret.setId("opret");
+		Button opret = new Button("Opret");
+		grid.add(opret, 2, 4, 3, 4);
+		opret.setId("KnapImenu");
 		opret.setOnAction(e->{
+			if(brugernavnfelt.getText().isEmpty() == false && passwordfelt.getText().isEmpty() == false && idfeltoptions.getPromptText().isEmpty() == false)
 		try {
 			if(idfeltoptions.getValue().equals("admins")){
 			db.addLogin(new AdminLogin(brugernavnfelt.getText(), passwordfelt.getText()));
@@ -104,11 +110,16 @@ public class LoginOversigt {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}	
+			else {
+				fejl.setText("Du skal lige udfylde alle felterne!");
+			}
 		
 		});
 	 
 		
-		Scene scene = new Scene(grid, 900, 500);
+		//grid.setGridLinesVisible(true);
+		
+		Scene scene = new Scene(grid);
 		stage.setScene(scene);
 		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 		stage.setResizable(false);

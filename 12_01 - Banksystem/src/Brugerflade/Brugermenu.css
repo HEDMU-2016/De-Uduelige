@@ -67,3 +67,8 @@
 #fejl{
   -fx-font-size: 16px;
 }
+
+#tekst{
+	-fx-fill: #00316c;
+	-fx-font-size: 20;
+}
