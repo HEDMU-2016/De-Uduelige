@@ -4,31 +4,31 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
 public class Postering {
-Konto sender;
-Konto modtager;
+	int sender;
+int modtager;
 Date sendt;
 BigDecimal beløb;
 
-	public Postering(Konto sender, Konto modtager, Date sendt, BigDecimal beløb){
+	public Postering(int frakontoid, int tilkontoid, Date sendt, BigDecimal beløb){
 		this.sender=sender;
 		this.modtager=modtager;
 		this.sendt=sendt;
 		this.beløb=beløb;
 	}
 
-	public Konto getSender() {
+	public int getSender() {
 		return sender;
 	}
 
-	public void setSender(Konto sender) {
+	public void setSender(int sender) {
 		this.sender = sender;
 	}
 
-	public Konto getModtager() {
+	public int getModtager() {
 		return modtager;
 	}
 
-	public void setModtager(Konto modtager) {
+	public void setModtager(int modtager) {
 		this.modtager = modtager;
 	}
 

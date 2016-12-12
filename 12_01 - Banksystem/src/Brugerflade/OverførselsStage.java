@@ -2,8 +2,10 @@ package Brugerflade;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.List;
 
 import DB.DB;
+import domain.Konto;
 import domain.Login;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -70,11 +72,15 @@ public class OverførselsStage{
 		beløbfelt.setTextFormatter(new TextFormatter<>(new NumberStringConverter()));
 		grid.add(beløbfelt, 1, 1);
 
-		Label frakonto = new Label("Hæves på: ");
+		Label frakonto = new Label("fra kontonr: ");
 		frakonto.setId("labelting");
 		grid.add(frakonto, 0, 2);
 
-		ObservableList<String> Kundekontoer = FXCollections.observableArrayList("Konto1", "Konto2", "Konto3");
+		
+		
+		ObservableList<String> Kundekontoer = FXCollections.observableArrayList("konto 1","konto 2", "konto 3");
+		
+		
 		final ComboBox senderfelt = new ComboBox(Kundekontoer);
 		HBox hbSendefelt = new HBox();
 		hbSendefelt.getChildren().add(senderfelt);
@@ -84,7 +90,7 @@ public class OverførselsStage{
 //		TextField senderfelt = new TextField();
 //		grid.add(senderfelt, 1, 2);
 
-		Label tilKonto = new Label("Modtager: ");
+		Label tilKonto = new Label("til kontonr: ");
 		tilKonto.setId("labelting");
 		grid.add(tilKonto, 0, 3);
 
@@ -143,7 +149,9 @@ public class OverførselsStage{
 			fejl.setText("Overførsel fejlede (tror jeg?)");
 			
 			try {
-				db.transfer(modtagerfelt.getText(), senderfelt.getPromptText(), BigDecimal.valueOf(Double.parseDouble(beløbfelt.getText())));
+			db.transfer(Integer.parseInt(modtagerfelt.getText()),
+				Integer.parseInt(senderfelt.getPromptText()),
+				BigDecimal.valueOf(Double.parseDouble(beløbfelt.getText())));
 			} catch (NumberFormatException e1) {
 				e1.printStackTrace();
 			} catch (SQLException e1) {
