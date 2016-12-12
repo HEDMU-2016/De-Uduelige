@@ -1,5 +1,6 @@
 package Brugerflade;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 
 import DB.DB;
@@ -142,7 +143,7 @@ public class OverførselsStage{
 			fejl.setText("Overførsel fejlede (tror jeg?)");
 			
 			try {
-				db.transfer(modtagerfelt.getText(), senderfelt.getPromptText(), Double.parseDouble(beløbfelt.getText()));
+				db.transfer(modtagerfelt.getText(), senderfelt.getPromptText(), BigDecimal.valueOf(Double.parseDouble(beløbfelt.getText())));
 			} catch (NumberFormatException e1) {
 				e1.printStackTrace();
 			} catch (SQLException e1) {
