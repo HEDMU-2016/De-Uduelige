@@ -90,29 +90,7 @@ public class AdministratorMenu {
 
 		});
 
-		Button medarbejderoversigt = new Button("Medarbejderoversigt");
-		grid.add(medarbejderoversigt, 0, 3);
-		medarbejderoversigt.setId("KnapImenu");
-		medarbejderoversigt.setOnAction(e -> {
-			Medarbejderoversigt medarbejderoversigt1 = new Medarbejderoversigt();
-			medarbejderoversigt1.start(new Stage());
-		});
-
-		Button redigerkunde = new Button("Opret/rediger/slet kunde");
-		grid.add(redigerkunde, 0, 4);
-		redigerkunde.setId("KnapImenu");
-		redigerkunde.setOnAction(e -> {
-			Redigerkunde redigerkunde1 = new Redigerkunde();
-			redigerkunde1.start(new Stage());
-		});
-
-		Button redigermedarbejder = new Button("Opret/rediger/slet medarbejder");
-		grid.add(redigermedarbejder, 0, 5);
-		redigermedarbejder.setId("KnapImenu");
-		redigermedarbejder.setOnAction(e -> {
-			Redigermedarbejder redigermedarbejder1 = new Redigermedarbejder();
-			redigermedarbejder1.start(new Stage());
-		});
+		
 	
 		Button kontooversigt = new Button("Se alle kontis");
 		grid.add(kontooversigt, 0, 6);
