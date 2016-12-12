@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -28,6 +29,7 @@ public class Kundeoversigt {
 
 	public void start(Stage stage) throws SQLException {
 		TableCreator tablecreator = new TableCreator();
+		DB db = new DB();
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
 		grid.setHgap(10);
@@ -58,8 +60,38 @@ public class Kundeoversigt {
 //		loginoversigt.getSelectionModel().setCellSelectionEnabled(true);
 //		loginoversigt.setEditable(true);
 		grid.add(kundeoversigt, 0, 1, 2, 2);
+		
+		Label navnlabel = new Label("navn");
+		grid.add(navnlabel, 2, 1);
+		
+		TextField navnfelt = new TextField();
+		grid.add(navnfelt, 2, 2);
+		
+		Label emaillabel = new Label("Email");
+		grid.add(emaillabel, 3, 1);
+		
+		TextField emailfelt = new TextField();
+		grid.add(emailfelt, 3, 2);
+		
+		Label brugernavnlabel = new Label("Brugernavn");
+		grid.add(brugernavnlabel, 4, 1);
+		
+		TextField brugernavnfelt = new TextField();
+		grid.add(brugernavnfelt, 4, 2);
+		
+		Button opret = new Button("opret");
+		grid.add(opret, 4, 2);
+		opret.setId("opret");
+		opret.setOnAction(e->{
+		try {
+			db.addKunde(new Kunde(navnfelt.getText(), emailfelt.getText(), brugernavnfelt.getText()));
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}	
+		
+		});
 
-		Scene scene = new Scene(grid, 400, 500);
+		Scene scene = new Scene(grid, 900, 500);
 		stage.setScene(scene);
 		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 		stage.setResizable(false);
