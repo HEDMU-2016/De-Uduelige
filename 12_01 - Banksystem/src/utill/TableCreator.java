@@ -2,7 +2,7 @@ package utill;
 
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.Observable;
+import java.util.List;
 
 import DB.DB;
 import domain.Kontakt;
@@ -124,12 +124,17 @@ public class TableCreator {
 		return posteringsoversigt;
 	}
 
-	public TableView<Postering> posteringtable(Konto konto) throws SQLException {
+	public TableView<Postering> posteringtable(Kunde kunde) throws SQLException {
 		ObservableList<Postering> posteringstable;
-		posteringstable = FXCollections.observableArrayList(db.listPostering(konto));
-
+		List<Konto> kontolist =db.listkonti(kunde);
 		TableView<Postering> posteringsoversigt = new TableView<Postering>();
 
+		for(int i=1; i<kontolist.size();i++){
+		posteringstable = FXCollections.observableArrayList(
+			
+				db.listPostering(kontolist.get(i))
+			);
+		
 		TableColumn<Postering, String> senderCol = new TableColumn<Postering, String>("Sender ");
 		senderCol.setCellValueFactory(new PropertyValueFactory<Postering, String>("sender"));
 
@@ -144,8 +149,9 @@ public class TableCreator {
 
 		posteringsoversigt.setItems(posteringstable);
 		posteringsoversigt.getColumns().addAll(senderCol, modtagerCol, sendtCol, beløbCol);
-
-		return posteringsoversigt;
+		
+		}
+	return posteringsoversigt;
 	}
 
 	public TableView<Kontakt> Kontakttable(Login bruger) throws SQLException {

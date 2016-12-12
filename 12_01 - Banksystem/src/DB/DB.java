@@ -578,8 +578,12 @@ public class DB implements Startable {
 			
 			else {
 			Long tidtilbage = lastnuplusdag-nu;
-			System.out.println("Der er "+tidtilbage+"ms indtil der er gået en dag");
+			double timertilbage=tidtilbage/(3600000*24);
+			
+			long minuttertilbage=-(long)timertilbage;
+			System.out.println("Der er "+timertilbage+"timer og "+minuttertilbage+" indtil der er gået en dag");
 			}
+		
 		}
 		public void setTimer(Long timer) throws SQLException{
 		String tmptimer=timer.toString();

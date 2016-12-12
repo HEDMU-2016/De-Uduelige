@@ -19,7 +19,6 @@ import utill.TableCreator;
 
 public class KontoHistorik {
 	public void start(Stage stage, Login bruger) throws SQLException{
-		int i=1;
 		DB db = new DB();
 		TableCreator tablecreator = new TableCreator();
 		
@@ -40,14 +39,10 @@ public class KontoHistorik {
 		
 		Kunde tmpkunde = db.matchkundemedlogin(bruger.getBrugernavn());
 		List<Konto> kontolist = db.listkonti(tmpkunde);
-		TableView<Postering> kontohistorik=tablecreator.posteringtable(kontolist.get(i));
+		TableView<Postering> kontohistorik=tablecreator.posteringtable(tmpkunde);
 		grid.add(kontohistorik, 0, 0);
 
-		
-		
-		
-		
-		
+
 		Scene scene = new Scene(grid,400,400);
 		stage.setScene(scene);
 		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
