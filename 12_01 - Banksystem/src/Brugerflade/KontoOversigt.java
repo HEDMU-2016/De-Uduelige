@@ -1,6 +1,7 @@
 package Brugerflade;
 
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -10,12 +11,17 @@ import domain.Kunde;
 import domain.Login;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import utill.TableCreator;
@@ -56,19 +62,22 @@ ObservableList<Konto> list;
 		stage.setTitle("Konto historik - Lortebank A/S");
 		stage.getIcons().add(new Image("Brugerflade/ico.png"));
 
-
-
+		
+		
 		Kunde tmpkunde = db.matchkundemedlogin(bruger.getBrugernavn());
-		ObservableList<Konto> kontolist = FXCollections.observableArrayList(db.listkonti(tmpkunde));
-		TableView kundeoversigt = tablecreator.kontotable(tmpkunde);
+		TableView<Konto> kundeoversigt = tablecreator.kontotable(tmpkunde);
 		grid.add(kundeoversigt, 0, 0);
 		
-		Scene scene = new Scene(grid);
+	
+	 
+		
+		Scene scene = new Scene(grid, 400, 500);
 		stage.setScene(scene);
 		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 		stage.setResizable(false);
 		stage.initStyle(StageStyle.UNDECORATED);
 		stage.show();
+		
 		}
 	
 }

@@ -105,8 +105,8 @@ public class DB implements Startable {
 		System.out.println("tilfører postering...");
 		start();
 		statement = connection.prepareStatement("insert into postering(modtager,sender,sendt,beløb) values(?,?,?,?)");
-		statement.setString(1, postering.getModtager());
-		statement.setString(2, postering.getSender());
+		statement.setString(1, postering.getModtager().getEjer().getBrugernavn());
+		statement.setString(2, postering.getSender().getEjer().getBrugernavn());
 		statement.setDate(3, postering.getSendt());
 		statement.setDouble(4, postering.getBeløb().doubleValue());
 		statement.execute();
@@ -164,6 +164,7 @@ public class DB implements Startable {
 			String ejer = resultset.getString("ejer");
 			String saldo = resultset.getString("saldo");
 			String id = resultset.getString("id");
+			
 		
 			System.out.println("fandt " + ejer + "s konto, med saldo: " + saldo + "og id:" + id);
 		}
@@ -278,8 +279,7 @@ public class DB implements Startable {
 		System.out.println("Finder posteringer...");
 		List<Postering> posteringslist = new ArrayList<>();
 		start();
-		statement = connection
-				.prepareStatement("select sender, modtager, sendt, beløb from postering where sender like ?");
+		statement = connection.prepareStatement("select sender, modtager, sendt, beløb from postering where sender like ?");
 		statement.setString(1, konto.getEjer().getNavn());
 		resultset = statement.executeQuery();
 		while (resultset.next()) {
@@ -304,9 +304,10 @@ public class DB implements Startable {
 		statement.execute();
 		resultset = statement.executeQuery();
 		while (resultset.next()) {
-			String kontonummer = resultset.getString("kontoid");
+			int kontonummer = resultset.getInt("kontoid");
 			double saldo = resultset.getDouble("saldo");
 			BigDecimal saldoinBD = BigDecimal.valueOf(saldo);
+			
 			Konto tmpKonto = new Konto(ejer, saldoinBD);
 			tmpKonto.setKontonummer(kontonummer);
 			kontolist.add(tmpKonto);
@@ -453,23 +454,23 @@ public class DB implements Startable {
 
 	}
 
-	public void transfer(String modtager, String sender, BigDecimal beløb) throws SQLException {
+	public void transfer(Konto modtager, Konto sender, BigDecimal beløb) throws SQLException {
 		System.out.println("Overfører " + beløb + "kr til " + modtager + " fra " + sender);
 		logic = new Logic();
 		Date dato = Date.valueOf(LocalDateTime.now().toLocalDate());
 		
 		start();
-		statement = connection.prepareStatement("UPDATE konto SET saldo=? WHERE ejer=?");
+		statement = connection.prepareStatement("UPDATE konto SET saldo=? WHERE kontoid=?");
 		BigDecimal nyesaldo = logic.add((BigDecimal.valueOf(getSaldo(modtager))), beløb);
 		System.out.println("tilførte " + beløb + " til " + modtager + "s konto");
 		statement.setDouble(1, nyesaldo.doubleValue());
-		statement.setString(2, modtager);
+		statement.setInt(2, modtager.getKontonummer());
 		statement.execute();
 		addPostering(new Postering(modtager,sender,dato, beløb));
 		nyesaldo = logic.subtract((BigDecimal.valueOf(getSaldo(modtager))), beløb);
 		System.out.println("træk " + beløb + " fra " + sender + "s konto");
 		statement.setDouble(1, nyesaldo.doubleValue());
-		statement.setString(2, sender);
+		statement.setInt(2, sender.getKontonummer());
 		statement.execute();
 		Postering postering = new Postering(sender, modtager,dato , beløb);
 		addPostering(postering);
@@ -477,18 +478,23 @@ public class DB implements Startable {
 
 	}
 
-	public Double getSaldo(String kunde) throws SQLException {
-		System.out.println("looking for " + kunde + "s saldo");
+	
+	
+	public Double getSaldo(Konto konto) throws SQLException {
+		System.out.println("looking for " + konto.getEjer() + "s saldo");
+		
 		start();
-		statement = connection.prepareStatement("Select saldo from konto WHERE ejer=?");
-		statement.setString(1, kunde);
+		statement = connection.prepareStatement("Select saldo from konto WHERE kontoid=?");
+		statement.setString(1, konto.getKontonummer());
 		resultset = statement.executeQuery();
+		
 		while (resultset.next()) {
 			Double saldo = resultset.getDouble("saldo");
-			System.out.println(kunde + "s saldo er: " + saldo);
+			System.out.println(konto.getEjer() + "s saldo er: " + saldo);
 			return saldo;
+			}
 
-		}
+		
 		System.out.println("no saldo was found");
 		stop();
 		return null;

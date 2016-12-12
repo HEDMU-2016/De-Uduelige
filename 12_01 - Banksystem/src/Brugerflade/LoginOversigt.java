@@ -2,11 +2,19 @@ package Brugerflade;
 
 import java.sql.SQLException;
 
+import DB.DB;
+import domain.AdminLogin;
 import domain.Login;
+import domain.NormaltLogin;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -17,6 +25,7 @@ import utill.TableCreator;
 
 public class LoginOversigt {
 	public void start(Stage stage) throws SQLException {
+		DB db = new DB();
 		TableCreator tablecreator = new TableCreator();
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
@@ -49,7 +58,50 @@ public class LoginOversigt {
 		loginoversigt.setEditable(true);
 		grid.add(loginoversigt, 0, 1, 2, 2);
 
-		Scene scene = new Scene(grid, 400, 500);
+		Label brugernavnlabel = new Label("brugernavn");
+		grid.add(brugernavnlabel, 2, 1);
+		
+		TextField brugernavnfelt = new TextField();
+		grid.add(brugernavnfelt, 2, 2);
+		
+		Label passwordlabel = new Label("password");
+		grid.add(passwordlabel, 3, 1);
+		
+		TextField passwordfelt = new TextField();
+		grid.add(passwordfelt, 3, 2);
+		
+		Label idlabel = new Label("id");
+		grid.add(idlabel, 4, 1);
+		
+		
+		ObservableList<String> options = FXCollections.observableArrayList("admin","kunde");
+		final ComboBox idfeltoptions = new ComboBox(options);
+		HBox hbidfelt = new HBox();
+		hbidfelt.getChildren().add(idfeltoptions);
+		idfeltoptions.setPrefWidth(175);
+		grid.add(hbidfelt, 4, 2);
+		
+		
+		
+		Button opret = new Button("opret");
+		grid.add(opret, 5, 1);
+		opret.setId("opret");
+		opret.setOnAction(e->{
+		try {
+			if(idfeltoptions.getPromptText().equals("admin")){
+			db.addLogin(new AdminLogin(brugernavnfelt.getText(), passwordfelt.getText()));
+			}
+			if(idfeltoptions.getPromptText().equals("kunde")){
+				db.addLogin(new NormaltLogin(brugernavnfelt.getText(), passwordfelt.getText()));
+				}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}	
+		
+		});
+	 
+		
+		Scene scene = new Scene(grid, 900, 500);
 		stage.setScene(scene);
 		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 		stage.setResizable(false);

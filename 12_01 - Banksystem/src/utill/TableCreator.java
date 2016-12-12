@@ -41,10 +41,12 @@ public class TableCreator {
 	}
 
 	public TableView<Konto> kontotable(Kunde kunde) throws SQLException {
-		ObservableList<Konto> kontotabel;
-		kontotabel = FXCollections.observableArrayList(db.listkonti(kunde));
-
 		TableView<Konto> kontooversigt = new TableView<Konto>();
+		List<Konto> kontolist = db.listkonti(kunde);
+		for(int i=1;i<kontolist.size();i++){
+		
+		ObservableList<Konto> kontotabel;
+		kontotabel = FXCollections.observableArrayList(kontolist.get(i));
 
 		TableColumn<Konto, String> ejerCol = new TableColumn<Konto, String>("Ejer ");
 		ejerCol.setCellValueFactory(new PropertyValueFactory<Konto, String>("ejer"));
@@ -57,6 +59,7 @@ public class TableCreator {
 
 		kontooversigt.setItems(kontotabel);
 		kontooversigt.getColumns().addAll(ejerCol, kontoCol, saldoCol);
+		}
 		return kontooversigt;
 	}
 

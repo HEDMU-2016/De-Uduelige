@@ -1,15 +1,18 @@
 package Brugerflade;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 
 import DB.DB;
 import domain.Konto;
+import domain.Kunde;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -42,14 +45,34 @@ public class AdminensKontoView {
 
 			TableView<Konto> kompletteKontoliste = tablecreator.kontotable();
 			kompletteKontoliste.autosize();
-			final VBox vbox = new VBox();
-			vbox.setSpacing(5);
-			vbox.setPadding(new Insets(10, 0, 0, 10));
-			vbox.getChildren().addAll(allekontoer, kompletteKontoliste);
-			Scene scene = new Scene(new Group(), 450, 400);
-			 ((Group) scene.getRoot()).getChildren().addAll(vbox);
-		
+			grid.add(kompletteKontoliste, 0, 1);
+			
+			Label ejerlabel = new Label("ejer");
+			grid.add(ejerlabel, 2, 1);
+			
+			TextField ejerfelt = new TextField();
+			grid.add(ejerfelt, 2, 2);
+			
+			Label saldolabel = new Label("saldo");
+			grid.add(saldolabel, 3, 1);
+			
+			TextField saldofelt = new TextField();
+			grid.add(saldofelt, 3, 2);
+			
+			
+			Button opret = new Button("opret");
+			grid.add(opret, 4, 1);
+			opret.setId("opret");
+			opret.setOnAction(e->{
+			try {
+				db.addKonto(new Konto(db.matchkundemedlogin(ejerfelt.getText()), BigDecimal.valueOf(Double.parseDouble(saldofelt.getText()))));
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}	
+			
+			});
 		 
+			Scene scene = new Scene(grid, 900, 400);
 			stage.setScene(scene);
 			scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 			stage.setResizable(false);
