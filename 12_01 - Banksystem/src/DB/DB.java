@@ -1,5 +1,6 @@
 package DB;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -107,7 +108,7 @@ public class DB implements Startable {
 		statement.setString(1, postering.getModtager());
 		statement.setString(2, postering.getSender());
 		statement.setDate(3, postering.getSendt());
-		statement.setDouble(4, postering.getBeløb());
+		statement.setBigDecimal(4, postering.getBeløb());
 		statement.execute();
 		System.out.println("postering: "+postering+" blev lagt ind i databasen");
 		stop();
@@ -265,7 +266,7 @@ public class DB implements Startable {
 			String sender = resultset.getString("sender");
 			String modtager = resultset.getString("modtager");
 			Date startdato = resultset.getDate("sendt");
-			double beløb = resultset.getDouble("beløb");
+			BigDecimal beløb = resultset.getBigDecimal("beløb");
 			Postering tmppostering = new Postering(sender, modtager, startdato, beløb);
 			posteringslist.add(tmppostering);
 		}
@@ -284,7 +285,7 @@ public class DB implements Startable {
 			String sender = resultset.getString("sender");
 			String modtager = resultset.getString("modtager");
 			Date startdato = resultset.getDate("sendt");
-			double beløb = resultset.getDouble("beløb");
+			BigDecimal beløb = resultset.getBigDecimal("beløb");
 			Postering tmppostering = new Postering(sender, modtager, startdato, beløb);
 			posteringslist.add(tmppostering);
 		}
@@ -450,7 +451,7 @@ public class DB implements Startable {
 
 	}
 
-	public void transfer(String modtager, String sender, Double beløb) throws SQLException {
+	public void transfer(String modtager, String sender, BigDecimal beløb) throws SQLException {
 		System.out.println("Overfører " + beløb + "kr til " + modtager + " fra " + sender);
 		logic = new Logic();
 		start();
@@ -466,7 +467,7 @@ public class DB implements Startable {
 		statement.setString(2, sender);
 		statement.execute();
 		Date dato = Date.valueOf(LocalDateTime.now().toLocalDate());
-		Postering postering = new Postering(sender, modtager,dato , beløb);
+		Postering postering = new Postering(sender, modtager, dato , beløb);
 		addPostering(postering);
 		stop();
 
