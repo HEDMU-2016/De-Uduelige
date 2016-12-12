@@ -1,14 +1,15 @@
 package domain;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 public class Postering {
 String sender;
 String modtager;
 Date sendt;
-double beløb;
+BigDecimal beløb;
 
-	public Postering(String sender, String modtager, Date sendt, double beløb){
+	public Postering(String sender, String modtager, Date sendt, BigDecimal beløb){
 		this.sender=sender;
 		this.modtager=modtager;
 		this.sendt=sendt;
@@ -39,11 +40,11 @@ double beløb;
 		this.sendt = sendt;
 	}
 
-	public double getBeløb() {
+	public BigDecimal getBeløb() {
 		return beløb;
 	}
 
-	public void setBeløb(double beløb) {
+	public void setBeløb(BigDecimal beløb) {
 		this.beløb = beløb;
 	}
 
