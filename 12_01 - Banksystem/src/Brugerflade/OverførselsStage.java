@@ -3,13 +3,11 @@ package Brugerflade;
 import java.sql.SQLException;
 
 import DB.DB;
-import javafx.application.Application;
+import domain.Login;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -27,13 +25,15 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.converter.NumberStringConverter;
+import utill.TableCreator;
 
 // PENIS!
 
-public class OverførselsStage extends Application {
+public class OverførselsStage{
 
-	public void start(Stage stage) {
+	public void start(Stage stage, Login bruger) throws Exception {
 		DB db = new DB();
+		TableCreator tablecreator = new TableCreator();
 
 		stage.setTitle("Overførsel - Lortebank A/S");
 		stage.getIcons().add(new Image("Brugerflade/ico.png"));
@@ -89,6 +89,18 @@ public class OverførselsStage extends Application {
 
 		TextField modtagerfelt = new TextField();
 		grid.add(modtagerfelt, 1, 3);
+		
+		Button kontaktbogknap = new Button("Kontaktbog");
+		grid.add(kontaktbogknap, 2, 3);
+		Kontaktbog kontaktbog = new Kontaktbog();
+		kontaktbogknap.setOnAction(e->{
+		
+			try {
+				kontaktbog.start(new Stage(), bruger);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		});
 
 		CheckBox fastOverførsel = new CheckBox("Fast overførsel");
 		fastOverførsel.setId("labelting");
@@ -143,6 +155,7 @@ public class OverførselsStage extends Application {
 		stage.setScene(scene);
 		stage.show();
 
+		
 	}
 
 }

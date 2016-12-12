@@ -84,7 +84,11 @@ public class Brugermenu {
 	overførsel.setId("KnapImenu");
 	overførsel.setOnAction(e ->{
 		OverførselsStage overførselsstage = new OverførselsStage();
-		overførselsstage.start(new Stage());
+		try {
+			overførselsstage.start(new Stage(), bruger);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 	});
 	
 	Button kontohistorik = new Button("Kontohistorik");
@@ -95,7 +99,6 @@ public class Brugermenu {
 	try {
 		historikvindue.start(new Stage(),bruger);
 	} catch (SQLException e1) {
-		// TODO Auto-generated catch block
 		e1.printStackTrace();
 	}
 	});

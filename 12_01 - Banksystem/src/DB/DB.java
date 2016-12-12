@@ -13,6 +13,7 @@ import java.util.List;
 
 import Interfaces.Startable;
 import domain.AdminLogin;
+import domain.Kontakt;
 import domain.Konto;
 import domain.Kunde;
 import domain.Login;
@@ -39,6 +40,17 @@ public class DB implements Startable {
 	}
 
 	// INDSÆT METODER:
+	public void addKontakt (Kontakt kontakt, String ejer) throws SQLException{ //ejer ligger sig til brugernavn
+		System.out.println("tilførert kontakt: "+kontakt);
+		start();
+		statement =  connection.prepareStatement("insert into kontakt (navn, kontonr, ejer) values(?,?,?)");
+		statement.setString(1, kontakt.getKontakt());
+		statement.setInt(2, kontakt.getKontonr());
+		statement.setString(3, ejer);
+		statement.execute();
+		System.out.println("done");
+		stop();
+	}
 	public void addKonto(String ejer, Double saldo) throws SQLException {
 		System.out.println("tilfører konto...");
 		start();
@@ -225,6 +237,24 @@ public class DB implements Startable {
 	}
 
 	// LIST METODER:
+	public List<Kontakt> listkontakter(Kunde ejer) throws SQLException{
+		System.out.println("lister kontakter...");
+		List<Kontakt> kontaktlist = new ArrayList<>();
+		start();
+		statement = connection.prepareStatement("select navn, kontonr, ejer from kontakt where ejer like ?");
+		statement.setString(1, ejer.getBrugernavn());
+		resultset = statement.executeQuery();
+		while(resultset.next()){
+			String navn = resultset.getString("navn");
+			int kontonr = resultset.getInt("kontonr");
+			Kontakt tmpkontakt = new Kontakt(navn,kontonr);
+			kontaktlist.add(tmpkontakt);
+			System.out.println("tilføjede "+tmpkontakt+" til listen");
+			
+		}
+		System.out.println("done");
+		return kontaktlist;
+	}
 	public List<Postering> listPostering() throws SQLException {
 		System.out.println("Finder posteringer...");
 		List<Postering> posteringslist = new ArrayList<>();

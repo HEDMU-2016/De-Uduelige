@@ -2,8 +2,10 @@ package utill;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.Observable;
 
 import DB.DB;
+import domain.Kontakt;
 import domain.Konto;
 import domain.Kunde;
 import domain.Login;
@@ -37,6 +39,7 @@ public class TableCreator {
 		kundeoversigt.getColumns().addAll(nameCol, emailCol, dateCol);
 		return kundeoversigt;
 	}
+
 	public TableView<Konto> kontotable(Kunde kunde) throws SQLException {
 		ObservableList<Konto> kontotabel;
 		kontotabel = FXCollections.observableArrayList(db.listkonti(kunde));
@@ -57,7 +60,6 @@ public class TableCreator {
 		return kontooversigt;
 	}
 
-
 	public TableView<Login> logintable() throws SQLException {
 		ObservableList<Login> logintabel;
 		logintabel = FXCollections.observableArrayList(db.listLogins());
@@ -72,11 +74,12 @@ public class TableCreator {
 
 		TableColumn<Login, Integer> idCol = new TableColumn<Login, Integer>("ID ");
 		idCol.setCellValueFactory(new PropertyValueFactory<Login, Integer>("id"));
-		
+
 		loginoversigt.setItems(logintabel);
 		loginoversigt.getColumns().addAll(bnCol, pwCol, idCol);
 		return loginoversigt;
 	}
+
 	public TableView<Konto> kontotable() throws SQLException {
 		ObservableList<Konto> kontotabel;
 		kontotabel = FXCollections.observableArrayList(db.listAlleKontis());
@@ -97,52 +100,72 @@ public class TableCreator {
 		return kontooversigt;
 	}
 
-
-	public TableView<Postering> posteringtable() throws SQLException{
+	public TableView<Postering> posteringtable() throws SQLException {
 		ObservableList<Postering> posteringstable;
 		posteringstable = FXCollections.observableArrayList(db.listPostering());
-		
+
 		TableView<Postering> posteringsoversigt = new TableView<Postering>();
-		
+
 		TableColumn<Postering, String> senderCol = new TableColumn<Postering, String>("Sender ");
 		senderCol.setCellValueFactory(new PropertyValueFactory<Postering, String>("sender"));
-		
+
 		TableColumn<Postering, String> modtagerCol = new TableColumn<Postering, String>("Modtager ");
-		modtagerCol.setCellValueFactory(new PropertyValueFactory<Postering,String>("modtager"));
-		
+		modtagerCol.setCellValueFactory(new PropertyValueFactory<Postering, String>("modtager"));
+
 		TableColumn<Postering, Date> sendtCol = new TableColumn<Postering, Date>("Sendt ");
 		sendtCol.setCellValueFactory(new PropertyValueFactory<Postering, Date>("sendt"));
-		
+
 		TableColumn<Postering, Double> beløbCol = new TableColumn<Postering, Double>("Beløb ");
 		beløbCol.setCellValueFactory(new PropertyValueFactory<Postering, Double>("beløb"));
-		
+
 		posteringsoversigt.setItems(posteringstable);
-		posteringsoversigt.getColumns().addAll(senderCol,modtagerCol,sendtCol,beløbCol);
-		
+		posteringsoversigt.getColumns().addAll(senderCol, modtagerCol, sendtCol, beløbCol);
+
 		return posteringsoversigt;
 	}
-	public TableView<Postering> posteringtable(Konto konto) throws SQLException{
+
+	public TableView<Postering> posteringtable(Konto konto) throws SQLException {
 		ObservableList<Postering> posteringstable;
 		posteringstable = FXCollections.observableArrayList(db.listPostering(konto));
-		
+
 		TableView<Postering> posteringsoversigt = new TableView<Postering>();
-		
+
 		TableColumn<Postering, String> senderCol = new TableColumn<Postering, String>("Sender ");
 		senderCol.setCellValueFactory(new PropertyValueFactory<Postering, String>("sender"));
-		
+
 		TableColumn<Postering, String> modtagerCol = new TableColumn<Postering, String>("Modtager ");
-		modtagerCol.setCellValueFactory(new PropertyValueFactory<Postering,String>("modtager"));
-		
+		modtagerCol.setCellValueFactory(new PropertyValueFactory<Postering, String>("modtager"));
+
 		TableColumn<Postering, Date> sendtCol = new TableColumn<Postering, Date>("Sendt ");
 		sendtCol.setCellValueFactory(new PropertyValueFactory<Postering, Date>("sendt"));
-		
+
 		TableColumn<Postering, Double> beløbCol = new TableColumn<Postering, Double>("Beløb ");
 		beløbCol.setCellValueFactory(new PropertyValueFactory<Postering, Double>("beløb"));
-		
+
 		posteringsoversigt.setItems(posteringstable);
-		posteringsoversigt.getColumns().addAll(senderCol,modtagerCol,sendtCol,beløbCol);
-		
+		posteringsoversigt.getColumns().addAll(senderCol, modtagerCol, sendtCol, beløbCol);
+
 		return posteringsoversigt;
 	}
+
+	public TableView<Kontakt> Kontakttable(Login bruger) throws SQLException {
+		Kunde tmpkunde = db.matchkundemedlogin(bruger.getBrugernavn());
+		ObservableList<Kontakt> kontakttable;
+		kontakttable = FXCollections.observableArrayList(db.listkontakter(tmpkunde));
+		TableView<Kontakt> kontaktoversigt = new TableView<Kontakt>();
+
+		TableColumn<Kontakt, String> navnCol = new TableColumn<Kontakt, String>("Navn ");
+		navnCol.setCellValueFactory(new PropertyValueFactory<Kontakt, String>("navn"));
+
+		TableColumn<Kontakt, Long> kontonrCol = new TableColumn<Kontakt, Long>("Kontonr ");
+		kontonrCol.setCellValueFactory(new PropertyValueFactory<Kontakt, Long>("kontonr"));
+		
+		kontaktoversigt.setItems(kontakttable);
+		kontaktoversigt.getColumns().addAll(navnCol,kontonrCol);
+
+		return kontaktoversigt;
+
+	}
+
 
 }
