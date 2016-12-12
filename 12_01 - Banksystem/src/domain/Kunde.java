@@ -64,7 +64,7 @@ public class Kunde {
 
 	@Override
 	public String toString() {
-		return "Kunde [navn=" + navn + ", konto=" + konto + "Oprettet: " + startdato + "brugernavn= "+brugernavn+"]";
+		return navn;
 	}
 
 }
