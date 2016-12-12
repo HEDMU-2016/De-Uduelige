@@ -453,7 +453,6 @@ public class DB implements Startable {
 	public void transfer(String modtager, String sender, Double beløb) throws SQLException {
 		System.out.println("Overfører " + beløb + "kr til " + modtager + " fra " + sender);
 		logic = new Logic();
-		Date dato = Date.valueOf(LocalDateTime.now().toLocalDate());
 		start();
 		statement = connection.prepareStatement("UPDATE konto SET saldo=? WHERE ejer=?");
 		double nyesaldo = logic.add((getSaldo(modtager)), beløb);
@@ -467,8 +466,9 @@ public class DB implements Startable {
 		statement.setDouble(1, nyesaldo);
 		statement.setString(2, sender);
 		statement.execute();
-		beløb*=-1;
-		addPostering(new Postering(sender, modtager,dato, beløb));
+		Date dato = Date.valueOf(LocalDateTime.now().toLocalDate());
+		Postering postering = new Postering(sender, modtager,dato , beløb);
+		addPostering(postering);
 		stop();
 
 	}
