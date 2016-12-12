@@ -1,11 +1,15 @@
 package logic;
 
+import java.math.BigDecimal;
+
 public class Logic {
 	
-	public double add(double n1, double n2){
-		return n1+n2;
+	public BigDecimal add(BigDecimal n1, BigDecimal n2){
+		BigDecimal sum =BigDecimal.valueOf(n1.doubleValue()+n2.doubleValue());
+		return sum;
 	}
-	public double subtract(double n1, double n2){
-		return n1-n2;
+	public BigDecimal subtract(BigDecimal n1, BigDecimal n2){
+		BigDecimal sum =BigDecimal.valueOf(n1.doubleValue()-n2.doubleValue());
+		return sum;
 	}
 }

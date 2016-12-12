@@ -11,18 +11,16 @@ public class Kunde {
 	Date startdato;
 	Date slutdato;
 
-	public Kunde(String navn, String email) {
+	public Kunde(String navn, String email, String brugernavn) {
 		this.navn = navn;
 		this.email = email;
+		this.brugernavn=brugernavn;
 	}
 
 	public String getBrugernavn() {
 		return brugernavn;
 	}
 
-	public void setBrugernavn(String brugernavn) {
-		this.brugernavn = brugernavn;
-	}
 
 	public String getKonto() {
 		return konto;
