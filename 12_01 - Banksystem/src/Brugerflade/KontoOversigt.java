@@ -28,18 +28,7 @@ import utill.TableCreator;
 public class KontoOversigt {
 ObservableList<Konto> list;
 	
-	private void createTable(ObservableList<Konto> kontolist){
-	TableView<Konto> kontooversigt = new TableView<Konto>();
-	TableColumn<Konto,String> ejerCol = new TableColumn("name");
-	ejerCol.setCellValueFactory(new PropertyValueFactory<Konto,String>("ejer"));
-	TableColumn<Konto,String> kontoIdCol = new TableColumn("ID");
-	kontoIdCol.setCellValueFactory(new PropertyValueFactory<Konto,String>("kontonummer"));
-	TableColumn<Konto,Double> saldoCol = new TableColumn("Saldo");
-	saldoCol.setCellValueFactory(new PropertyValueFactory<Konto,Double>("saldo"));
-	
-	kontooversigt.setItems(kontolist);
-	kontooversigt.getColumns().addAll(ejerCol, kontoIdCol, saldoCol);
-	}
+
 	public Kunde findKunde(String navn, DB db) throws SQLException{
 		List<Kunde> kundeliste = db.listKunder();
 		for(int i=0;i<=kundeliste.size();i++){
@@ -71,12 +60,8 @@ ObservableList<Konto> list;
 		
 		Kunde tmpkunde = db.matchkundemedlogin(bruger.getBrugernavn());
 		
-		
 		TableView<Konto> kundeoversigt = tablecreator.kontotable(tmpkunde);
 		grid.add(kundeoversigt, 0, 0);
-		
-	
-	 
 		
 		Scene scene = new Scene(grid, 400, 500);
 		stage.setScene(scene);
