@@ -93,7 +93,7 @@ public class Kundeoversigt {
 			if (navnfelt.getText().isEmpty() == false && brugernavnfelt.getText().isEmpty() == false
 					&& emailfelt.getText().isEmpty() == false)
 				try {
-					db.addKunde(new Kunde(navnfelt.getText(), emailfelt.getText(), brugernavnfelt.getText()));
+					db.addKunde(new Kunde(navnfelt.getText(), emailfelt.getText(), brugernavnfelt.getText().toLowerCase()));
 					fejl.setTextFill(Color.GREEN);
 					fejl.setText("Kunden er nu oprettet!");
 				} catch (SQLException e1) {
