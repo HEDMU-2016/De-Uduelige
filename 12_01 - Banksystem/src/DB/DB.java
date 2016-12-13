@@ -135,14 +135,17 @@ public class DB implements Startable {
 	}
 
 	public Kunde matchkundemedlogin(Login bruger) throws SQLException {
-		System.out.println("finder kunden med brugernavn: " + bruger);
+		System.out.println("finder kunden med login " + bruger);
 		List<Kunde> kundeliste = listKunder();
-		for (int i = 0; i < kundeliste.size(); i++) {
+		for (int i = 0; i < kundeliste.size();) {
 			Kunde tmpkunde = kundeliste.get(i);
-			if (tmpkunde.getBrugernavn().equals(bruger)) {
-				System.out.println("matchede brugernavnet " + bruger + " med Kunde " + tmpkunde);
+			if (tmpkunde.getBrugernavn().equals(bruger.getBrugernavn())) {
+				System.out.println("matchede login " + bruger + " med Kunde " + tmpkunde);
 				return tmpkunde;
 			}
+			else 
+				System.out.println(tmpkunde+" matchede ikke "+bruger);
+				i++;
 		}
 		return null;
 	}
@@ -392,8 +395,6 @@ public class DB implements Startable {
 		statement = connection.prepareStatement("Select navn, email, startdato, brugernavn from kunde");
 		resultset = statement.executeQuery();
 
-		for(int i=0;i<= kundeliste.size();i++){
-		
 		while (resultset.next()) {
 			String navn = resultset.getString("navn");
 			String email = resultset.getString("email");
@@ -403,10 +404,8 @@ public class DB implements Startable {
 
 			System.out.println("tilføjede " + tmpKunde.toString() + " Til listen");
 		}
-		}
 		return kundeliste;
 	}
-
 	public List<Login> listLogins() throws SQLException {
 		System.out.println("Laver en liste over alle logins");
 		List<Login> logintable = new ArrayList<>();
@@ -437,8 +436,9 @@ public class DB implements Startable {
 		List<FastOverførsel> fastoverførselsliste = new ArrayList<>();
 		List<Konto> brugerenskontoliste = listkonti(matchkundemedlogin(bruger));
 		start();
-		for(int i=0; i<brugerenskontoliste.size();){
+		for(int i=0; i<brugerenskontoliste.size();i++)	{
 			Konto tmpkonto = brugerenskontoliste.get(i);
+			System.out.println("finder faste overførsler for "+tmpkonto);
 			
 			statement = connection.prepareStatement("select sender,modtager, beløb, startdato, id from fastoverførsel where sender=?");
 			statement.setInt(1, tmpkonto.getKontonummer());
@@ -449,9 +449,11 @@ public class DB implements Startable {
 				double beløb = resultset.getDouble("beløb");
 				Date startdato = resultset.getDate("startdato");
 				int id = resultset.getInt("id");
-				fastoverførselsliste.add(new FastOverførsel(senderskontoid,modtagerskontoid,BigDecimal.valueOf(beløb),
-						startdato,id));
-				i++;
+				FastOverførsel tmpfastoverførsel = new FastOverførsel(senderskontoid,modtagerskontoid,BigDecimal.valueOf(beløb),
+						startdato,id);
+				System.out.println("fandt"+tmpfastoverførsel);
+				fastoverførselsliste.add(tmpfastoverførsel);
+			
 				}
 			}
 		return fastoverførselsliste;	
@@ -525,7 +527,7 @@ public class DB implements Startable {
 		start();
 		statement = connection.prepareStatement("UPDATE konto SET saldo=? WHERE kontoid=?");
 		statement.setDouble(1, nyesaldo.doubleValue());
-		statement.setInt(2, modtagerskontoid);
+		statement.setInt(2, senderskontoid);
 		statement.execute();
 		System.out.println("tilførte " + beløb + " til konto med id " + modtagerskontoid + "s konto");
 		
@@ -534,13 +536,15 @@ public class DB implements Startable {
 		
 		statement2 = connection.prepareStatement("UPDATE konto SET saldo=? WHERE kontoid=?");
 		statement2.setDouble(1, nyesaldo.doubleValue());
-		statement2.setInt(2, senderskontoid);
+		statement2.setInt(2, modtagerskontoid);
 		statement2.execute();
-		BigDecimal inversemultiplicand = BigDecimal.valueOf(-1);
-		beløb.multiply(inversemultiplicand);
 		
-		Postering senderenspostering = new Postering(modtagerskontoid, senderskontoid, dato, beløb);
-		Postering modtagerenspostering = new Postering(senderskontoid, modtagerskontoid, dato, beløb);
+		BigDecimal inversemultiplicand = BigDecimal.valueOf(-1);
+		
+		
+		Postering senderenspostering = new Postering(senderskontoid, modtagerskontoid, dato, beløb);
+		BigDecimal beløb2 =beløb.multiply(inversemultiplicand);
+		Postering modtagerenspostering = new Postering(senderskontoid, modtagerskontoid, dato, beløb2);
 		
 		addPostering(senderenspostering);
 		addPostering(modtagerenspostering);
@@ -568,33 +572,33 @@ public class DB implements Startable {
 		return null;
 	}
 
-	public void fastoverførsel(Date slutdato, int senderskontoid, int modtagerskontoid, double beløb, int id)
+	public void fastoverførsel(Date startdato, int senderskontoid, int modtagerskontoid, double beløb, int id)
 			throws SQLException {
 		start();
 		System.out.println("Tilfører fast overførsel");
-		statement = connection.prepareStatement("insert into fastoverførsel (sender,modtager,beløb,slutdato,id) values (?,?,?,?,?)");
+		statement = connection.prepareStatement("insert into fastoverførsel (sender,modtager,beløb,startdato,id) values (?,?,?,?,?)");
 		statement.setInt(1, senderskontoid);
 		statement.setInt(2, modtagerskontoid);
 		statement.setDouble(3, beløb);
-		statement.setDate(4, slutdato);
+		statement.setDate(4, startdato);
 		statement.setInt(5, id);
 		statement.execute();
 		if (id == 1) {
 			System.out.println("oprettede daglig overførsel på " + beløb + "kr fra " + senderskontoid + " til " + modtagerskontoid
-					+ " med startdato: " + slutdato);
+					+ " med startdato: " + startdato);
 		}
 		if (id == 2) {
 			System.out.println("oprettede ugentlig overførsel på " + beløb + "kr fra " + senderskontoid + " til " + modtagerskontoid
-					+ " med startdato: " + slutdato);
+					+ " med startdato: " + startdato);
 		}
 		if (id == 3) {
 			System.out.println("oprettede månedlig overførsel på " + beløb + "kr fra " + senderskontoid + " til " + modtagerskontoid
-					+ " med startdato: " + slutdato);
+					+ " med startdato: " + startdato);
 
 		}
 		if (id == 4) {
 			System.out.println("oprettede årlig overførsel på " + beløb + "kr fra " + senderskontoid + " til " + modtagerskontoid
-					+ " med startdato: " + slutdato);
+					+ " med startdato: " + startdato);
 		}
 	}
 
