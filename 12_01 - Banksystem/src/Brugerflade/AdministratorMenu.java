@@ -71,7 +71,7 @@ public class AdministratorMenu {
 		
 		Button brugermenuknap = new Button("Brugermenu");
 		grid.add(brugermenuknap, 0, 1);
-		brugermenuknap.setId("knapImenu");
+		brugermenuknap.setId("KnapImenu");
 		brugermenuknap.setOnAction(e->{
 			Brugermenu brugermenu = new Brugermenu();
 			brugermenu.start(new Stage(), bruger);
@@ -93,7 +93,7 @@ public class AdministratorMenu {
 		
 	
 		Button kontooversigt = new Button("Se alle kontis");
-		grid.add(kontooversigt, 0, 6);
+		grid.add(kontooversigt, 0, 3);
 		kontooversigt.setId("KnapImenu");
 		kontooversigt.setOnAction(e -> {
 			AdminensKontoView adminenskontoview = new AdminensKontoView();
@@ -105,7 +105,7 @@ public class AdministratorMenu {
 		});
 		
 		Button logins = new Button("Se alle logins");
-		grid.add(logins, 0, 7);
+		grid.add(logins, 0, 4);
 		logins.setId("KnapImenu");
 		logins.setOnAction(e -> {
 			LoginOversigt loginoversigt = new LoginOversigt();
