@@ -1,5 +1,6 @@
 package Brugerflade;
 
+import java.awt.Color;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -33,6 +34,7 @@ public class Brugermenu {
 	stage.getIcons().add(new Image("Brugerflade/ico.png"));
 
 	Text fejl = new Text();
+	fejl.setId("fejltext");
 	grid.add(fejl, 0, 5);
 	
 	Text navn = new Text("Lortebank A/S");
@@ -91,7 +93,9 @@ public class Brugermenu {
 	overførsel.setOnAction(e ->{
 		OverførselsStage overførselsstage = new OverførselsStage();
 		try {
+			
 			overførselsstage.start(new Stage(), bruger);
+			
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -103,7 +107,9 @@ public class Brugermenu {
 	kontohistorik.setOnAction(e ->{
 	KontoHistorik historikvindue = new KontoHistorik();
 	try {
+		if(db.matchkundemedlogin(bruger) !=null)
 		historikvindue.start(new Stage(),bruger);
+		else fejl.setText("Der ingen konto at finde historik til");
 	} catch (SQLException e1) {
 		e1.printStackTrace();
 	}
