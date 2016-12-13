@@ -539,9 +539,10 @@ public class DB implements Startable {
 		statement2.setInt(2, senderskontoid);
 		statement2.execute();
 		BigDecimal inversemultiplicand = BigDecimal.valueOf(-1);
-		beløb.multiply(inversemultiplicand);
 		
-		Postering senderenspostering = new Postering(modtagerskontoid, senderskontoid, dato, beløb);
+		
+		Postering senderenspostering = new Postering(senderskontoid, modtagerskontoid, dato, beløb);
+		beløb.multiply(inversemultiplicand);
 		Postering modtagerenspostering = new Postering(senderskontoid, modtagerskontoid, dato, beløb);
 		
 		addPostering(senderenspostering);
