@@ -33,6 +33,12 @@ beløb double not null,
 id int not null
 unikid int identity
 )
+create table postering(
+modtager int not null,
+sender int not null,
+sendt Date not null,
+beløb double not null,
+)
 
 
 
