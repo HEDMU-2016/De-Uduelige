@@ -51,11 +51,14 @@ ObservableList<Konto> list;
 		stage.getIcons().add(new Image("Brugerflade/ico.png"));
 
 		Button close = new Button("X");
+		HBox hbClose = new HBox(10);
 		close.setId("close");
-		grid.add(close, 0,0);
-		
+		hbClose.getChildren().add(close);
+		hbClose.setAlignment(Pos.TOP_RIGHT);
+		grid.add(hbClose, 1, 0);
+
 		close.setOnAction(e -> {
-		stage.close();
+			stage.close();
 		});
 		
 		Kunde tmpkunde = db.matchkundemedlogin(bruger.getBrugernavn());
@@ -63,7 +66,7 @@ ObservableList<Konto> list;
 		TableView<Konto> kundeoversigt = tablecreator.kontoTable(tmpkunde);
 		grid.add(kundeoversigt, 0, 0);
 		
-		Scene scene = new Scene(grid, 400, 500);
+		Scene scene = new Scene(grid);
 		stage.setScene(scene);
 		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 		stage.setResizable(false);

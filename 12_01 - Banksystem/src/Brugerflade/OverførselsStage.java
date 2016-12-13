@@ -98,7 +98,9 @@ public class OverførselsStage {
 		grid.add(modtagerfelt, 1, 3);
 
 		Button kontaktbogknap = new Button("Kontaktbog");
-		grid.add(kontaktbogknap, 2, 3);
+		grid.add(kontaktbogknap, 1, 4);
+		kontaktbogknap.setId("Knap");
+		kontaktbogknap.setPrefWidth(175);
 		Kontaktbog kontaktbog = new Kontaktbog();
 		kontaktbogknap.setOnAction(e -> {
 
@@ -111,7 +113,7 @@ public class OverførselsStage {
 
 		CheckBox fastOverførsel = new CheckBox("Fast overførsel");
 		fastOverførsel.setId("labelting");
-		grid.add(fastOverførsel, 0, 4, 2, 4);
+		grid.add(fastOverførsel, 0, 5, 2, 5);
 
 		ObservableList<String> options = FXCollections.observableArrayList("Dagligt", "Ugentligt", "Månedligt",
 				"Kvartaligt", "Halvårligt", "Årligt");
@@ -119,7 +121,7 @@ public class OverførselsStage {
 		HBox hbBox = new HBox();
 		hbBox.getChildren().add(comboBox);
 		hbBox.setAlignment(Pos.CENTER_RIGHT);
-		grid.add(hbBox, 1, 5);
+		grid.add(hbBox, 1, 6);
 		hbBox.setVisible(false);
 
 		fastOverførsel.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -138,22 +140,24 @@ public class OverførselsStage {
 		hbBtn.getChildren().add(btn);
 		btn.setId("KnapImenu");
 		hbBtn.setStyle("-fx-padding: 10px 0px 20px 0px;");
-		grid.add(hbBtn, 0, 6, 2, 6);
+		grid.add(hbBtn, 0, 7, 2, 7);
 		
 		Button fasteoverførsler = new Button("Se dine faste overførsler");
-		grid.add(fasteoverførsler, 0, 7,3,7);
+		fasteoverførsler.setId("Knap");
+		grid.add(fasteoverførsler, 0,4);
 		fasteoverførsler.setOnAction(e->{
 			FastoverførselsOversigt fastoverførselsoversigt = new FastoverførselsOversigt();
 			fastoverførselsoversigt.start(new Stage(),bruger);
 		});
 
 		Text fejl = new Text("");
-		grid.add(fejl, 0, 8, 2, 8);
+		grid.add(fejl, 0, 9, 2, 9);
 		fejl.setId("fejl");
 
 		btn.setOnAction(e -> {
-			fejl.setFill(Color.RED);
-			fejl.setText("Overførsel fejlede (tror jeg?)");
+			if(modtagerfelt.getText().isEmpty() == false && senderfelt.getText().isEmpty() == false && beløbfelt.getText().isEmpty() == false){
+			fejl.setFill(Color.GREEN);
+			fejl.setText("Overførsel er nu udført!");
 			try {
 
 				if (fastOverførsel.isSelected() == false) {
@@ -194,6 +198,10 @@ public class OverførselsStage {
 
 			} catch (SQLException e1) {
 				e1.printStackTrace();
+			}
+			}else {
+				fejl.setFill(Color.RED);
+				fejl.setText("Du skal lige udfylde alle felterne!");
 			}
 		});
 		Scene scene = new Scene(grid, 400, 400);

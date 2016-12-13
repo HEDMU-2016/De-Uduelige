@@ -15,6 +15,20 @@
 	-fx-fill: #00316c;
 }
 
+#Knap{
+	-fx-background-color: #00316c;
+	-fx-text-fill: white;
+	-fx-effect: dropshadow( three-pass-box , rgba(0.0,0.0,0.0,0.6) , 5.0, 0.0 , 0.0 , 1.0 );	
+}
+
+#Knap:hover {
+    -fx-background-color: #001d40;
+}
+
+#Knap:pressed {
+    -fx-background-color: #000915;
+}
+
 #KnapImenu{
 	-fx-pref-width: 300;
 	-fx-min-height: 50;
