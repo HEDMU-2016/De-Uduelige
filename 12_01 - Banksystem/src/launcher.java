@@ -16,6 +16,7 @@ import login.Login_IO;
 
 public class launcher extends Application {
 	public static void main(String[] args) throws SQLException{
+		System.out.println(System.currentTimeMillis());
 		launch (args);
 	}
 

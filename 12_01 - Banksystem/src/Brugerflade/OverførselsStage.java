@@ -139,6 +139,13 @@ public class OverførselsStage {
 		btn.setId("KnapImenu");
 		hbBtn.setStyle("-fx-padding: 10px 0px 20px 0px;");
 		grid.add(hbBtn, 0, 6, 2, 6);
+		
+		Button fasteoverførsler = new Button("Se dine faste overførsler");
+		grid.add(fasteoverførsler, 0, 7,3,7);
+		fasteoverførsler.setOnAction(e->{
+			FastoverførselsOversigt fastoverførselsoversigt = new FastoverførselsOversigt();
+			fastoverførselsoversigt.start(new Stage(),bruger);
+		});
 
 		Text fejl = new Text("");
 		grid.add(fejl, 0, 8, 2, 8);
@@ -149,15 +156,16 @@ public class OverførselsStage {
 			fejl.setText("Overførsel fejlede (tror jeg?)");
 			try {
 
-				if (fastOverførsel.isArmed() == false) {
+				if (fastOverførsel.isSelected() == false) {
 					System.out.println("modtagerfelt:" + modtagerfelt.getText());
 					System.out.println("senderfelt:" + senderfelt.getText());
 					System.out.println("beløbfelt:" + beløbfelt.getText());
 					System.out.println("en gangs overførsel");
 					db.transfer(Integer.parseInt(modtagerfelt.getText()), Integer.parseInt(senderfelt.getText()),
 							BigDecimal.valueOf(Double.parseDouble(beløbfelt.getText())));
-					
-					if (fastOverførsel.isArmed() == true) {
+				}
+					if (fastOverførsel.isSelected() == true) {
+						System.out.println("Fast overførsel oprettes...");
 						if (comboBox.getValue() == "Dagligt") {
 							db.fastoverførsel(Date.valueOf(LocalDate.now()), senderfelt.getText(),
 									modtagerfelt.getText(), Double.parseDouble(beløbfelt.getText()), 1);
@@ -184,7 +192,6 @@ public class OverførselsStage {
 						}
 					}
 
-				}
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}

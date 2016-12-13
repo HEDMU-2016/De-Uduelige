@@ -33,8 +33,8 @@ beløb double not null,
 id int not null
 )
 create table timer(
-tid varchar(255)
+tid varchar(255),
 id int not null
 )
-insert into timer System.currenttimemilis (få værdien fra java og copy paste den inde)
+insert into timer System.currenttimemilis (få værdien fra java og copy paste den ind)
 og id=1.
