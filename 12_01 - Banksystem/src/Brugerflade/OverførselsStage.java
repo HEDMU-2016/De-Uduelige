@@ -169,7 +169,7 @@ public class OverførselsStage {
 					System.out.println("senderfelt:" + senderfelt.getText());
 					System.out.println("beløbfelt:" + beløbfelt.getText());
 					System.out.println("en gangs overførsel");
-					db.transfer(Integer.parseInt(modtagerfelt.getText()), Integer.parseInt(senderfelt.getText()),
+					db.transfer( Integer.parseInt(senderfelt.getText()),Integer.parseInt(modtagerfelt.getText()),
 							BigDecimal.valueOf(Double.parseDouble(beløbfelt.getText())));
 				}
 					if (fastOverførsel.isSelected() == true) {

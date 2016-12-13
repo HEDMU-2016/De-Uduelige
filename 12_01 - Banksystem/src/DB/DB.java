@@ -522,14 +522,15 @@ public class DB implements Startable {
 		PreparedStatement statement2;
 		logic = new Logic();
 		Date dato = Date.valueOf(LocalDateTime.now().toLocalDate());
-		BigDecimal nyesaldo = logic.add((BigDecimal.valueOf(getSaldo(modtagerskontoid))), beløb);
-		
 		System.out.println("forsøger at Overføre " + beløb + "kr til konto med id" + modtagerskontoid + " fra konto med id "
 				+ senderskontoid);
+		BigDecimal nyesaldo = logic.add((BigDecimal.valueOf(getSaldo(modtagerskontoid))), beløb);
+		
+		
 		start();
 		statement = connection.prepareStatement("UPDATE konto SET saldo=? WHERE kontoid=?");
 		statement.setDouble(1, nyesaldo.doubleValue());
-		statement.setInt(2, senderskontoid);
+		statement.setInt(2, modtagerskontoid);
 		statement.execute();
 		System.out.println("tilførte " + beløb + " til konto med id " + modtagerskontoid + "s konto");
 		
@@ -538,15 +539,14 @@ public class DB implements Startable {
 		
 		statement2 = connection.prepareStatement("UPDATE konto SET saldo=? WHERE kontoid=?");
 		statement2.setDouble(1, nyesaldo.doubleValue());
-		statement2.setInt(2, modtagerskontoid);
+		statement2.setInt(2, senderskontoid);
 		statement2.execute();
 		
 		BigDecimal inversemultiplicand = BigDecimal.valueOf(-1);
 		
 		
 		Postering senderenspostering = new Postering(senderskontoid, modtagerskontoid, dato, beløb);
-		BigDecimal beløb2 =beløb.multiply(inversemultiplicand);
-		Postering modtagerenspostering = new Postering(senderskontoid, modtagerskontoid, dato, beløb2);
+		Postering modtagerenspostering = new Postering(senderskontoid, modtagerskontoid, dato, beløb);
 		
 		addPostering(senderenspostering);
 		addPostering(modtagerenspostering);
