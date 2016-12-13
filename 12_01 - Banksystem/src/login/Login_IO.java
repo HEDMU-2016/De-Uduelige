@@ -142,7 +142,7 @@ public class Login_IO extends Application {
 					boolean korrekt = db.checkLogin(usernameInput.getText().toLowerCase(), passwordInput.getText());
 
 					if (korrekt == true) {
-						Login tmplogin = db.findLogin(usernameInput.getText());
+						Login tmplogin = db.findLogin(usernameInput.getText().toLowerCase());
 						
 						fejl.setText("Du er nu logget ind som: \"" + usernameInput.getText() + "\"!");
 						usernameInput.setText("");
@@ -219,7 +219,7 @@ public class Login_IO extends Application {
 									passwordInput.getText());
 
 							if (korrekt == true) {
-								Login tmplogin = db.findLogin(usernameInput.getText());
+								Login tmplogin = db.findLogin(usernameInput.getText().toLowerCase());
 								fejl.setText("Du er nu logget ind som: \"" + usernameInput.getText() + "\"!");
 								usernameInput.setText("");
 								passwordInput.setText("");
