@@ -527,7 +527,7 @@ public class DB implements Startable {
 		start();
 		statement = connection.prepareStatement("UPDATE konto SET saldo=? WHERE kontoid=?");
 		statement.setDouble(1, nyesaldo.doubleValue());
-		statement.setInt(2, modtagerskontoid);
+		statement.setInt(2, senderskontoid);
 		statement.execute();
 		System.out.println("tilførte " + beløb + " til konto med id " + modtagerskontoid + "s konto");
 		
@@ -536,14 +536,15 @@ public class DB implements Startable {
 		
 		statement2 = connection.prepareStatement("UPDATE konto SET saldo=? WHERE kontoid=?");
 		statement2.setDouble(1, nyesaldo.doubleValue());
-		statement2.setInt(2, senderskontoid);
+		statement2.setInt(2, modtagerskontoid);
 		statement2.execute();
+		
 		BigDecimal inversemultiplicand = BigDecimal.valueOf(-1);
 		
 		
 		Postering senderenspostering = new Postering(senderskontoid, modtagerskontoid, dato, beløb);
-		beløb.multiply(inversemultiplicand);
-		Postering modtagerenspostering = new Postering(senderskontoid, modtagerskontoid, dato, beløb);
+		BigDecimal beløb2 =beløb.multiply(inversemultiplicand);
+		Postering modtagerenspostering = new Postering(senderskontoid, modtagerskontoid, dato, beløb2);
 		
 		addPostering(senderenspostering);
 		addPostering(modtagerenspostering);
