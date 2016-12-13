@@ -34,15 +34,16 @@ public class FastoverførselsOversigt {
 		close.setId("close");
 		hbClose.getChildren().add(close);
 		hbClose.setAlignment(Pos.TOP_RIGHT);
-		grid.add(hbClose, 0, 0);
+		grid.add(hbClose, 1, 0);
 		
 		close.setOnAction(e -> {
 			stage.close();
 		});
 		TableView<FastOverførsel> fasteroverførsler =tablecreator.fastoverførselsTable(bruger);
-		grid.add(fasteroverførsler, 0, 0,5,10);
+		grid.add(fasteroverførsler, 0, 0);
+		fasteroverførsler.setPrefWidth(450);
 
-		Scene scene = new Scene(grid, 400, 400);
+		Scene scene = new Scene(grid);
 		stage.setScene(scene);
 		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 		stage.setResizable(false);
