@@ -31,6 +31,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 public class Login_IO extends Application {
 	DB db = new DB();
@@ -180,11 +181,17 @@ public class Login_IO extends Application {
 		Scene scene = new Scene(grid, 550, 280);
 		loginStage.setScene(scene);
 		scene.getStylesheets().add(Login_IO.class.getResource("login.css").toExternalForm());
-		// loginStage.setResizable(false);
-		// loginStage.setMaximized(true);
+		loginStage.setResizable(false);
+		//loginStage.setMaximized(true);
 		loginStage.initStyle(StageStyle.UNDECORATED);
 		loginStage.show();
-
+		
+		loginStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                event.consume();
+            }
+        });
 		usernameInput.requestFocus();
 
 		// Lyt efter Enter tast

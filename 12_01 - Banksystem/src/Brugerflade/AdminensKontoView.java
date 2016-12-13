@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import DB.DB;
 import domain.Konto;
 import domain.Kunde;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -21,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import utill.TableCreator;
 
 public class AdminensKontoView {
@@ -96,7 +98,14 @@ public class AdminensKontoView {
 			stage.setScene(scene);
 			scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 			stage.setResizable(false);
-			stage.initStyle(StageStyle.UNDECORATED);
-			stage.show(); 
+			stage.initStyle(StageStyle.UTILITY);
+			stage.show();
+			
+			stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+	            @Override
+	            public void handle(WindowEvent event) {
+	                event.consume();
+	            }
+	        });
 		}
 	}

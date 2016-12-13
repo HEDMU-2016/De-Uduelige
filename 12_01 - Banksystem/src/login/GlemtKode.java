@@ -22,6 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 public class GlemtKode {
 	public void start(Stage glemtStage) {
@@ -133,7 +134,13 @@ public class GlemtKode {
 		glemtStage.setResizable(false);
 		glemtStage.initStyle(StageStyle.UNDECORATED);
 		glemtStage.show();
-
+		
+		glemtStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                event.consume();
+            }
+        });
 		usernameInput.requestFocus();
 
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
