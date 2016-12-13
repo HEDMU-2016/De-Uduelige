@@ -72,7 +72,7 @@ public class TableCreator {
 		ejerCol.setCellValueFactory(new PropertyValueFactory<Konto, String>("ejer"));
 
 		TableColumn<Konto, Integer> kontoCol = new TableColumn<Konto, Integer>("KontoID ");
-		kontoCol.setCellValueFactory(new PropertyValueFactory<Konto, Integer>("kontoid"));
+		kontoCol.setCellValueFactory(new PropertyValueFactory<Konto, Integer>("kontonummer"));
 
 		TableColumn<Konto, Double> saldoCol = new TableColumn<Konto, Double>("Saldo ");
 		saldoCol.setCellValueFactory(new PropertyValueFactory<Konto, Double>("saldo"));
@@ -94,7 +94,7 @@ public class TableCreator {
 		ejerCol.setCellValueFactory(new PropertyValueFactory<Konto, String>("ejer"));
 
 		TableColumn<Konto, Integer> kontoCol = new TableColumn<Konto, Integer>("kontoID ");
-		kontoCol.setCellValueFactory(new PropertyValueFactory<Konto, Integer>("kontoid"));
+		kontoCol.setCellValueFactory(new PropertyValueFactory<Konto, Integer>("kontonummer"));
 
 		TableColumn<Konto, Double> saldoCol = new TableColumn<Konto, Double>("Saldo ");
 		saldoCol.setCellValueFactory(new PropertyValueFactory<Konto, Double>("saldo"));

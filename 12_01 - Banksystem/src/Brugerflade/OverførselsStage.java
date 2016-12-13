@@ -71,8 +71,6 @@ public class OverførselsStage {
 		grid.add(beløb, 0, 1);
 
 		TextField beløbfelt = new TextField();
-		// beløbfelt.setTextFormatter(new TextFormatter<>(new
-		// NumberStringConverter()));
 		grid.add(beløbfelt, 1, 1);
 
 		Label frakonto = new Label("fra kontonr: ");
@@ -137,12 +135,14 @@ public class OverførselsStage {
 			}
 		});
 
+
 		Button btn = new Button("Overfør Beløb");
 		HBox hbBtn = new HBox(10);
 		hbBtn.getChildren().add(btn);
 		btn.setId("KnapImenu");
 		hbBtn.setStyle("-fx-padding: 10px 0px 20px 0px;");
 		grid.add(hbBtn, 0, 7, 2, 7);
+
 
 		Button fasteoverførsler = new Button("Se dine faste overførsler");
 		fasteoverførsler.setId("Knap");
@@ -159,8 +159,15 @@ public class OverførselsStage {
 		Text fejl = new Text("");
 		grid.add(fejl, 0, 9, 2, 9);
 		fejl.setId("fejl");
+		
+		Button overførknappen = new Button("Overfør Beløb");
+		HBox overførknappensHB = new HBox(10);
+		overførknappensHB.getChildren().add(overførknappen);
+		overførknappen.setId("KnapImenu");
+		overførknappensHB.setStyle("-fx-padding: 10px 0px 20px 0px;");
+		grid.add(overførknappensHB, 0, 7, 2, 7);
 
-		btn.setOnAction(e -> {
+		overførknappen.setOnAction(e -> {
 			try {
 				if (checklegitness(beløbfelt, senderfelt, modtagerfelt, bruger) == true) {
 					
@@ -228,7 +235,7 @@ public class OverførselsStage {
 					}
 				} else {
 					fejl.setFill(Color.RED);
-					fejl.setText("Du skal lige udfylde alle felterne!");
+					fejl.setText("Din overførsel er ikke legit");
 				}
 			} catch (NumberFormatException | SQLException e1) {
 				e1.printStackTrace();
@@ -244,18 +251,35 @@ public class OverførselsStage {
 
 	private boolean checklegitness(TextField beløbfelt, TextField senderfelt, TextField modtagerfelt, Login bruger)
 			throws SQLException {
-		String regex = "[0-9]+";
+		String[] bogstaver = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","x","y","z","æ","ø","å"};
+		String[] storebogstaver = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","X","Y","Z","Æ","Ø","Å"};
 		List<Konto> kontolist = db.listkonti(db.matchkundemedlogin(bruger));
+		
 		boolean egenkonto=false;
-		for (int i = 0; i < kontolist.size(); ) {
-			if (kontolist.get(i).getKontonummer() == Integer.parseInt(senderfelt.getText()));			
+		boolean indeholderbogstaver=false;
+		
+		for (int i = 0; i < kontolist.size();i++ ) {
+			if (kontolist.get(i).getKontonummer() == Integer.parseInt(senderfelt.getText())){			
 			egenkonto = true;
-			i++;
+			break;
+			}
+		}
+		for(int i=0;i<=27;i++){
+			if(beløbfelt.getText().contains(bogstaver[i]) 
+				|| beløbfelt.getText().contains(storebogstaver[i])){
+				indeholderbogstaver=false;
+				break;
+			}
 		}
 
-		if (beløbfelt.getText().isEmpty() == false && modtagerfelt.getText().isEmpty() == false
-				&& senderfelt.getText().isEmpty() == false && beløbfelt.getText().matches(regex)
-				&& Double.parseDouble(beløbfelt.getText()) > 0 && egenkonto==true) {
+		if (beløbfelt.getText().isEmpty() == false 
+			&& modtagerfelt.getText().isEmpty() == false
+			&& senderfelt.getText().isEmpty() == false && indeholderbogstaver==false 
+			&& egenkonto==true 
+			&& Double.parseDouble(beløbfelt.getText()) > 0 
+			&& Double.parseDouble(senderfelt.getText())>0
+			&& Double.parseDouble(modtagerfelt.getText())>0
+			) {
 			return true;
 		} else
 			return false;
