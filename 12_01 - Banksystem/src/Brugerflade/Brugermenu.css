@@ -86,3 +86,7 @@
 	-fx-fill: #00316c;
 	-fx-font-size: 20;
 }
+#fejltext{
+	-fx-fill: rgb(255,47,52);
+	-fx-font-size: 16px;
+}
