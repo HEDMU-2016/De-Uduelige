@@ -26,7 +26,7 @@ update kunde set brugernavn='dit brugernavn' where navn='jeres navn'
 
 create table fastoverførsel
 (
-slutdato Date,
+startdato Date not null,
 sender int not null,
 modtager int not null,
 beløb double not null,
