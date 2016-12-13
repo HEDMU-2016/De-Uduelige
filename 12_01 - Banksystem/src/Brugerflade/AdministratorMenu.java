@@ -116,7 +116,7 @@ public class AdministratorMenu {
 			}
 		});
 
-		Scene scene = new Scene(grid, 400, 500);
+		Scene scene = new Scene(grid, 400, 400);
 		stage.setScene(scene);
 		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 		stage.setResizable(false);

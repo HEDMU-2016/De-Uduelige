@@ -27,7 +27,8 @@ public class KontoHistorik {
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
 		grid.setHgap(10);
-
+		grid.setAlignment(Pos.CENTER);
+		
 		stage.setTitle("Konto historik - Lortebank A/S");
 		stage.getIcons().add(new Image("Brugerflade/ico.png"));
 
