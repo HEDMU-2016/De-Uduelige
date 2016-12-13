@@ -60,7 +60,7 @@ ObservableList<Konto> list;
 		
 		Kunde tmpkunde = db.matchkundemedlogin(bruger.getBrugernavn());
 		
-		TableView<Konto> kundeoversigt = tablecreator.kontotable(tmpkunde);
+		TableView<Konto> kundeoversigt = tablecreator.kontoTable(tmpkunde);
 		grid.add(kundeoversigt, 0, 0);
 		
 		Scene scene = new Scene(grid, 400, 500);

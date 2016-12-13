@@ -31,6 +31,7 @@ sender int not null,
 modtager int not null,
 beløb double not null,
 id int not null
+unikid int identity
 )
 
 

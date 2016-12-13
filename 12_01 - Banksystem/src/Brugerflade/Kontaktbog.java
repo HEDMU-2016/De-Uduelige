@@ -42,7 +42,7 @@ public class Kontaktbog {
 		close.setOnAction(e -> {
 			stage.close();
 		});
-		TableView<Kontakt> kontakttable = tablecreator.Kontakttable(bruger);
+		TableView<Kontakt> kontakttable = tablecreator.kontaktTable(bruger);
 		grid.add(kontakttable, 1, 1);
 		
 		Label navnlabel = new Label("navn");

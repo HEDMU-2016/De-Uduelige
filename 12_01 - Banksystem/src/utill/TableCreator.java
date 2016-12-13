@@ -19,7 +19,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class TableCreator {
 	DB db = new DB();
 
-	public TableView<Kunde> kundetable() throws SQLException {
+	public TableView<Kunde> kundeTable() throws SQLException {
 
 		ObservableList<Kunde> kundetabel;
 		kundetabel = FXCollections.observableArrayList(db.listKunder());
@@ -42,7 +42,7 @@ public class TableCreator {
 
 
 
-	public TableView<Login> logintable() throws SQLException {
+	public TableView<Login> loginTable() throws SQLException {
 		ObservableList<Login> logintabel;
 		logintabel = FXCollections.observableArrayList(db.listLogins());
 
@@ -61,7 +61,7 @@ public class TableCreator {
 		loginoversigt.getColumns().addAll(bnCol, pwCol, idCol);
 		return loginoversigt;
 	}
-	public TableView<Konto> kontotable(Kunde kunde) throws SQLException {
+	public TableView<Konto> kontoTable(Kunde kunde) throws SQLException {
 		TableView<Konto> kontooversigt = new TableView<Konto>();
 		List<Konto> kontolist = db.listkonti(kunde);
 
@@ -85,7 +85,7 @@ public class TableCreator {
 	}
 	
 
-	public TableView<Konto> kontotable() throws SQLException {
+	public TableView<Konto> kontoTable() throws SQLException {
 		ObservableList<Konto> kontotabel;
 		kontotabel = FXCollections.observableArrayList(db.listAlleKontis());
 
@@ -105,7 +105,7 @@ public class TableCreator {
 		return kontooversigt;
 	}
 
-	public TableView<Postering> posteringstable(Konto konto) throws SQLException {
+	public TableView<Postering> posteringsTable(Konto konto) throws SQLException {
 		ObservableList<Postering> posteringstable;
 		posteringstable = FXCollections.observableArrayList(db.listPostering());
 
@@ -129,19 +129,19 @@ public class TableCreator {
 		return posteringsoversigt;
 	}
 
-	public TableView<Postering> posteringtable(Kunde kunde) throws SQLException {
+	public TableView<Postering> posteringTable(Kunde kunde) throws SQLException {
 		ObservableList<Postering> posteringstable;
 		List<Konto> kontolist =db.listkonti(kunde);
 		TableView<Postering> posteringsoversigt = new TableView<Postering>();
 
 		for(int i=0; i<kontolist.size();i++){
-		posteringsoversigt = posteringstable(kontolist.get(i));
+		posteringsoversigt = posteringsTable(kontolist.get(i));
 		
 		}
 		return posteringsoversigt;
 		}
 
-	public TableView<Kontakt> Kontakttable(Login bruger) throws SQLException {
+	public TableView<Kontakt> kontaktTable(Login bruger) throws SQLException {
 		Kunde tmpkunde = db.matchkundemedlogin(bruger.getBrugernavn());
 		ObservableList<Kontakt> kontakttable;
 		kontakttable = FXCollections.observableArrayList(db.listkontakter(tmpkunde));
@@ -159,5 +159,6 @@ public class TableCreator {
 		return kontaktoversigt;
 
 	}
+	public TableView<FastOverførsel> fastoverførselsTable
 
 }

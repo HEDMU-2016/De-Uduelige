@@ -51,7 +51,7 @@ public class AdminensKontoView {
 				stage.close();
 			});
 
-			TableView<Konto> kompletteKontoliste = tablecreator.kontotable();
+			TableView<Konto> kompletteKontoliste = tablecreator.kontoTable();
 			kompletteKontoliste.setPrefWidth(350);
 			grid.add(kompletteKontoliste, 0, 1, 1, 5);
 			

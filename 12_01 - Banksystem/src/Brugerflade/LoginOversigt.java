@@ -56,7 +56,7 @@ public class LoginOversigt {
 			stage.close();
 		});
 
-		TableView<Login> loginoversigt = tablecreator.logintable();
+		TableView<Login> loginoversigt = tablecreator.loginTable();
 		loginoversigt.setPrefWidth(350);
 		// loginoversigt.getSelectionModel().setCellSelectionEnabled(true);
 		// loginoversigt.setEditable(true);

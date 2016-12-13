@@ -38,7 +38,7 @@ public class KontoHistorik {
 		});
 		
 		Kunde tmpkunde = db.matchkundemedlogin(bruger.getBrugernavn());
-		TableView<Postering> kontohistorik=tablecreator.posteringtable(tmpkunde);
+		TableView<Postering> kontohistorik=tablecreator.posteringTable(tmpkunde);
 		grid.add(kontohistorik, 0, 0);
 
 

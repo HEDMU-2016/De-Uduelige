@@ -55,7 +55,7 @@ public class Kundeoversigt {
 			stage.close();
 		});
 
-		TableView<Kunde> kundeoversigt = tablecreator.kundetable();
+		TableView<Kunde> kundeoversigt = tablecreator.kundeTable();
 		kundeoversigt.setPrefWidth(350);
 //		loginoversigt.getSelectionModel().setCellSelectionEnabled(true);
 //		loginoversigt.setEditable(true);

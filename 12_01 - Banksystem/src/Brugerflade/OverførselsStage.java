@@ -167,28 +167,28 @@ public class OverførselsStage {
 					if (fastOverførsel.isSelected() == true) {
 						System.out.println("Fast overførsel oprettes...");
 						if (comboBox.getValue() == "Dagligt") {
-							db.fastoverførsel(Date.valueOf(LocalDate.now()), senderfelt.getText(),
-									modtagerfelt.getText(), Double.parseDouble(beløbfelt.getText()), 1);
+							db.fastoverførsel(Date.valueOf(LocalDate.now()), Integer.parseInt(senderfelt.getText()),
+									Integer.parseInt(modtagerfelt.getText()), Double.parseDouble(beløbfelt.getText()), 1);
 						}
 						if (comboBox.getValue() == "Ugentligt") {
-							db.fastoverførsel(Date.valueOf(LocalDate.now()), senderfelt.getText(),
-									modtagerfelt.getText(), Double.parseDouble(beløbfelt.getText()), 2);
+							db.fastoverførsel(Date.valueOf(LocalDate.now()), Integer.parseInt(senderfelt.getText()),
+									Integer.parseInt(modtagerfelt.getText()), Double.parseDouble(beløbfelt.getText()), 2);
 						}
 						if (comboBox.getValue() == "Månedligt") {
-							db.fastoverførsel(Date.valueOf(LocalDate.now()), senderfelt.getText(),
-									modtagerfelt.getText(), Double.parseDouble(beløbfelt.getText()), 3);
+							db.fastoverførsel(Date.valueOf(LocalDate.now()), Integer.parseInt(senderfelt.getText()),
+									Integer.parseInt(modtagerfelt.getText()), Double.parseDouble(beløbfelt.getText()), 3);
 						}
 						if (comboBox.getValue() == "Kvartaligt") {
-							db.fastoverførsel(Date.valueOf(LocalDate.now()), senderfelt.getText(),
-									modtagerfelt.getText(), Double.parseDouble(beløbfelt.getText()), 4);
+							db.fastoverførsel(Date.valueOf(LocalDate.now()), Integer.parseInt(senderfelt.getText()),
+									Integer.parseInt(modtagerfelt.getText()), Double.parseDouble(beløbfelt.getText()), 4);
 						}
 						if (comboBox.getValue() == "Halvårligt") {
-							db.fastoverførsel(Date.valueOf(LocalDate.now()), senderfelt.getText(),
-									modtagerfelt.getText(), Double.parseDouble(beløbfelt.getText()), 5);
+							db.fastoverførsel(Date.valueOf(LocalDate.now()), Integer.parseInt(senderfelt.getText()),
+									Integer.parseInt(modtagerfelt.getText()), Double.parseDouble(beløbfelt.getText()), 5);
 						}
 						if (comboBox.getValue() == "Årligt") {
-							db.fastoverførsel(Date.valueOf(LocalDate.now()), senderfelt.getText(),
-									modtagerfelt.getText(), Double.parseDouble(beløbfelt.getText()), 6);
+							db.fastoverførsel(Date.valueOf(LocalDate.now()), Integer.parseInt(senderfelt.getText()),
+									Integer.parseInt(modtagerfelt.getText()), Double.parseDouble(beløbfelt.getText()), 6);
 						}
 					}
 

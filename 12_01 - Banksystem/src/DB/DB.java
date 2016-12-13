@@ -14,6 +14,7 @@ import java.util.List;
 
 import Interfaces.Startable;
 import domain.AdminLogin;
+import domain.FastOverførsel;
 import domain.Kontakt;
 import domain.Konto;
 import domain.Kunde;
@@ -139,7 +140,7 @@ public class DB implements Startable {
 		for (int i = 0; i < kundeliste.size(); i++) {
 			Kunde tmpkunde = kundeliste.get(i);
 			if (tmpkunde.getBrugernavn().equals(bruger)) {
-				System.out.println("matchede " + bruger + " med Kunde " + tmpkunde);
+				System.out.println("matchede brugernavnet " + bruger + " med Kunde " + tmpkunde);
 				return tmpkunde;
 			}
 		}
@@ -431,7 +432,30 @@ public class DB implements Startable {
 		}
 		return logintable;
 	}
-
+	public List<FastOverførsel>  listfasteoverførsler(Login bruger) throws SQLException{
+		System.out.println("laver en liste over "+bruger+"s faste overførsler");
+		List<FastOverførsel> fastoverførselsliste = new ArrayList<>();
+		List<Konto> brugerenskontoliste = listkonti(matchkundemedlogin(bruger));
+		start();
+		for(int i=0; i<brugerenskontoliste.size();){
+			Konto tmpkonto = brugerenskontoliste.get(i);
+			
+			statement = connection.prepareStatement("select sender,modtager, beløb, startdato, id from fastoverførsel where sender=?");
+			statement.setInt(1, tmpkonto.getKontonummer());
+			resultset = statement.executeQuery();
+			while(resultset.next()){
+				int senderskontoid = resultset.getInt("sender");
+				int modtagerskontoid = resultset.getInt("modtager");
+				double beløb = resultset.getDouble("beløb");
+				Date startdato = resultset.getDate("startdato");
+				int id = resultset.getInt("id");
+				fastoverførselsliste.add(new FastOverførsel(senderskontoid,modtagerskontoid,BigDecimal.valueOf(beløb),
+						startdato,id));
+				i++;
+				}
+			}
+		return fastoverførselsliste;	
+	}
 	// KONTROL METODER:
 
 	public boolean checkLogin(String brugernavn, String adgangskode) throws SQLException {
@@ -544,32 +568,32 @@ public class DB implements Startable {
 		return null;
 	}
 
-	public void fastoverførsel(Date slutdato, String sender, String modtager, double beløb, int id)
+	public void fastoverførsel(Date slutdato, int senderskontoid, int modtagerskontoid, double beløb, int id)
 			throws SQLException {
 		start();
 		System.out.println("Tilfører fast overførsel");
 		statement = connection.prepareStatement("insert into fastoverførsel (sender,modtager,beløb,slutdato,id) values (?,?,?,?,?)");
-		statement.setString(1, sender);
-		statement.setString(2, modtager);
+		statement.setInt(1, senderskontoid);
+		statement.setInt(2, modtagerskontoid);
 		statement.setDouble(3, beløb);
 		statement.setDate(4, slutdato);
 		statement.setInt(5, id);
 		statement.execute();
 		if (id == 1) {
-			System.out.println("oprettede daglig overførsel på " + beløb + "kr fra " + sender + " til " + modtager
+			System.out.println("oprettede daglig overførsel på " + beløb + "kr fra " + senderskontoid + " til " + modtagerskontoid
 					+ " med startdato: " + slutdato);
 		}
 		if (id == 2) {
-			System.out.println("oprettede ugentlig overførsel på " + beløb + "kr fra " + sender + " til " + modtager
+			System.out.println("oprettede ugentlig overførsel på " + beløb + "kr fra " + senderskontoid + " til " + modtagerskontoid
 					+ " med startdato: " + slutdato);
 		}
 		if (id == 3) {
-			System.out.println("oprettede månedlig overførsel på " + beløb + "kr fra " + sender + " til " + modtager
+			System.out.println("oprettede månedlig overførsel på " + beløb + "kr fra " + senderskontoid + " til " + modtagerskontoid
 					+ " med startdato: " + slutdato);
 
 		}
 		if (id == 4) {
-			System.out.println("oprettede årlig overførsel på " + beløb + "kr fra " + sender + " til " + modtager
+			System.out.println("oprettede årlig overførsel på " + beløb + "kr fra " + senderskontoid + " til " + modtagerskontoid
 					+ " med startdato: " + slutdato);
 		}
 	}
