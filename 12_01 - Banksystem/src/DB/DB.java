@@ -638,10 +638,10 @@ public class DB implements Startable {
 
 		else {
 			Long tidtilbage = lastnuplusdag - nu;
-			double timertilbage = tidtilbage / (3600000 * 24);
+			double timertilbage = tidtilbage / (3600000);
 
 			long minuttertilbage = -(long) timertilbage;
-			System.out.println("Der er " + tidtilbage + "ms indtil der er gået en dag");
+			System.out.println("Der er " + timertilbage + " timer indtil der er gået en dag");
 		}
 
 	}

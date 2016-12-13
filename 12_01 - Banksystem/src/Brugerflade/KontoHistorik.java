@@ -32,7 +32,7 @@ public class KontoHistorik {
 	
 		Button close = new Button("X");
 		close.setId("close");
-		grid.add(close, 0,0);
+		grid.add(close, 2,2);
 		close.setOnAction(e->{
 		stage.close();
 		});
