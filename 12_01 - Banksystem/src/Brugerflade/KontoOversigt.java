@@ -70,6 +70,13 @@ ObservableList<Konto> list;
 		stage.initStyle(StageStyle.UNDECORATED);
 		stage.show();
 		
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                event.consume();
+            }
+        });
+		
 		}
 	
 }

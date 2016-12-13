@@ -38,6 +38,19 @@ public class BasicScene {
 		stage.setScene(scene);
 		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 		stage.setResizable(false);
+		
+		//Bruger vindue
+		stage.initStyle(StageStyle.UNDECORATED);
+		stage.show();
+		
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                event.consume();
+            }
+        });
+		
+		//admin vindue
 		stage.initStyle(StageStyle.UTILITY);
 		stage.show();
 		
