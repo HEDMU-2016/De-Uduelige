@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import DB.DB;
+import domain.FastOverførsel;
 import domain.Kontakt;
 import domain.Konto;
 import domain.Kunde;
@@ -40,8 +41,6 @@ public class TableCreator {
 		return kundeoversigt;
 	}
 
-
-
 	public TableView<Login> loginTable() throws SQLException {
 		ObservableList<Login> logintabel;
 		logintabel = FXCollections.observableArrayList(db.listLogins());
@@ -61,29 +60,29 @@ public class TableCreator {
 		loginoversigt.getColumns().addAll(bnCol, pwCol, idCol);
 		return loginoversigt;
 	}
+
 	public TableView<Konto> kontoTable(Kunde kunde) throws SQLException {
 		TableView<Konto> kontooversigt = new TableView<Konto>();
 		List<Konto> kontolist = db.listkonti(kunde);
 
-			ObservableList<Konto> kontotabel;
-			kontotabel = FXCollections.observableArrayList(kontolist);
+		ObservableList<Konto> kontotabel;
+		kontotabel = FXCollections.observableArrayList(kontolist);
 
-			TableColumn<Konto, String> ejerCol = new TableColumn<Konto, String>("Ejer ");
-			ejerCol.setCellValueFactory(new PropertyValueFactory<Konto, String>("ejer"));
+		TableColumn<Konto, String> ejerCol = new TableColumn<Konto, String>("Ejer ");
+		ejerCol.setCellValueFactory(new PropertyValueFactory<Konto, String>("ejer"));
 
-			TableColumn<Konto, Integer> kontoCol = new TableColumn<Konto, Integer>("KontoID ");
-			kontoCol.setCellValueFactory(new PropertyValueFactory<Konto, Integer>("kontoid"));
+		TableColumn<Konto, Integer> kontoCol = new TableColumn<Konto, Integer>("KontoID ");
+		kontoCol.setCellValueFactory(new PropertyValueFactory<Konto, Integer>("kontoid"));
 
-			TableColumn<Konto, Double> saldoCol = new TableColumn<Konto, Double>("Saldo ");
-			saldoCol.setCellValueFactory(new PropertyValueFactory<Konto, Double>("saldo"));
+		TableColumn<Konto, Double> saldoCol = new TableColumn<Konto, Double>("Saldo ");
+		saldoCol.setCellValueFactory(new PropertyValueFactory<Konto, Double>("saldo"));
 
-			kontooversigt.setItems(kontotabel);
-			kontooversigt.getColumns().addAll(ejerCol, kontoCol, saldoCol);
-			
-			return kontooversigt;
-			
+		kontooversigt.setItems(kontotabel);
+		kontooversigt.getColumns().addAll(ejerCol, kontoCol, saldoCol);
+
+		return kontooversigt;
+
 	}
-	
 
 	public TableView<Konto> kontoTable() throws SQLException {
 		ObservableList<Konto> kontotabel;
@@ -131,20 +130,21 @@ public class TableCreator {
 
 	public TableView<Postering> posteringTable(Kunde kunde) throws SQLException {
 		ObservableList<Postering> posteringstable;
-		List<Konto> kontolist =db.listkonti(kunde);
+		List<Konto> kontolist = db.listkonti(kunde);
 		TableView<Postering> posteringsoversigt = new TableView<Postering>();
 
-		for(int i=0; i<kontolist.size();i++){
-		posteringsoversigt = posteringsTable(kontolist.get(i));
-		
+		for (int i = 0; i < kontolist.size(); i++) {
+			posteringsoversigt = posteringsTable(kontolist.get(i));
+
 		}
 		return posteringsoversigt;
-		}
+	}
 
 	public TableView<Kontakt> kontaktTable(Login bruger) throws SQLException {
 		Kunde tmpkunde = db.matchkundemedlogin(bruger.getBrugernavn());
 		ObservableList<Kontakt> kontakttable;
 		kontakttable = FXCollections.observableArrayList(db.listkontakter(tmpkunde));
+
 		TableView<Kontakt> kontaktoversigt = new TableView<Kontakt>();
 
 		TableColumn<Kontakt, String> navnCol = new TableColumn<Kontakt, String>("Navn ");
@@ -159,6 +159,33 @@ public class TableCreator {
 		return kontaktoversigt;
 
 	}
-	public TableView<FastOverførsel> fastoverførselsTable
 
+	public TableView<FastOverførsel> fastoverførselsTable(Login bruger) throws SQLException {
+		ObservableList<FastOverførsel> fastoverførselsTable;
+		fastoverførselsTable = FXCollections.observableArrayList(db.listfasteoverførsler(bruger));
+
+		TableView<FastOverførsel> fastoverførselsOversigt = new TableView<FastOverførsel>();
+
+		TableColumn<FastOverførsel, Integer> senderCol = new TableColumn<FastOverførsel, Integer>("Sendt fra kontonr");
+		senderCol.setCellValueFactory(new PropertyValueFactory<FastOverførsel, Integer>("sender"));
+
+		TableColumn<FastOverførsel, Integer> modtagerCol = new TableColumn<FastOverførsel, Integer>(
+				"Sendt til kontonr");
+		modtagerCol.setCellValueFactory(new PropertyValueFactory<FastOverførsel, Integer>("modtager"));
+
+		TableColumn<FastOverførsel, Double> beløbCol = new TableColumn<FastOverførsel, Double>("Beløb");
+		beløbCol.setCellValueFactory(new PropertyValueFactory<FastOverførsel, Double>("beløb"));
+
+		TableColumn<FastOverførsel, Date> datoCol = new TableColumn<FastOverførsel, Date>("Næste Overførsel");
+		datoCol.setCellValueFactory(new PropertyValueFactory<FastOverførsel, Date>("startdato"));
+
+		TableColumn<FastOverførsel, Integer> idCol = new TableColumn<FastOverførsel, Integer>("Type");
+		idCol.setCellValueFactory(new PropertyValueFactory<FastOverførsel, Integer>("id"));
+
+		fastoverførselsOversigt.setItems(fastoverførselsTable);
+		fastoverførselsOversigt.getColumns().addAll(senderCol, modtagerCol, beløbCol, datoCol, idCol);
+
+		return fastoverførselsOversigt;
+
+	}
 }

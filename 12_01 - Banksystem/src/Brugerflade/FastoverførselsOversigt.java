@@ -1,18 +1,25 @@
 package Brugerflade;
 
+import java.sql.SQLException;
+
+import domain.FastOverførsel;
 import domain.Login;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import utill.TableCreator;
 
 public class FastoverførselsOversigt {
 
-	public void start(Stage stage, Login bruger){
+	public void start(Stage stage, Login bruger)throws SQLException{
+		TableCreator tablecreator = new TableCreator();
+		
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
 		grid.setHgap(10);
@@ -32,8 +39,8 @@ public class FastoverførselsOversigt {
 		close.setOnAction(e -> {
 			stage.close();
 		});
-		
-		
+		TableView<FastOverførsel> fasteroverførsler =tablecreator.fastoverførselsTable(bruger);
+		grid.add(fasteroverførsler, 0, 0,5,10);
 
 		Scene scene = new Scene(grid, 400, 400);
 		stage.setScene(scene);

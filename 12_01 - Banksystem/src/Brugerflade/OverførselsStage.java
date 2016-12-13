@@ -147,7 +147,11 @@ public class OverførselsStage {
 		grid.add(fasteoverførsler, 0,4);
 		fasteoverførsler.setOnAction(e->{
 			FastoverførselsOversigt fastoverførselsoversigt = new FastoverførselsOversigt();
-			fastoverførselsoversigt.start(new Stage(),bruger);
+			try {
+				fastoverførselsoversigt.start(new Stage(),bruger);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		});
 
 		Text fejl = new Text("");
