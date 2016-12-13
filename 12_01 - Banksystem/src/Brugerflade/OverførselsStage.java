@@ -69,8 +69,6 @@ public class OverførselsStage {
 		grid.add(beløb, 0, 1);
 
 		TextField beløbfelt = new TextField();
-		// beløbfelt.setTextFormatter(new TextFormatter<>(new
-		// NumberStringConverter()));
 		grid.add(beløbfelt, 1, 1);
 
 		Label frakonto = new Label("fra kontonr: ");
@@ -135,13 +133,6 @@ public class OverførselsStage {
 			}
 		});
 
-		Button btn = new Button("Overfør Beløb");
-		HBox hbBtn = new HBox(10);
-		hbBtn.getChildren().add(btn);
-		btn.setId("KnapImenu");
-		hbBtn.setStyle("-fx-padding: 10px 0px 20px 0px;");
-		grid.add(hbBtn, 0, 7, 2, 7);
-		
 		Button fasteoverførsler = new Button("Se dine faste overførsler");
 		fasteoverførsler.setId("Knap");
 		grid.add(fasteoverførsler, 0,4);
@@ -157,6 +148,13 @@ public class OverførselsStage {
 		Text fejl = new Text("");
 		grid.add(fejl, 0, 9, 2, 9);
 		fejl.setId("fejl");
+		
+		Button btn = new Button("Overfør Beløb");
+		HBox hbBtn = new HBox(10);
+		hbBtn.getChildren().add(btn);
+		btn.setId("KnapImenu");
+		hbBtn.setStyle("-fx-padding: 10px 0px 20px 0px;");
+		grid.add(hbBtn, 0, 7, 2, 7);
 
 		btn.setOnAction(e -> {
 			if(modtagerfelt.getText().isEmpty() == false && senderfelt.getText().isEmpty() == false && beløbfelt.getText().isEmpty() == false){
