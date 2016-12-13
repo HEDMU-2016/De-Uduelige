@@ -41,11 +41,9 @@ public class DB implements Startable {
 	}
 
 	// INDSÆT METODER:
-	public void addKontakt(Kontakt kontakt, String ejer) throws SQLException { // ejer
-																				// ligger
-																				// sig
-																				// til
-																				// brugernavn
+	public void addKontakt(Kontakt kontakt, String ejer) throws SQLException { 
+		//ejer ligger sig til brugernavn																																	
+		
 		System.out.println("tilførert kontakt: " + kontakt);
 		start();
 		statement = connection.prepareStatement("insert into kontakt (navn, kontonr, ejer) values(?,?,?)");
@@ -159,6 +157,20 @@ public class DB implements Startable {
 			}
 		}
 		return null;
+	}
+	public void findLogin() throws SQLException {
+		System.out.println("finder logins");
+		start();
+		statement = connection.prepareStatement("SELECT brugernavn,adgangskode FROM login");
+		resultset = statement.executeQuery();
+		System.out.println("Fandt logins: ");
+		while (resultset.next()) {
+			String brugernavn = resultset.getString("brugernavn");
+			String adgangskode = resultset.getString("adgangskode");
+
+			System.out.println("Brugernavn: " + brugernavn + " adgangskode: " + adgangskode);
+		}
+		stop();
 	}
 
 	public void findKontoer() throws SQLException {
@@ -458,20 +470,7 @@ public class DB implements Startable {
 		return false;
 	}
 
-	public void findLogin() throws SQLException {
-		System.out.println("finder logins");
-		start();
-		statement = connection.prepareStatement("SELECT brugernavn,adgangskode FROM login");
-		resultset = statement.executeQuery();
-		System.out.println("Fandt logins: ");
-		while (resultset.next()) {
-			String brugernavn = resultset.getString("brugernavn");
-			String adgangskode = resultset.getString("adgangskode");
 
-			System.out.println("Brugernavn: " + brugernavn + " adgangskode: " + adgangskode);
-		}
-		stop();
-	}
 
 	public String nyKode(String brugernavn, String nyadgangskode) throws SQLException {
 		System.out.println("Finder bruger... \n");
@@ -549,8 +548,7 @@ public class DB implements Startable {
 			throws SQLException {
 		start();
 		System.out.println("Tilfører fast overførsel");
-		statement = connection.prepareStatement(
-				"insert into fastoverførsel (sender,modtager,beløb,slutdato,id) values " + "values(?,?,?,?,?)");
+		statement = connection.prepareStatement("insert into fastoverførsel (sender,modtager,beløb,slutdato,id) values (?,?,?,?,?)");
 		statement.setString(1, sender);
 		statement.setString(2, modtager);
 		statement.setDouble(3, beløb);
@@ -639,9 +637,9 @@ public class DB implements Startable {
 		else {
 			Long tidtilbage = lastnuplusdag - nu;
 			double timertilbage = tidtilbage / (3600000);
-
 			long minuttertilbage = -(long) timertilbage;
-			System.out.println("Der er " + timertilbage + " timer indtil der er gået en dag");
+			
+			System.out.println("Der er " + timertilbage + " timer, eller "+tidtilbage+"milisekunder indtil der er gået en dag");
 		}
 
 	}
