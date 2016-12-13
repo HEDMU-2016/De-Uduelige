@@ -3,6 +3,7 @@ package Brugerflade;
 import java.sql.SQLException;
 import java.util.Optional;
 
+import DB.DB;
 import domain.Login;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,7 +20,8 @@ import javafx.stage.StageStyle;
 
 public class Brugermenu {
 	public void start(Stage stage, Login bruger){
-
+		DB db = new DB();
+		
 	GridPane grid = new GridPane();
 	grid.setAlignment(Pos.CENTER);
 	grid.setHgap(10);
@@ -30,7 +32,9 @@ public class Brugermenu {
 	stage.setTitle("Hovedmenu - Lortebank A/S");
 	stage.getIcons().add(new Image("Brugerflade/ico.png"));
 
-
+	Text fejl = new Text();
+	grid.add(fejl, 0, 5);
+	
 	Text navn = new Text("Lortebank A/S");
 	HBox hbNavn = new HBox(10);
 	grid.add(hbNavn, 0, 0);
@@ -72,7 +76,9 @@ public class Brugermenu {
 	kontooversigtknap.setOnAction(e ->{
 		KontoOversigt kontooversigt = new KontoOversigt();
 		try {
+			if(db.matchkundemedlogin(bruger) !=null)
 			kontooversigt.start(new Stage(), bruger);
+			else fejl.setText("du har ingen kontoer");
 		} catch (SQLException e1) {
 		
 			e1.printStackTrace();
@@ -102,6 +108,7 @@ public class Brugermenu {
 		e1.printStackTrace();
 	}
 	});
+	
 
 	Scene scene = new Scene(grid, 400, 400);
 	stage.setScene(scene);
