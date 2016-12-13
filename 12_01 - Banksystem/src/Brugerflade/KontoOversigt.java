@@ -46,7 +46,8 @@ ObservableList<Konto> list;
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
 		grid.setHgap(10);
-	
+		grid.setAlignment(Pos.CENTER);	
+		
 		stage.setTitle("Konto historik - Lortebank A/S");
 		stage.getIcons().add(new Image("Brugerflade/ico.png"));
 
@@ -66,7 +67,7 @@ ObservableList<Konto> list;
 		TableView<Konto> kundeoversigt = tablecreator.kontoTable(tmpkunde);
 		grid.add(kundeoversigt, 0, 0);
 		
-		Scene scene = new Scene(grid);
+		Scene scene = new Scene(grid, 400, 400);
 		stage.setScene(scene);
 		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 		stage.setResizable(false);
