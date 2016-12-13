@@ -159,7 +159,7 @@ public class DB implements Startable {
 				System.out.println("matchede " + brugernavn + " med Kunde " + tmpkunde);
 				return tmpkunde;
 			}
-			else System.out.println("det var ikke"+tmpkunde);
+			else System.out.println("det var ikke "+tmpkunde.getBrugernavn());
 		}
 		return null;
 	}

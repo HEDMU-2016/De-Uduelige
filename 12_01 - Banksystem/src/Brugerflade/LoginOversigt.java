@@ -113,10 +113,10 @@ public class LoginOversigt {
 				
 				
 					if (idfeltoptions.getValue().equals("admins")) {
-						db.addLogin(new AdminLogin(brugernavnfelt.getText(), passwordfelt.getText()));
+						db.addLogin(new AdminLogin(brugernavnfelt.getText().toLowerCase(), passwordfelt.getText()));
 					}
 					if (idfeltoptions.getValue().equals("kunde")) {
-						Login tmplogin = new NormaltLogin(brugernavnfelt.getText(), passwordfelt.getText());
+						Login tmplogin = new NormaltLogin(brugernavnfelt.getText().toLowerCase(), passwordfelt.getText());
 						db.addLogin(tmplogin);
 					}
 					if (idfeltoptions.getPromptText().equals(null)) {
