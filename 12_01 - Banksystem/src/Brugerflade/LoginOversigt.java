@@ -21,6 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -87,7 +88,7 @@ public class LoginOversigt {
 		idfeltoptions.setPrefWidth(175);
 		grid.add(hbidfelt, 3, 3);
 
-		Label fejl = new Label("TEST TEST TEST");
+		Label fejl = new Label("");
 		fejl.setId("fejl");
 		grid.add(fejl, 2, 5, 3, 5);
 
@@ -123,7 +124,9 @@ public class LoginOversigt {
 					} else
 						System.out.println(idfeltoptions.getPromptText());
 
-				passwordfelt.setText("");	
+				passwordfelt.setText("");
+				fejl.setTextFill(Color.GREEN);
+				fejl.setText("Så er loginet oprettet!");
 					
 				} catch (SQLException e1) {
 					e1.printStackTrace();
@@ -131,6 +134,7 @@ public class LoginOversigt {
 					e1.printStackTrace();
 				}
 			else {
+				fejl.setTextFill(Color.RED);
 				fejl.setText("Du skal lige udfylde alle felterne!");
 			}
 
