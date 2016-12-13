@@ -1,5 +1,8 @@
 package Brugerflade;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import DB.DB;
@@ -54,71 +57,87 @@ public class LoginOversigt {
 
 		TableView<Login> loginoversigt = tablecreator.logintable();
 		loginoversigt.setPrefWidth(350);
-//		loginoversigt.getSelectionModel().setCellSelectionEnabled(true);
-//		loginoversigt.setEditable(true);
+		// loginoversigt.getSelectionModel().setCellSelectionEnabled(true);
+		// loginoversigt.setEditable(true);
 		grid.add(loginoversigt, 0, 1, 1, 4);
 
 		Label brugernavnlabel = new Label("Brugernavn: ");
 		grid.add(brugernavnlabel, 2, 1);
 		brugernavnlabel.setId("tekst");
-		
+
 		TextField brugernavnfelt = new TextField();
 		grid.add(brugernavnfelt, 3, 1);
-		
+
 		Label passwordlabel = new Label("Kodeord:");
 		grid.add(passwordlabel, 2, 2);
 		passwordlabel.setId("tekst");
-		
+
 		TextField passwordfelt = new TextField();
 		grid.add(passwordfelt, 3, 2);
-		
+
 		Label idlabel = new Label("ID:");
 		grid.add(idlabel, 2, 3);
 		idlabel.setId("tekst");
-		
-		
-		ObservableList<String> options = FXCollections.observableArrayList("admin","kunde");
-		
+
+		ObservableList<String> options = FXCollections.observableArrayList("admin", "kunde");
+
 		final ComboBox idfeltoptions = new ComboBox(options);
 		HBox hbidfelt = new HBox();
 		hbidfelt.getChildren().add(idfeltoptions);
 		idfeltoptions.setPrefWidth(175);
 		grid.add(hbidfelt, 3, 3);
-		
+
 		Label fejl = new Label("TEST TEST TEST");
 		fejl.setId("fejl");
-		grid.add(fejl, 2,6);
-		
+		grid.add(fejl, 2, 5, 3, 5);
+
 		Button opret = new Button("Opret");
 		grid.add(opret, 2, 4, 3, 4);
 		opret.setId("KnapImenu");
-		opret.setOnAction(e->{
-			if(brugernavnfelt.getText().isEmpty() == false && passwordfelt.getText().isEmpty() == false && idfeltoptions.getPromptText().isEmpty() == false)
-		try {
-			if(idfeltoptions.getValue().equals("admins")){
-			db.addLogin(new AdminLogin(brugernavnfelt.getText(), passwordfelt.getText()));
-			}
-			if(idfeltoptions.getValue().equals("kunde")){
-			Login tmplogin = new NormaltLogin(brugernavnfelt.getText(), passwordfelt.getText());
-			db.addLogin(tmplogin);
+		opret.setOnAction(e -> {
+			if (brugernavnfelt.getText().isEmpty() == false && passwordfelt.getText().isEmpty() == false
+					&& idfeltoptions.getValue() != null)
+
+				// MD5 Kryptering på ny kode
+				try {
+					MessageDigest alg;
+					alg = MessageDigest.getInstance("MD5");
+					String password1 = passwordfelt.getText();
+					alg.reset();
+					alg.update(password1.getBytes());
+					byte[] msgDigest = alg.digest();
+					BigInteger number = new BigInteger(1, msgDigest);
+					String MD5krypteret = number.toString(16);
+					passwordfelt.setText(MD5krypteret);
+				
+				
+					if (idfeltoptions.getValue().equals("admins")) {
+						db.addLogin(new AdminLogin(brugernavnfelt.getText(), passwordfelt.getText()));
+					}
+					if (idfeltoptions.getValue().equals("kunde")) {
+						Login tmplogin = new NormaltLogin(brugernavnfelt.getText(), passwordfelt.getText());
+						db.addLogin(tmplogin);
+					}
+					if (idfeltoptions.getPromptText().equals(null)) {
+						System.out.println("jeg registrede ikke noget id");
+					} else
+						System.out.println(idfeltoptions.getPromptText());
+
+				passwordfelt.setText("");	
+					
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				} catch (NoSuchAlgorithmException e1) {
+					e1.printStackTrace();
 				}
-			if(idfeltoptions.getPromptText().equals(null)){
-			System.out.println("jeg registrede ikke noget id");
-			}
-			else System.out.println(idfeltoptions.getPromptText());
-		
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}	
 			else {
 				fejl.setText("Du skal lige udfylde alle felterne!");
 			}
-		
+
 		});
-	 
-		
-		//grid.setGridLinesVisible(true);
-		
+
+		// grid.setGridLinesVisible(true);
+
 		Scene scene = new Scene(grid);
 		stage.setScene(scene);
 		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
