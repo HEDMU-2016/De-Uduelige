@@ -21,7 +21,6 @@ startdato date,
 slutdato date
 
 )
-
 alter table kunde add brugernavn varchar(255)
 update kunde set brugernavn='dit brugernavn' where navn='jeres navn'
 
@@ -33,3 +32,9 @@ modtager varchar(255),
 beløb double not null,
 id int not null
 )
+create table timer(
+tid varchar(255)
+id int not null
+)
+insert into timer System.currenttimemilis (få værdien fra java og copy paste den inde)
+og id=1.
