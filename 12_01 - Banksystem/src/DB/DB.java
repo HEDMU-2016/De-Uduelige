@@ -159,6 +159,7 @@ public class DB implements Startable {
 				System.out.println("matchede " + brugernavn + " med Kunde " + tmpkunde);
 				return tmpkunde;
 			}
+			else System.out.println("det var ikke"+tmpkunde);
 		}
 		return null;
 	}
@@ -304,7 +305,7 @@ public class DB implements Startable {
 	}
 
 	public List<Postering> listPostering() throws SQLException {
-		System.out.println("Finder posteringer...");
+		System.out.println("Finder alle posteringer...");
 		List<Postering> posteringslist = new ArrayList<>();
 		start();
 		statement = connection.prepareStatement("select sender, modtager, sendt, beløb from postering");
@@ -316,20 +317,21 @@ public class DB implements Startable {
 			Date startdato = resultset.getDate("sendt");
 			double beløb = resultset.getDouble("beløb");
 			BigDecimal beløbinBD = BigDecimal.valueOf(beløb);
-
+			
 			Postering tmppostering = new Postering(senderkontonr, modtagerskontonr, startdato, beløbinBD);
+			System.out.println("fa");
 			posteringslist.add(tmppostering);
 		}
 		return posteringslist;
 	}
 
 	public List<Postering> listPostering(Konto konto) throws SQLException {
-		System.out.println("Finder posteringer...");
+		System.out.println("Finder posteringer på "+konto);
 		List<Postering> posteringslist = new ArrayList<>();
 		start();
 		statement = connection
-				.prepareStatement("select sender, modtager, sendt, beløb from postering where sender like ?");
-		statement.setString(1, konto.getEjer().getNavn());
+				.prepareStatement("select sender, modtager, sendt, beløb from postering where sender= ?");
+		statement.setInt(1, konto.getKontonummer());
 		resultset = statement.executeQuery();
 		while (resultset.next()) {
 			int sender = resultset.getInt("sender");

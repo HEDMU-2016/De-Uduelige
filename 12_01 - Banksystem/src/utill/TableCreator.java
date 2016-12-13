@@ -106,7 +106,7 @@ public class TableCreator {
 
 	public TableView<Postering> posteringsTable(Konto konto) throws SQLException {
 		ObservableList<Postering> posteringstable;
-		posteringstable = FXCollections.observableArrayList(db.listPostering());
+		posteringstable = FXCollections.observableArrayList(db.listPostering(konto));
 
 		TableView<Postering> posteringsoversigt = new TableView<Postering>();
 
