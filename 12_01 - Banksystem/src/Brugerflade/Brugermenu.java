@@ -80,7 +80,7 @@ public class Brugermenu {
 		try {
 			if(db.matchkundemedlogin(bruger) !=null)
 			kontooversigt.start(new Stage(), bruger);
-			else fejl.setText("du har ingen kontoer");
+			else fejl.setText("du er ikke kunde i banken");
 		} catch (SQLException e1) {
 		
 			e1.printStackTrace();
@@ -109,7 +109,7 @@ public class Brugermenu {
 	try {
 		if(db.matchkundemedlogin(bruger) !=null)
 		historikvindue.start(new Stage(),bruger);
-		else fejl.setText("Der ingen konto at finde historik til");
+		else fejl.setText("du er ikke kunde i banken");
 	} catch (SQLException e1) {
 		e1.printStackTrace();
 	}

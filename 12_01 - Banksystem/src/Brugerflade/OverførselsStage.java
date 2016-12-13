@@ -4,9 +4,10 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 
 import DB.DB;
+import domain.Konto;
 import domain.Login;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -32,10 +33,11 @@ import utill.TableCreator;
 // PENIS!
 
 public class OverførselsStage {
+	DB db = new DB();
 
 	@SuppressWarnings("deprecation")
 	public void start(Stage stage, Login bruger) throws Exception {
-		DB db = new DB();
+
 		TableCreator tablecreator = new TableCreator();
 
 		stage.setTitle("Overførsel - Lortebank A/S");
@@ -141,14 +143,14 @@ public class OverførselsStage {
 		btn.setId("KnapImenu");
 		hbBtn.setStyle("-fx-padding: 10px 0px 20px 0px;");
 		grid.add(hbBtn, 0, 7, 2, 7);
-		
+
 		Button fasteoverførsler = new Button("Se dine faste overførsler");
 		fasteoverførsler.setId("Knap");
-		grid.add(fasteoverførsler, 0,4);
-		fasteoverførsler.setOnAction(e->{
+		grid.add(fasteoverførsler, 0, 4);
+		fasteoverførsler.setOnAction(e -> {
 			FastoverførselsOversigt fastoverførselsoversigt = new FastoverførselsOversigt();
 			try {
-				fastoverførselsoversigt.start(new Stage(),bruger);
+				fastoverførselsoversigt.start(new Stage(), bruger);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -159,53 +161,77 @@ public class OverførselsStage {
 		fejl.setId("fejl");
 
 		btn.setOnAction(e -> {
-			if(modtagerfelt.getText().isEmpty() == false && senderfelt.getText().isEmpty() == false && beløbfelt.getText().isEmpty() == false){
-			fejl.setFill(Color.GREEN);
-			fejl.setText("Overførsel er nu udført!");
 			try {
+				if (checklegitness(beløbfelt, senderfelt, modtagerfelt, bruger) == true) {
+					
+					fejl.setFill(Color.GREEN);
+					try {
 
-				if (fastOverførsel.isSelected() == false) {
-					System.out.println("modtagerfelt:" + modtagerfelt.getText());
-					System.out.println("senderfelt:" + senderfelt.getText());
-					System.out.println("beløbfelt:" + beløbfelt.getText());
-					System.out.println("en gangs overførsel");
-					db.transfer( Integer.parseInt(senderfelt.getText()),Integer.parseInt(modtagerfelt.getText()),
-							BigDecimal.valueOf(Double.parseDouble(beløbfelt.getText())));
-				}
-					if (fastOverførsel.isSelected() == true) {
-						System.out.println("Fast overførsel oprettes...");
-						if (comboBox.getValue() == "Dagligt") {
-							db.fastoverførsel(Date.valueOf(LocalDate.now().plusDays(1)), Integer.parseInt(senderfelt.getText()),
-									Integer.parseInt(modtagerfelt.getText()), Double.parseDouble(beløbfelt.getText()), 1);
+						if (fastOverførsel.isSelected() == false) {
+							System.out.println("modtagerfelt:" + modtagerfelt.getText());
+							System.out.println("senderfelt:" + senderfelt.getText());
+							System.out.println("beløbfelt:" + beløbfelt.getText());
+							System.out.println("en gangs overførsel");
+							db.transfer(Integer.parseInt(senderfelt.getText()),
+									Integer.parseInt(modtagerfelt.getText()),
+									BigDecimal.valueOf(Double.parseDouble(beløbfelt.getText())));
+							fejl.setFill(Color.GREEN);
+							fejl.setText("Overførsel er nu udført!");
 						}
-						if (comboBox.getValue() == "Ugentligt") {
-							db.fastoverførsel(Date.valueOf(LocalDate.now().plusWeeks(1)), Integer.parseInt(senderfelt.getText()),
-									Integer.parseInt(modtagerfelt.getText()), Double.parseDouble(beløbfelt.getText()), 2);
+						if (fastOverførsel.isSelected() == true) {
+							System.out.println("Fast overførsel oprettes...");
+							if (comboBox.getValue() == "Dagligt") {
+								db.fastoverførsel(Date.valueOf(LocalDate.now().plusDays(1)),
+										Integer.parseInt(senderfelt.getText()),
+										Integer.parseInt(modtagerfelt.getText()),
+										Double.parseDouble(beløbfelt.getText()), 1);
+								fejl.setText("daglig overførsel er oprettet");
+							}
+							if (comboBox.getValue() == "Ugentligt") {
+								db.fastoverførsel(Date.valueOf(LocalDate.now().plusWeeks(1)),
+										Integer.parseInt(senderfelt.getText()),
+										Integer.parseInt(modtagerfelt.getText()),
+										Double.parseDouble(beløbfelt.getText()), 2);
+								fejl.setText("ugentlig overførsel er oprettet");
+							}
+							if (comboBox.getValue() == "Månedligt") {
+								db.fastoverførsel(Date.valueOf(LocalDate.now().plusMonths(1)),
+										Integer.parseInt(senderfelt.getText()),
+										Integer.parseInt(modtagerfelt.getText()),
+										Double.parseDouble(beløbfelt.getText()), 3);
+								fejl.setText("månedlig overførsel er oprettet");
+							}
+							if (comboBox.getValue() == "Kvartaligt") {
+								db.fastoverførsel(Date.valueOf(LocalDate.now().plusMonths(3)),
+										Integer.parseInt(senderfelt.getText()),
+										Integer.parseInt(modtagerfelt.getText()),
+										Double.parseDouble(beløbfelt.getText()), 4);
+								fejl.setText("kvartaligt overførsel er oprettet");
+							if (comboBox.getValue() == "Halvårligt") {
+								db.fastoverførsel(Date.valueOf(LocalDate.now().plusMonths(6)),
+										Integer.parseInt(senderfelt.getText()),
+										Integer.parseInt(modtagerfelt.getText()),
+										Double.parseDouble(beløbfelt.getText()), 5);
+								fejl.setText("halvårlig overførsel er oprettet");
+							}
+							if (comboBox.getValue() == "Årligt") {
+								db.fastoverførsel(Date.valueOf(LocalDate.now().plusYears(1)),
+										Integer.parseInt(senderfelt.getText()),
+										Integer.parseInt(modtagerfelt.getText()),
+										Double.parseDouble(beløbfelt.getText()), 6);
+								fejl.setText("årlig overførsel er oprettet");
+							}
 						}
-						if (comboBox.getValue() == "Månedligt") {
-							db.fastoverførsel(Date.valueOf(LocalDate.now().plusMonths(1)), Integer.parseInt(senderfelt.getText()),
-									Integer.parseInt(modtagerfelt.getText()), Double.parseDouble(beløbfelt.getText()), 3);
 						}
-						if (comboBox.getValue() == "Kvartaligt") {
-							db.fastoverførsel(Date.valueOf(LocalDate.now().plusMonths(3)), Integer.parseInt(senderfelt.getText()),
-									Integer.parseInt(modtagerfelt.getText()), Double.parseDouble(beløbfelt.getText()), 4);
-						}
-						if (comboBox.getValue() == "Halvårligt") {
-							db.fastoverførsel(Date.valueOf(LocalDate.now().plusMonths(6)), Integer.parseInt(senderfelt.getText()),
-									Integer.parseInt(modtagerfelt.getText()), Double.parseDouble(beløbfelt.getText()), 5);
-						}
-						if (comboBox.getValue() == "Årligt") {
-							db.fastoverførsel(Date.valueOf(LocalDate.now().plusYears(1)), Integer.parseInt(senderfelt.getText()),
-									Integer.parseInt(modtagerfelt.getText()), Double.parseDouble(beløbfelt.getText()), 6);
-						}
+						} catch (SQLException e1) {
+						e1.printStackTrace();
 					}
-
-			} catch (SQLException e1) {
+				} else {
+					fejl.setFill(Color.RED);
+					fejl.setText("Du skal lige udfylde alle felterne!");
+				}
+			} catch (NumberFormatException | SQLException e1) {
 				e1.printStackTrace();
-			}
-			}else {
-				fejl.setFill(Color.RED);
-				fejl.setText("Du skal lige udfylde alle felterne!");
 			}
 		});
 		Scene scene = new Scene(grid, 400, 400);
@@ -216,4 +242,23 @@ public class OverførselsStage {
 
 	}
 
+	private boolean checklegitness(TextField beløbfelt, TextField senderfelt, TextField modtagerfelt, Login bruger)
+			throws SQLException {
+		String regex = "[0-9]+";
+		List<Konto> kontolist = db.listkonti(db.matchkundemedlogin(bruger));
+		boolean egenkonto=false;
+		for (int i = 0; i < kontolist.size(); ) {
+			if (kontolist.get(i).getKontonummer() == Integer.parseInt(senderfelt.getText()));			
+			egenkonto = true;
+			i++;
+		}
+
+		if (beløbfelt.getText().isEmpty() == false && modtagerfelt.getText().isEmpty() == false
+				&& senderfelt.getText().isEmpty() == false && beløbfelt.getText().matches(regex)
+				&& Double.parseDouble(beløbfelt.getText()) > 0 && egenkonto==true) {
+			return true;
+		} else
+			return false;
+
+	}
 }
