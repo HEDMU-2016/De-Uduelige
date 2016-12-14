@@ -2,6 +2,7 @@ package utill;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import DB.DB;
@@ -104,7 +105,7 @@ public class TableCreator {
 		return kontooversigt;
 	}
 
-	public TableView<Postering> posteringsTable(Konto konto) throws SQLException {
+	public ObservableList<Postering> posteringsTable(Konto konto) throws SQLException {
 		ObservableList<Postering> posteringstable;
 		posteringstable = FXCollections.observableArrayList(db.listPostering(konto));
 
@@ -125,18 +126,50 @@ public class TableCreator {
 		posteringsoversigt.setItems(posteringstable);
 		posteringsoversigt.getColumns().addAll(senderCol, modtagerCol, sendtCol, beløbCol);
 
-		return posteringsoversigt;
+		return posteringstable;
 	}
 
 	public TableView<Postering> posteringTable(Kunde kunde) throws SQLException {
-		ObservableList<Postering> posteringstable;
+		
 		List<Konto> kontolist = db.listkonti(kunde);
+		List<Postering> posteringslist;
+		
+		
+		ObservableList<Postering> posteringstable = FXCollections.observableArrayList();
+		
 		TableView<Postering> posteringsoversigt = new TableView<Postering>();
-
-		for (int i = 0; i < kontolist.size(); i++) {
-			posteringsoversigt = posteringsTable(kontolist.get(i));
-
+		
+		TableColumn<Postering, String> senderCol = new TableColumn<Postering, String>("Sender ");
+		PropertyValueFactory<Postering,String> senderColFabrik = new PropertyValueFactory<Postering,String>("sender");
+		
+		TableColumn<Postering, String> modtagerCol = new TableColumn<Postering, String>("Modtager ");
+		PropertyValueFactory<Postering,String> modtagerColFabrik = new PropertyValueFactory<Postering,String>("modtager");
+		
+		TableColumn<Postering, Date> sendtCol = new TableColumn<Postering, Date>("Sendt ");
+		PropertyValueFactory<Postering,Date> sendtColFabrik = new PropertyValueFactory<Postering,Date>("sendt");
+		
+		TableColumn<Postering, Double> beløbCol = new TableColumn<Postering, Double>("Beløb ");
+		PropertyValueFactory<Postering,Double> beløbColFabrik = new PropertyValueFactory<Postering,Double>("beløb");
+		
+		
+		
+		for(int i=0;i<kontolist.size();i++){
+			posteringslist = db.listPostering(kontolist.get(i));
+			for(int j=0;j<posteringslist.size();j++){
+			posteringstable.add(posteringslist.get(j));
+			}
 		}
+		for (int i = 0; i < kontolist.size(); i++) {
+		senderCol.setCellValueFactory(senderColFabrik);
+		modtagerCol.setCellValueFactory(modtagerColFabrik);
+		sendtCol.setCellValueFactory(sendtColFabrik);
+		beløbCol.setCellValueFactory(beløbColFabrik);
+		}
+		
+		posteringsoversigt.setItems(posteringstable);
+		posteringsoversigt.getColumns().addAll(senderCol,modtagerCol,sendtCol,beløbCol);
+		
+		
 		return posteringsoversigt;
 	}
 

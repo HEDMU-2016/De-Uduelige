@@ -329,8 +329,7 @@ public class DB implements Startable {
 		System.out.println("Finder posteringer på "+konto);
 		List<Postering> posteringslist = new ArrayList<>();
 		start();
-		statement = connection
-				.prepareStatement("select sender, modtager, sendt, beløb from postering where sender= ?");
+		statement = connection.prepareStatement("select sender, modtager, sendt, beløb from postering where sender= ?");
 		statement.setInt(1, konto.getKontonummer());
 		resultset = statement.executeQuery();
 		while (resultset.next()) {
@@ -340,6 +339,7 @@ public class DB implements Startable {
 			double beløb = resultset.getDouble("beløb");
 			BigDecimal beløbinBD = BigDecimal.valueOf(beløb);
 			Postering tmppostering = new Postering(sender, modtager, startdato, beløbinBD);
+			System.out.println("fandt postering: "+tmppostering);
 			posteringslist.add(tmppostering);
 		}
 		return posteringslist;

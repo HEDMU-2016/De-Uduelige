@@ -14,7 +14,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -30,7 +29,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
 import utill.TableCreator;
 
 // PENIS!
@@ -249,13 +247,6 @@ public class OverførselsStage {
 		scene.getStylesheets().add(getClass().getResource("Brugermenu.css").toExternalForm());
 		stage.setScene(scene);
 		stage.show();
-		
-		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                event.consume();
-            }
-        });
 
 	}
 
@@ -272,12 +263,12 @@ public class OverførselsStage {
 					System.out.println("der er ingen bogstaver i felterne");
 					
 					if(symbolerifelterne(senderfelt,modtagerfelt,beløbfelt,fejl)==false){
-						System.out.println("der er ingen symboler værdier i felterne");
+						System.out.println("der er ingen symboler i felterne");
 						
 						if(senderfelt.getText().equals(beløbfelt.getText())==false){
 							System.out.println("sender og modtager er ikke den samme konto");
 							
-							return false; 
+							return true; 
 						}
 						else fejl.setText("Kontoerne må ikke være ens");
 						return false;
@@ -294,7 +285,15 @@ public class OverførselsStage {
 		else fejl.setText("Alle felter skal udfyldes");			
 		return false;
 	}
-		private boolean checkifsenderejerkonto(Login bruger, TextField senderfelt) throws SQLException{
+	private boolean feltererudfyldt(TextField senderfelt, TextField modtagerfelt, TextField beløbfelt){
+		if(beløbfelt.getText().isEmpty() == false 
+		&& modtagerfelt.getText().isEmpty() == false
+		&& senderfelt.getText().isEmpty() == false)
+		return true;
+		else return false;
+	}
+		
+	private boolean checkifsenderejerkonto(Login bruger, TextField senderfelt) throws SQLException{
 			System.out.println("checker om konto nummer: "+senderfelt.getText()+" er din konto");
 			List<Konto> kontolist = db.listkonti(db.matchkundemedlogin(bruger));
 				for (int i = 0; i < kontolist.size();i++ ) {
@@ -320,57 +319,34 @@ public class OverførselsStage {
 			}
 			return false;
 		}
-		private boolean ingennegativer(TextField senderfelt, TextField modtagerfelt, TextField beløbfelt){
+/*		private boolean ingennegativer(TextField senderfelt, TextField modtagerfelt, TextField beløbfelt){
 		if(Double.parseDouble(beløbfelt.getText()) > 0 
 			&& Double.parseDouble(senderfelt.getText())>0
 			&& Double.parseDouble(modtagerfelt.getText())>0)
 			return true;	
 			else return false;
 		
-		}
-		private boolean feltererudfyldt(TextField senderfelt, TextField modtagerfelt, TextField beløbfelt){
-			if(beløbfelt.getText().isEmpty() == false 
-			&& modtagerfelt.getText().isEmpty() == false
-			&& senderfelt.getText().isEmpty() == false)
-			return true;
-			else return false;
-		}
-		private boolean symbolerifelterne(TextField senderfelt, TextField modtagerfelt, TextField beløbfelt, Text fejl){
-			List<Character> symboler = new ArrayList<>();
-			
-			String senderfeltet = senderfelt.getText();
-			String modtagerfeltet = modtagerfelt.getText();
-			String beløbfeltet = beløbfelt.getText();
-			System.out.println("checker efter symboler");
-			for(char c=32; c<=47;c++){
-				symboler.add(c);
-			}
-			for(int i=0; i<symboler.size();i++){
-				System.out.println("checker efter symbol: " + symboler.get(i).toString());
-				if(senderfeltet.contains(symboler.get(i).toString())==true){
-				fejl.setText("senderfeltet er ikke gyldigt");
-				return true;
-				}
-				
-			}	
-			for(int i=0; i<symboler.size();i++){
-				if(modtagerfeltet.contains(symboler.get(i).toString())==true){
-				fejl.setText("modtagerfeltet er ikke gyldigt");
-				return true;
-				}
-			}
-			for(int i=0; i<symboler.size();i++){
-				if(beløbfeltet.contains(symboler.get(i).toString())==true){
-				fejl.setText("beløbet er ikke gyldigt");
-				return true;
-				}	
-			}
-			return false;	
+		} metoden er ikke nødvendig fordi at "-" er et symbol*/
 		
+		private boolean symbolerifelterne(TextField senderfelt, TextField modtagerfelt, TextField beløbfelt, Text fejl){
+			List<String> tal = new ArrayList<>();
+			TextField[] tekstfelt = {senderfelt,modtagerfelt,beløbfelt};
+			for(int i=0; i<=9;i++){
+				tal.add(Integer.toString(i));
 			}
-
-
-
+			tal.add(".");
+			for(int i=0; i<3;i++){
+				for(int j=1; j<=tekstfelt[i].getText().length();){
+					int g=j-1;	
+						if(tal.contains(tekstfelt[i].getText().substring(g,j))){
+							j++;						
+					}
+					else 
+					return true;	
+				}
+			}
+			return false;
+		}
 
 
 
