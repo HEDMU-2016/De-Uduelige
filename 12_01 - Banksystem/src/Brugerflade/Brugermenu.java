@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import DB.DB;
 import domain.Login;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -18,6 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 public class Brugermenu {
 	public void start(Stage stage, Login bruger){
@@ -122,6 +124,13 @@ public class Brugermenu {
 	stage.setResizable(false);
 	stage.initStyle(StageStyle.UNDECORATED);
 	stage.show();
+	
+	stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+        @Override
+        public void handle(WindowEvent event) {
+            event.consume();
+        }
+    });
 	}
 
 	

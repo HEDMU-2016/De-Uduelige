@@ -1,5 +1,6 @@
 package Brugerflade;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,6 +9,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 public class BasicScene {
 	// Dette skal bruges på alle vinduer
@@ -36,7 +38,27 @@ public class BasicScene {
 		stage.setScene(scene);
 		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 		stage.setResizable(false);
+		
+		//Bruger vindue
 		stage.initStyle(StageStyle.UNDECORATED);
-		stage.show();	
+		stage.show();
+		
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                event.consume();
+            }
+        });
+		
+		//admin vindue
+		stage.initStyle(StageStyle.UTILITY);
+		stage.show();
+		
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                event.consume();
+            }
+        });
 	}
 }

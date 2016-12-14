@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import DB.DB;
 import domain.Kunde;
 import domain.Login;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -22,6 +23,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import utill.TableCreator;
 
 public class Kundeoversigt {
@@ -109,7 +111,14 @@ public class Kundeoversigt {
 		stage.setScene(scene);
 		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 		stage.setResizable(false);
-		stage.initStyle(StageStyle.UNDECORATED);
+		stage.initStyle(StageStyle.UTILITY);
 		stage.show();
+		
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                event.consume();
+            }
+        });
 	}
 }
