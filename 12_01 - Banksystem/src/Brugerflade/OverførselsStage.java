@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import DB.DB;
@@ -169,7 +170,7 @@ public class OverførselsStage {
 
 		overførknappen.setOnAction(e -> {
 			try {
-				if (checklegitness(beløbfelt, senderfelt, modtagerfelt, bruger) == true) {
+				if (checklegitness(beløbfelt, senderfelt, modtagerfelt, bruger, fejl) == true) {
 					
 					fejl.setFill(Color.GREEN);
 					try {
@@ -235,7 +236,7 @@ public class OverførselsStage {
 					}
 				} else {
 					fejl.setFill(Color.RED);
-					fejl.setText("Din overførsel er ikke legit");
+					
 				}
 			} catch (NumberFormatException | SQLException e1) {
 				e1.printStackTrace();
@@ -249,40 +250,120 @@ public class OverførselsStage {
 
 	}
 
-	private boolean checklegitness(TextField beløbfelt, TextField senderfelt, TextField modtagerfelt, Login bruger)
+	private boolean checklegitness(TextField beløbfelt, TextField senderfelt, TextField modtagerfelt, Login bruger, Text fejl)
 			throws SQLException {
-		String[] bogstaver = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","x","y","z","æ","ø","å"};
-		String[] storebogstaver = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","X","Y","Z","Æ","Ø","Å"};
-		List<Konto> kontolist = db.listkonti(db.matchkundemedlogin(bruger));
-		
-		boolean egenkonto=false;
-		boolean indeholderbogstaver=false;
-		
-		for (int i = 0; i < kontolist.size();i++ ) {
-			if (kontolist.get(i).getKontonummer() == Integer.parseInt(senderfelt.getText())){			
-			egenkonto = true;
-			break;
-			}
-		}
-		for(int i=0;i<=27;i++){
-			if(beløbfelt.getText().contains(bogstaver[i]) 
-				|| beløbfelt.getText().contains(storebogstaver[i])){
-				indeholderbogstaver=false;
-				break;
-			}
-		}
 
-		if (beløbfelt.getText().isEmpty() == false 
-			&& modtagerfelt.getText().isEmpty() == false
-			&& senderfelt.getText().isEmpty() == false && indeholderbogstaver==false 
-			&& egenkonto==true 
-			&& Double.parseDouble(beløbfelt.getText()) > 0 
-			&& Double.parseDouble(senderfelt.getText())>0
-			&& Double.parseDouble(modtagerfelt.getText())>0
-			) {
-			return true;
-		} else
+		if (feltererudfyldt(senderfelt,beløbfelt,modtagerfelt)==true){
+			System.out.println("fejlterne er udfyldt");
+			
+			if( checkifsenderejerkonto(bruger,senderfelt)==true) {
+				System.out.println("konto nummer: "+senderfelt.getText()+" er din konto");
+				
+				if(bogstaverifelterne(senderfelt,modtagerfelt,beløbfelt)==false){
+					System.out.println("der er ingen bogstaver i felterne");
+					
+					if(symbolerifelterne(senderfelt,modtagerfelt,beløbfelt,fejl)==false){
+						System.out.println("der er ingen symboler værdier i felterne");
+						
+						if(senderfelt.getText().equals(beløbfelt.getText())==false){
+							System.out.println("sender og modtager er ikke den samme konto");
+							
+							return false; 
+						}
+						else fejl.setText("Kontoerne må ikke være ens");
+						return false;
+					}
+					else fejl.setText("Ingen symboler");
+					return false;
+				}
+				else fejl.setText("Ingen bogstaver");
+				return false;
+			}
+			else fejl.setText("Du kan ikke sende penge fra andres konto");
 			return false;
-
+		}
+		else fejl.setText("Alle felter skal udfyldes");			
+		return false;
 	}
+		private boolean checkifsenderejerkonto(Login bruger, TextField senderfelt) throws SQLException{
+			System.out.println("checker om konto nummer: "+senderfelt.getText()+" er din konto");
+			List<Konto> kontolist = db.listkonti(db.matchkundemedlogin(bruger));
+				for (int i = 0; i < kontolist.size();i++ ) {
+					if (kontolist.get(i).getKontonummer() == Integer.parseInt(senderfelt.getText())){			
+					return true;
+					}
+				}
+				return false;
+				}
+		private boolean bogstaverifelterne(TextField senderfelt, TextField modtagerfelt, TextField beløbfelt){
+			String[] bogstaver = 
+				{"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","æ","ø","å",
+				"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","Æ","Ø","Å"};
+				
+			for(int i=0;i<=57;){
+				if(beløbfelt.getText().contains(bogstaver[i]) 
+				||senderfelt.getText().contains(bogstaver[i])
+				||modtagerfelt.getText().contains(bogstaver[i]))
+				return true;
+				else i++;
+				break;
+				 
+			}
+			return false;
+		}
+		private boolean ingennegativer(TextField senderfelt, TextField modtagerfelt, TextField beløbfelt){
+		if(Double.parseDouble(beløbfelt.getText()) > 0 
+			&& Double.parseDouble(senderfelt.getText())>0
+			&& Double.parseDouble(modtagerfelt.getText())>0)
+			return true;	
+			else return false;
+		
+		}
+		private boolean feltererudfyldt(TextField senderfelt, TextField modtagerfelt, TextField beløbfelt){
+			if(beløbfelt.getText().isEmpty() == false 
+			&& modtagerfelt.getText().isEmpty() == false
+			&& senderfelt.getText().isEmpty() == false)
+			return true;
+			else return false;
+		}
+		private boolean symbolerifelterne(TextField senderfelt, TextField modtagerfelt, TextField beløbfelt, Text fejl){
+			List<Character> symboler = new ArrayList<>();
+			
+			String senderfeltet = senderfelt.getText();
+			String modtagerfeltet = modtagerfelt.getText();
+			String beløbfeltet = beløbfelt.getText();
+			System.out.println("checker efter symboler");
+			for(char c=32; c<=47;c++){
+				symboler.add(c);
+			}
+			for(int i=0; i<symboler.size();i++){
+				System.out.println("checker efter symbol: " + symboler.get(i).toString());
+				if(senderfeltet.contains(symboler.get(i).toString())==true){
+				fejl.setText("senderfeltet er ikke gyldigt");
+				return true;
+				}
+				
+			}	
+			for(int i=0; i<symboler.size();i++){
+				if(modtagerfeltet.contains(symboler.get(i).toString())==true){
+				fejl.setText("modtagerfeltet er ikke gyldigt");
+				return true;
+				}
+			}
+			for(int i=0; i<symboler.size();i++){
+				if(beløbfeltet.contains(symboler.get(i).toString())==true){
+				fejl.setText("beløbet er ikke gyldigt");
+				return true;
+				}	
+			}
+			return false;	
+		
+			}
+
+
+
+
+
+
+
 }
