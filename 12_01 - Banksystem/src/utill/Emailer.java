@@ -41,7 +41,23 @@ public class Emailer {
 		// Get the default Session object.
 		Session session = Session.getDefaultInstance(properties);
 		
-		try {
+
+		  Properties props = new Properties();  
+		  props.put("mail.smtp.host", "smtp.gmail.com");  
+		  props.put("mail.smtp.socketFactory.port", "465");  
+		  props.put("mail.smtp.socketFactory.class",  
+		            "javax.net.ssl.SSLSocketFactory");  
+		  props.put("mail.smtp.auth", "true");  
+		  props.put("mail.smtp.port", "465");  
+		   
+		  Session session1 = Session.getDefaultInstance(props,  
+		   new javax.mail.Authenticator() {  
+		   protected PasswordAuthentication getPasswordAuthentication() {  
+		   return new PasswordAuthentication("lortebank@gmail.com","password332");//email og password for vores lortebank  
+		   }  
+		  });  
+		  try {
+
 			MessageDigest alg;
 			alg = MessageDigest.getInstance("MD5");
 			String password1 = nyadgangskode;
@@ -61,8 +77,9 @@ public class Emailer {
 			Kunde idiot = db.matchkundemedlogin(brugernavn);
 			String email = idiot.getEmail();
 
+			
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("LorteBank@gmail.com"));
+			message.setFrom(new InternetAddress("lorteBank@gmail.com"));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
 			message.setSubject("kodeord");
 			message.setText("Hi " + idiot.getNavn()
