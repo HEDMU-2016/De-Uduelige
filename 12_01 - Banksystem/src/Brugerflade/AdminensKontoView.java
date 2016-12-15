@@ -121,7 +121,7 @@ public class AdminensKontoView {
 			opret.setOnAction(e->{
 			if(ejerfelt.getText().isEmpty() == false && saldofelt.getText().isEmpty() == false)
 			try {
-				db.addKonto(ejerfelt.getText(), BigDecimal.valueOf(Double.parseDouble(saldofelt.getText())));
+				db.addKonto(ejerfelt.getText().toLowerCase(), BigDecimal.valueOf(Double.parseDouble(saldofelt.getText())));
 				
 				if(legitrente(rentefelt.getText(),fejl)==true){
 				BigDecimal renten = BigDecimal.valueOf(Double.parseDouble(rentefelt.getText()));

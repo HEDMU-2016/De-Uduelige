@@ -24,18 +24,6 @@ import utill.TableCreator;
 public class KontoOversigt {
 ObservableList<Konto> list;
 	
-
-	public Kunde findKunde(String navn, DB db) throws SQLException{
-		List<Kunde> kundeliste = db.listKunder();
-		for(int i=0;i<=kundeliste.size();i++){
-		Kunde tmpkunde = kundeliste.get(i);
-		if(tmpkunde.getNavn()==navn)
-		return tmpkunde;
-		else continue;
-		}
-		return null;
-	}
-	
 	public void start(Stage stage, Login bruger)throws SQLException{
 		DB db = new DB();
 		TableCreator tablecreator = new TableCreator();

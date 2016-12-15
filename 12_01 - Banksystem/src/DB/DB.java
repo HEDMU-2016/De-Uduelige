@@ -43,7 +43,57 @@ public class DB implements Startable {
 			e.printStackTrace();
 		}
 	}
-
+	//tidsstyringsmetoder
+	public void setStartDato(Kunde kunde,Date startdato)throws SQLException{
+		start();
+		statement=connection.prepareStatement("update kunde set startdato=? where brugernavn=?");
+		statement.setDate(1, startdato);
+		statement.setString(2, kunde.getBrugernavn());
+		statement.execute();
+		System.out.println("satte startdatoen til: "+startdato+"på kunde: "+kunde);
+		stop();
+	}
+	public void setSlutDato(Kunde kunde, Date slutdato) throws SQLException{
+	start();
+	statement=connection.prepareStatement("update kunde set slutdato=? where brugernavn=?");
+	statement.setDate(1, slutdato);
+	statement.setString(2, kunde.getBrugernavn());
+	statement.execute();
+	System.out.println("satte slutdatoen til "+slutdato+" på kunde "+kunde);
+	stop();
+	}
+	public void setStartDato(Konto konto,Date startdato)throws SQLException{
+		start();
+		statement=connection.prepareStatement("update konto set startdato=? where kontoid=?");
+		statement.setDate(1, startdato);
+		statement.setInt(2, konto.getKontonummer());
+		statement.execute();
+		System.out.println("satte konto "+konto.getKontonummer()+"s startdato til "+ startdato);
+	}
+	public void setSslutDato(Konto konto,Date slutdato)throws SQLException{
+		start();
+		statement=connection.prepareStatement("update konto set slutdato=? where kontoid=?");
+		statement.setDate(1, slutdato);
+		statement.setInt(2, konto.getKontonummer());
+		statement.execute();
+		System.out.println("satte konto "+konto.getKontonummer()+"s slutdato til "+ slutdato);
+	}
+	public void setStartDato(Login login,Date startdato)throws SQLException{
+		start();
+		statement=connection.prepareStatement("update login set startdato=? where brugernavn=?");
+		statement.setDate(1, startdato);
+		statement.setString(2, login.getBrugernavn());
+		statement.execute();
+		System.out.println("satte login med brugernavn "+login.getBrugernavn()+" til startdatoen "+ startdato);
+	}
+	public void setSslutDato(Login login,Date slutdato)throws SQLException{
+		start();
+		statement=connection.prepareStatement("update konto set slutdato=? where kontoid=?");
+		statement.setDate(1, slutdato);
+		statement.setString(2, login.getBrugernavn());
+		statement.execute();
+		System.out.println("satte konto "+login.getBrugernavn()+"s slutdato til "+ slutdato);
+	}
 	// INDSÆT METODER:
 	public void addRente(Rente rente) throws SQLException{
 		System.out.println("Tilfører rente: "+rente);
@@ -411,9 +461,12 @@ public class DB implements Startable {
 			int kontonummer = resultset.getInt("kontoid");
 			double saldo = resultset.getDouble("saldo");
 			BigDecimal saldoinBD = BigDecimal.valueOf(saldo);
-
+//			Date startdato = resultset.getDate("startdato");
+//			Date slutdato = resultset.getDate("slutdato");
 			Konto tmpKonto = new Konto(ejer, saldoinBD);
 			tmpKonto.setKontonummer(kontonummer);
+//			if(startdato.toLocalDate().isAfter(LocalDate.now()) && slutdato.toLocalDate().isBefore(LocalDate.now()));
+			
 			kontolist.add(tmpKonto);
 			System.out.println("fandt og listede: " + tmpKonto.toString());
 		}
@@ -432,6 +485,7 @@ public class DB implements Startable {
 			List<Konto> tmpList = listkonti(tmpkunde);
 			 
 			for (int j = 0; j < tmpList.size(); j++) {
+				
 				Konto tmpKonto = tmpList.get(j);
 				kontolist.add(tmpKonto);
 				
@@ -447,13 +501,18 @@ public class DB implements Startable {
 		System.out.println("Laver en liste over alle kunder");
 		List<Kunde> kundeliste = new ArrayList<>();
 		start();
-		statement = connection.prepareStatement("Select navn, email, startdato, brugernavn from kunde");
+		statement = connection.prepareStatement("Select navn, email, startdato,slutdato, brugernavn from kunde");
 		resultset = statement.executeQuery();
 
 		while (resultset.next()) {
 			String navn = resultset.getString("navn");
 			String email = resultset.getString("email");
 			String brugernavn = resultset.getString("brugernavn");
+			Date startdato = resultset.getDate("startdato");
+			Date slutdato = resultset.getDate("slutdato");
+			
+			if(startdato.toLocalDate().isAfter(LocalDate.now()) && slutdato.toLocalDate().isBefore(LocalDate.now()));
+			
 			Kunde tmpKunde = new Kunde(navn, email, brugernavn);
 			kundeliste.add(tmpKunde);
 

@@ -22,9 +22,8 @@ public class Emailer {
 	// downloades her:
 	// https://java.net/projects/javamail/pages/Home#Download_JavaMail_Release
 	// (Download den nyeste version)
-	public static void main(String[] args) throws SQLException {
-		
-	}
+	// OBS DEN ER IKKE FÆRDIG
+
 	public void glemtkodemail(String brugernavn, String nyadgangskode)throws SQLException{
 
 		DB db = new DB();
