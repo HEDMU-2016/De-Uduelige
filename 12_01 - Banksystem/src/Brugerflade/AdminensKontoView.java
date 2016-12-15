@@ -18,6 +18,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -61,7 +62,7 @@ public class AdminensKontoView {
 
 			TableView<Konto> kompletteKontoliste = tablecreator.kontoTable();
 			kompletteKontoliste.setPrefWidth(350);
-			grid.add(kompletteKontoliste, 0, 1, 1, 6);
+			grid.add(kompletteKontoliste, 0, 1, 1, 8);
 			
 			Label ejerlabel = new Label("Ejer");
 			ejerlabel.setId("tekst");
@@ -79,6 +80,7 @@ public class AdminensKontoView {
 			grid.add(saldofelt, 3, 3);
 			
 			Label rentelabel = new Label("Rente");
+			rentelabel.setId("tekst");
 			grid.add(rentelabel, 2, 4);
 			
 			TextField rentefelt = new TextField();
@@ -87,15 +89,33 @@ public class AdminensKontoView {
 			
 			Label fejl = new Label("");
 			fejl.setId("fejl");
-			grid.add(fejl, 2, 7, 3, 7);
+			grid.add(fejl, 2, 9, 3, 9);
 			
 			ObservableList<String> options = FXCollections.observableArrayList("Månedlig", "Årlig");
 			final ComboBox comboBox = new ComboBox(options);
 			comboBox.setPrefWidth(270);
 			grid.add(comboBox, 3, 5);
+
+			Label startDatoLabel = new Label("Start dato");
+			startDatoLabel.setId("tekst");
+			grid.add(startDatoLabel, 2, 6);
+			
+			DatePicker startDato = new DatePicker();
+			grid.add(startDato, 3, 6);
+			startDato.setPrefWidth(270);
+			System.out.println(startDato.getValue());
+			
+			Label slutDatoLabel = new Label("Slut dato");
+			slutDatoLabel.setId("tekst");
+			grid.add(slutDatoLabel, 2, 7);
+			
+			DatePicker slutDato = new DatePicker();
+			grid.add(slutDato, 3, 7);
+			slutDato.setPrefWidth(270);
+			System.out.println(slutDato.getValue());
 			
 			Button opret = new Button("Opret");
-			grid.add(opret, 2, 6, 3, 6);
+			grid.add(opret, 2, 8, 3, 8);
 			opret.setId("KnapImenu");
 			
 			opret.setOnAction(e->{
