@@ -134,7 +134,6 @@ public class TableCreator {
 		List<Konto> kontolist = db.listkonti(kunde);
 		List<Postering> posteringslist;
 		
-		
 		ObservableList<Postering> posteringstable = FXCollections.observableArrayList();
 		
 		TableView<Postering> posteringsoversigt = new TableView<Postering>();
@@ -151,8 +150,6 @@ public class TableCreator {
 		TableColumn<Postering, Double> beløbCol = new TableColumn<Postering, Double>("Beløb ");
 		PropertyValueFactory<Postering,Double> beløbColFabrik = new PropertyValueFactory<Postering,Double>("beløb");
 		
-		
-		
 		for(int i=0;i<kontolist.size();i++){
 			posteringslist = db.listPostering(kontolist.get(i));
 			for(int j=0;j<posteringslist.size();j++){
@@ -168,7 +165,6 @@ public class TableCreator {
 		
 		posteringsoversigt.setItems(posteringstable);
 		posteringsoversigt.getColumns().addAll(senderCol,modtagerCol,sendtCol,beløbCol);
-		
 		
 		return posteringsoversigt;
 	}
@@ -199,11 +195,11 @@ public class TableCreator {
 
 		TableView<FastOverførsel> fastoverførselsOversigt = new TableView<FastOverførsel>();
 
-		TableColumn<FastOverførsel, Integer> senderCol = new TableColumn<FastOverførsel, Integer>("Sendt fra kontonr");
+		TableColumn<FastOverførsel, Integer> senderCol = new TableColumn<FastOverførsel, Integer>("Sender");
 		senderCol.setCellValueFactory(new PropertyValueFactory<FastOverførsel, Integer>("sender"));
 
 		TableColumn<FastOverførsel, Integer> modtagerCol = new TableColumn<FastOverførsel, Integer>(
-				"Sendt til kontonr");
+				"modtager");
 		modtagerCol.setCellValueFactory(new PropertyValueFactory<FastOverførsel, Integer>("modtager"));
 
 		TableColumn<FastOverførsel, Double> beløbCol = new TableColumn<FastOverførsel, Double>("Beløb");

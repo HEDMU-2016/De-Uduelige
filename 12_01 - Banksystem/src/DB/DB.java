@@ -19,8 +19,11 @@ import domain.Kontakt;
 import domain.Konto;
 import domain.Kunde;
 import domain.Login;
+import domain.MånedligRente;
 import domain.NormaltLogin;
 import domain.Postering;
+import domain.Rente;
+import domain.ÅrligRente;
 import logic.Logic;
 
 public class DB implements Startable {
@@ -42,6 +45,17 @@ public class DB implements Startable {
 	}
 
 	// INDSÆT METODER:
+	public void addRente(Rente rente) throws SQLException{
+		System.out.println("Tilfører rente: "+rente);
+		start();
+		statement = connection.prepareStatement("insert into renter (rente,indsætningsdato,kontonummer) values(?,?,?)");
+		statement.setDouble(1, rente.getRente().doubleValue());
+		statement.setDate(2,rente.getIndsætningsdato());
+		statement.setInt(3, rente.getKontonummer());
+		statement.execute();
+		System.out.println("done");
+		stop();
+	}
 	public void addKontakt(Kontakt kontakt, String ejer) throws SQLException { 
 		//ejer ligger sig til brugernavn																																	
 		
@@ -121,6 +135,31 @@ public class DB implements Startable {
 	}
 
 	// FIND METODER:
+	public Rente findrente(Konto konto) throws SQLException{
+		System.out.println("finder renten til konto: "+konto);
+		start();
+		statement = connection.prepareStatement("select rente, kontonummer,indsætningsdato,id from renter where kontonummer=?");
+		statement.setInt(1, konto.getKontonummer());
+		resultset=statement.executeQuery();
+		while(resultset.next()){
+			int kontonummer = resultset.getInt("kontonummer");
+			double rente = resultset.getDouble("rente");
+			Date indsætningsdato = resultset.getDate("indsætningsdato");
+			int id = resultset.getInt("id");
+			BigDecimal renteinBD = BigDecimal.valueOf(rente);
+			if(id==1){
+			Rente renten = new MånedligRente(renteinBD,indsætningsdato,kontonummer);
+			return renten;
+			}
+			if(id==2){
+			Rente renten = new ÅrligRente(renteinBD,indsætningsdato,kontonummer);
+			return renten;
+			}
+			
+		}
+		System.out.println("kontoen har ikke en rente");
+		return null;
+	}
 	public Login findLogin(String brugernavn) throws SQLException {
 		System.out.println("Finder loginnet med brugernavn: " + brugernavn);
 		List<Login> loginlist = listLogins();
@@ -460,6 +499,27 @@ public class DB implements Startable {
 			}
 		return fastoverførselsliste;	
 	}
+	public List<Rente> listrenter() throws SQLException{
+		List<Rente> rentelist = new ArrayList<>();
+		System.out.println("lister renter");
+		start();
+		statement = connection.prepareStatement("select rente,indsætningsdato,kontonummer,id from renter");
+		resultset = statement.executeQuery();
+		while(resultset.next()){
+			double rente = resultset.getDouble("rente");
+			Date indsætningsdato = resultset.getDate("indsætningsdato");
+			int kontonummer = resultset.getInt("kontonummer");
+			int id = resultset.getInt("id");
+			BigDecimal renteinBD = BigDecimal.valueOf(rente);
+			if(id==1){
+			rentelist.add(new MånedligRente(renteinBD,indsætningsdato,kontonummer));
+			}
+			if(id==2){
+			rentelist.add(new ÅrligRente(renteinBD,indsætningsdato,kontonummer));
+			}
+		}
+		return rentelist;
+	}
 	// KONTROL METODER:
 
 	public boolean checkLogin(String brugernavn, String adgangskode) throws SQLException {
@@ -603,11 +663,63 @@ public class DB implements Startable {
 					+ " med startdato: " + startdato);
 		}
 	}
+	private void updaterrenter(List<Rente> renter) throws SQLException{
+		LocalDate nu = LocalDate.now();
+		PreparedStatement statement2;
+		PreparedStatement statement3;
+		Date næsteindsætningsdato;
+		
+		
+		for(int i=0;i<renter.size();i++){
+		Date indsætningsdato = renter.get(i).getIndsætningsdato();
+		
+		
+		if(nu.isAfter(indsætningsdato.toLocalDate())){
+			if(renter.get(i).getid()==1){
+			næsteindsætningsdato = Date.valueOf(indsætningsdato.toLocalDate().plusMonths(1));
+			}
+			else{
+			næsteindsætningsdato = Date.valueOf(indsætningsdato.toLocalDate().plusYears(2));		
+			}
+		
+		System.out.println("Indsætter rente "+renter.get(i).getRente()+" på kontonummer: "+renter.get(i).getKontonummer());
+		start();
+		
+		
+		statement = connection.prepareStatement("select saldo from konto where kontoid=?");
+		resultset = statement.executeQuery();
+		statement.executeQuery();
+		
+		double saldo = resultset.getDouble("saldo");
+		System.out.println("Gamle saldo: "+saldo);
+		
+		BigDecimal saldoinBD = BigDecimal.valueOf(saldo);
+		BigDecimal nyesaldoinBD = logic.indsætrente(saldoinBD, renter.get(i).getRente());
+		double nyesaldo = nyesaldoinBD.doubleValue();
+		
+		System.out.println("Nye saldo: "+nyesaldo);
+		
+		statement2 = connection.prepareStatement("update konto set saldo=? where kontoid=?");
+		statement2.setDouble(1, nyesaldo);
+		statement2.setInt(2, renter.get(i).getKontonummer());
+		statement2.execute();
+		
+		System.out.println("næste indbetaling af rente på denne konto: "+næsteindsætningsdato);
+		
+		statement3 = connection.prepareStatement("update renter set indsætnindsdato=? where kontonummer=?");
+		statement3.setDate(1, næsteindsætningsdato);
+		statement3.setInt(2, renter.get(i).getKontonummer());
+		statement3.execute();
+		
+		System.out.println("done!");
+		
+		stop();
+			}
+		}
+	}
 
 	private void updatefasteoverførsler() throws SQLException {
 		System.out.println("Updatere fasteoverførsler...");
-		DB db = new DB();
-		System.out.println("lister overførsels datoer");
 		List<LocalDate> slutdatoliste = new ArrayList<>();
 		statement = connection.prepareStatement("select slutdato,sender, modtager, beløb, id from fastoverførsel");
 		resultset = statement.executeQuery();
@@ -627,32 +739,44 @@ public class DB implements Startable {
 					if (id == 1) {
 						slutdatoliste.get(i).plusDays(1);
 						transfer(sender, modtager, beløbinBD);
+						System.out.println("overførte "+beløbinBD+" til "+ modtager +" fra "+sender+" som daglig overførsel");
 					}
 					if (id == 2) {
 						slutdatoliste.get(i).plusWeeks(1);
 						transfer(sender, modtager, beløbinBD);
+						System.out.println("overførte "+beløbinBD+" til "+ modtager +" fra "+sender+" som ugentlig overførsel");
+						
 					}
 					if (id == 3) {
 						slutdatoliste.get(i).plusMonths(1);
 						transfer(sender, modtager, beløbinBD);
+						System.out.println("overførte "+beløbinBD+" til "+ modtager +" fra "+sender+" som månedlig overførsel");
+						
 					}
 					if (id == 4) {
 						slutdatoliste.get(i).plusMonths(3);
 						transfer(sender, modtager, beløbinBD);
+						System.out.println("overførte "+beløbinBD+" til "+ modtager +" fra "+sender+" som kvartalig overførsel");
+						
 					}
 					if(id ==5){
 						slutdatoliste.get(i).plusMonths(6);
 						transfer(sender, modtager, beløbinBD);
+						System.out.println("overførte "+beløbinBD+" til "+ modtager +" fra "+sender+" som halvårig overførsel");
+						
 					}
 					if(id == 6){
 						slutdatoliste.get(i).plusYears(1);
 						transfer(sender,modtager,beløbinBD);
+						System.out.println("overførte "+beløbinBD+" til "+ modtager +" fra "+sender+" som årlig overførsel");
+						
 					}
 				}
 				System.out.println("Done!");
 			}
 		}
 	}
+	
 
 	private void checkifdayhaspassed() throws SQLException {
 		Long nu = System.currentTimeMillis();
@@ -662,6 +786,7 @@ public class DB implements Startable {
 			setTimer(nu);
 			System.out.println("Holy shit, Der er gået en dag! Jeg skal lige updatere nogen kontoer, brb");
 			updatefasteoverførsler();
+			updaterrenter(listrenter());
 		}
 
 		else {

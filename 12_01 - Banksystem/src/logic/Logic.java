@@ -5,11 +5,15 @@ import java.math.BigDecimal;
 public class Logic {
 	
 	public BigDecimal add(BigDecimal n1, BigDecimal n2){
-		BigDecimal sum =BigDecimal.valueOf(n1.doubleValue()+n2.doubleValue());
+		BigDecimal sum = n1.add(n2);
 		return sum;
 	}
 	public BigDecimal subtract(BigDecimal n1, BigDecimal n2){
-		BigDecimal sum =BigDecimal.valueOf(n1.doubleValue()-n2.doubleValue());
+		BigDecimal sum =n1.add(n2);
 		return sum;
+	}
+	public BigDecimal indsætrente(BigDecimal saldo, BigDecimal rente){
+		saldo.multiply(rente);
+		return saldo;
 	}
 }

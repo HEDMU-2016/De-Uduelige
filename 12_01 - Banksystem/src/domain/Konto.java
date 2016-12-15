@@ -9,10 +9,20 @@ public class Konto {
 	protected int kontoid;
 	protected BigDecimal saldo;
 	private Logic logic;
+	Rente rente;
 	
+	
+
 	public Konto(Kunde ejer, BigDecimal saldo){
 		this.ejer=ejer;
 		this.saldo=saldo;
+	}
+	public Rente getRente() {
+		return rente;
+	}
+
+	public void setRente(Rente rente) {
+		this.rente = rente;
 	}
 
 	public void deposit(BigDecimal amount){
