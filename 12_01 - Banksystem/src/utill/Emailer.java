@@ -42,7 +42,7 @@ public class Emailer {
 		  });  
 
 		try {
-			Kunde idiot = db.mailtoKunde(email); //
+			Kunde idiot = db.mailtoKunde(email); //a
 
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("lorteBank@gmail.com"));
