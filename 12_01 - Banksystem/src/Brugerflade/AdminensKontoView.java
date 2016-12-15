@@ -162,6 +162,7 @@ public class AdminensKontoView {
 	                event.consume();
 	            }
 	        });
+			
 		}
 
 private boolean legitrente(String rente, Label fejl) {

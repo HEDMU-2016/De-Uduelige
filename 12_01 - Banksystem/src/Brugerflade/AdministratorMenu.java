@@ -8,15 +8,14 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
 public class AdministratorMenu {
@@ -92,8 +91,6 @@ public class AdministratorMenu {
 
 		});
 
-		
-	
 		Button kontooversigt = new Button("Se alle kontis");
 		grid.add(kontooversigt, 0, 3);
 		kontooversigt.setId("KnapImenu");
@@ -113,6 +110,16 @@ public class AdministratorMenu {
 			LoginOversigt loginoversigt = new LoginOversigt();
 			try {
 				loginoversigt.start(new Stage());
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		});
+		Button ændring = new Button("Plan ændring");
+		grid.add(ændring, 0, 5);
+		ændring.setOnAction(e->{
+			ÆndringerOversigt ændringeroversigt = new ÆndringerOversigt();
+			try {
+				ændringeroversigt.start(new Stage());
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}

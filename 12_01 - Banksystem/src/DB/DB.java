@@ -24,6 +24,7 @@ import domain.NormaltLogin;
 import domain.Postering;
 import domain.Rente;
 import domain.ÅrligRente;
+import domain.Ændring;
 import logic.Logic;
 
 public class DB implements Startable {
@@ -43,7 +44,29 @@ public class DB implements Startable {
 			e.printStackTrace();
 		}
 	}
-	//tidsstyringsmetoder
+	public Connection getConnection() throws SQLException{
+		connection=DriverManager.getConnection(db,dbuser,dbpass);
+		return connection;
+	}
+	
+	public void addÆndring(Ændring ændring)throws SQLException{
+	System.out.println("tilfører ændring: "+ændring);
+	start();
+	statement = connection.prepareStatement("insert into ændring(indeførelsesdato,statement) values(?,?)");
+	statement.setDate(1, ændring.getIndførelsesdato());
+	statement.setString(2, ændring.getStatement().toString());
+	statement.execute();
+	stop();	
+	}
+	public void executeÆndring(Ændring ændring) throws SQLException{
+		start();
+		ændring.getStatement().execute();
+		stop();
+	}
+	
+	
+	
+	//tidsstyringsmetoder (skal muligvis bruges)
 	public void setStartDato(Kunde kunde,Date startdato)throws SQLException{
 		start();
 		statement=connection.prepareStatement("update kunde set startdato=? where brugernavn=?");
@@ -374,6 +397,21 @@ public class DB implements Startable {
 	}
 
 	// LIST METODER:
+	public List<Ændring> listændringer() throws SQLException{
+		List<Ændring> ændringerlist = new ArrayList<>();
+		start();
+		statement = connection.prepareStatement("select indførelsesdato, statement from ændring");
+		resultset = statement.executeQuery();
+		while(resultset.next()){
+			Date indførelsesdato = resultset.getDate("indførelsesdato");
+			String statement2 = resultset.getString("statement");
+			PreparedStatement statement = connection.prepareStatement(statement2);
+			Ændring tmpændring = new Ændring(indførelsesdato,statement);
+			ændringerlist.add(tmpændring);			
+		}
+		return ændringerlist;
+	}
+	
 	public List<Kontakt> listkontakter(Kunde ejer) throws SQLException {
 		System.out.println("lister kontakter...");
 		List<Kontakt> kontaktlist = new ArrayList<>();
@@ -747,6 +785,16 @@ public class DB implements Startable {
 					+ " med startdato: " + startdato);
 		}
 	}
+	private void updaterændringer()throws SQLException{
+	LocalDate nu = LocalDate.now();
+	List<Ændring> ændringerlist = new ArrayList<>();
+	for(int i=0; i<ændringerlist.size();i++){
+		if(nu.isAfter(ændringerlist.get(i).getIndførelsesdato().toLocalDate())){
+			executeÆndring(ændringerlist.get(i));
+		}
+		
+	}
+	}
 	private void updaterrenter(List<Rente> renter) throws SQLException{
 		LocalDate nu = LocalDate.now();
 		PreparedStatement statement2;
@@ -880,7 +928,7 @@ public class DB implements Startable {
 			System.out.println("Holy shit, Der er gået en dag! Jeg skal lige updatere nogen kontoer, brb");
 			updatefasteoverførsler();
 			updaterrenter(listrenter());
-			
+			updaterændringer();
 		}
 
 		else {
