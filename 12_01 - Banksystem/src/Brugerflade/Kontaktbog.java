@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -63,18 +64,19 @@ public class Kontaktbog {
 		grid.add(kontonrfelt, 3, 2);
 
 		Text notifikation = new Text("TEST TEST TEST TEST TEST");
-		notifikation.setId("fejl");
+		notifikation.setId("fejltext");
 		grid.add(notifikation, 2, 6, 3, 6);
 
 		Button gemknap = new Button("Tilføj kontakt");
 		gemknap.setId("KnapImenu");
 		grid.add(gemknap, 2, 4, 3, 4);
 		gemknap.setOnAction(e -> {
+	
 			Kontakt nykontakt = new Kontakt(navnfelt.getText(), Integer.parseInt(kontonrfelt.getText()));
 			try {
 				db.addKontakt(nykontakt, bruger.getBrugernavn());
 				if (kontonrfelt.getText().isEmpty()){
-					//notifikation.setFill(Color.RED);
+					
 					notifikation.setText("kontonr skal være udfyldt");
 				}else{
 					//notifikation.setFill(Color.GREEN);
