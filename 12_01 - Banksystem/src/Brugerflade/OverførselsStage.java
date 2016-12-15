@@ -271,8 +271,7 @@ public class OverførselsStage {
 			if( checkifsenderejerkonto(bruger,senderfelt)==true) {
 				System.out.println("konto nummer: "+senderfelt.getText()+" er din konto");
 				
-				if(bogstaverifelterne(senderfelt,modtagerfelt,beløbfelt)==false){
-					System.out.println("der er ingen bogstaver i felterne");
+				
 					
 					if(symbolerifelterne(senderfelt,modtagerfelt,beløbfelt,fejl)==false){
 						System.out.println("der er ingen symboler i felterne");
@@ -288,9 +287,7 @@ public class OverførselsStage {
 					else fejl.setText("Ingen symboler");
 					return false;
 				}
-				else fejl.setText("Ingen bogstaver");
-				return false;
-			}
+				
 			else fejl.setText("Du kan ikke sende penge fra andres konto");
 			return false;
 		}
@@ -315,7 +312,7 @@ public class OverførselsStage {
 				}
 				return false;
 				}
-		private boolean bogstaverifelterne(TextField senderfelt, TextField modtagerfelt, TextField beløbfelt){
+	/*	private boolean bogstaverifelterne(TextField senderfelt, TextField modtagerfelt, TextField beløbfelt){
 			String[] bogstaver = 
 				{"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","æ","ø","å",
 				"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","Æ","Ø","Å"};
@@ -331,7 +328,7 @@ public class OverførselsStage {
 			}
 			return false;
 		}
-/*		private boolean ingennegativer(TextField senderfelt, TextField modtagerfelt, TextField beløbfelt){
+		private boolean ingennegativer(TextField senderfelt, TextField modtagerfelt, TextField beløbfelt){
 		if(Double.parseDouble(beløbfelt.getText()) > 0 
 			&& Double.parseDouble(senderfelt.getText())>0
 			&& Double.parseDouble(modtagerfelt.getText())>0)
