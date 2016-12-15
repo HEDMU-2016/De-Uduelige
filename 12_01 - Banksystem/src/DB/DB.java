@@ -677,13 +677,14 @@ public class DB implements Startable {
 		if(nu.isAfter(indsætningsdato.toLocalDate())){
 			if(renter.get(i).getid()==1){
 			næsteindsætningsdato = Date.valueOf(indsætningsdato.toLocalDate().plusMonths(1));
+			System.out.println("din næste rente bliver udbetalt på dato: "+næsteindsætningsdato);
 			}
 			else{
 			næsteindsætningsdato = Date.valueOf(indsætningsdato.toLocalDate().plusYears(2));		
+			System.out.println("din næste rente bliver udbetalt på dato: "+næsteindsætningsdato);
 			}
 		
 		System.out.println("Indsætter rente "+renter.get(i).getRente()+" på kontonummer: "+renter.get(i).getKontonummer());
-		start();
 		
 		
 		statement = connection.prepareStatement("select saldo from konto where kontoid=?");
@@ -713,68 +714,73 @@ public class DB implements Startable {
 		
 		System.out.println("done!");
 		
-		stop();
 			}
 		}
 	}
 
 	private void updatefasteoverførsler() throws SQLException {
 		System.out.println("Updatere fasteoverførsler...");
-		List<LocalDate> slutdatoliste = new ArrayList<>();
-		statement = connection.prepareStatement("select slutdato,sender, modtager, beløb, id from fastoverførsel");
+		List<LocalDate> overførselsdatoliste = new ArrayList<>();
+		
+		statement = connection.prepareStatement("select startdato,sender, modtager, beløb, id from fastoverførsel");
 		resultset = statement.executeQuery();
+		
 		while (resultset.next()) {
-			Date tmpslutdato = resultset.getDate("slutdato");
+			Date tmpstartdato = resultset.getDate("startdato");
 			int modtager = resultset.getInt("sender");
 			int sender = resultset.getInt("modtager");
 			double beløb = resultset.getDouble("beløb");
 			BigDecimal beløbinBD = BigDecimal.valueOf(beløb);
 			int id = resultset.getInt("id");
-			LocalDate slutdato = tmpslutdato.toLocalDate();
-			slutdatoliste.add(slutdato);
-			for (int i = 0; i <= slutdatoliste.size(); i++) {
-				LocalDate nu = LocalDateTime.now().toLocalDate();
+			
+			LocalDate overførselstdato = tmpstartdato.toLocalDate();
+			overførselsdatoliste.add(overførselstdato);
+			
+			for (int i = 0; i < overførselsdatoliste.size(); i++) {
+				LocalDate nu = LocalDate.now();
 
-				if (nu.isAfter(slutdatoliste.get(i)) == true) {
+				if (nu.isAfter(overførselsdatoliste.get(i)) == true) {
 					if (id == 1) {
-						slutdatoliste.get(i).plusDays(1);
+						overførselsdatoliste.get(i).plusDays(1);
 						transfer(sender, modtager, beløbinBD);
 						System.out.println("overførte "+beløbinBD+" til "+ modtager +" fra "+sender+" som daglig overførsel");
 					}
 					if (id == 2) {
-						slutdatoliste.get(i).plusWeeks(1);
+						overførselsdatoliste.get(i).plusWeeks(1);
 						transfer(sender, modtager, beløbinBD);
 						System.out.println("overførte "+beløbinBD+" til "+ modtager +" fra "+sender+" som ugentlig overførsel");
 						
 					}
 					if (id == 3) {
-						slutdatoliste.get(i).plusMonths(1);
+						overførselsdatoliste.get(i).plusMonths(1);
 						transfer(sender, modtager, beløbinBD);
 						System.out.println("overførte "+beløbinBD+" til "+ modtager +" fra "+sender+" som månedlig overførsel");
 						
 					}
 					if (id == 4) {
-						slutdatoliste.get(i).plusMonths(3);
+						overførselsdatoliste.get(i).plusMonths(3);
 						transfer(sender, modtager, beløbinBD);
 						System.out.println("overførte "+beløbinBD+" til "+ modtager +" fra "+sender+" som kvartalig overførsel");
 						
 					}
 					if(id ==5){
-						slutdatoliste.get(i).plusMonths(6);
+						overførselsdatoliste.get(i).plusMonths(6);
 						transfer(sender, modtager, beløbinBD);
 						System.out.println("overførte "+beløbinBD+" til "+ modtager +" fra "+sender+" som halvårig overførsel");
 						
 					}
 					if(id == 6){
-						slutdatoliste.get(i).plusYears(1);
+						overførselsdatoliste.get(i).plusYears(1);
 						transfer(sender,modtager,beløbinBD);
 						System.out.println("overførte "+beløbinBD+" til "+ modtager +" fra "+sender+" som årlig overførsel");
 						
 					}
 				}
 				System.out.println("Done!");
-			}
+			}		
+			start();
 		}
+		
 	}
 	
 
@@ -782,11 +788,14 @@ public class DB implements Startable {
 		Long nu = System.currentTimeMillis();
 		Long lastnuplusdag = getTimer();
 		if (nu > lastnuplusdag) {
-			nu = nu + (3600000 * 24);
+			System.out.println(nu+" > "+lastnuplusdag);
+			nu += (3600000 * 24);
 			setTimer(nu);
+			System.out.println("nye tid: "+ nu);
 			System.out.println("Holy shit, Der er gået en dag! Jeg skal lige updatere nogen kontoer, brb");
 			updatefasteoverførsler();
 			updaterrenter(listrenter());
+			
 		}
 
 		else {

@@ -1,13 +1,22 @@
 
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
+import DB.DB;
+import domain.MånedligRente;
+import domain.Rente;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import login.Login_IO;
 
 public class launcher extends Application {
 	public static void main(String[] args) throws SQLException{
-		//System.out.println(System.currentTimeMillis());
+		DB db = new DB();
+		
+		System.out.println(System.currentTimeMillis());
+		
 		launch (args);
 	}
 
