@@ -61,7 +61,7 @@ public class AdminensKontoView {
 
 			TableView<Konto> kompletteKontoliste = tablecreator.kontoTable();
 			kompletteKontoliste.setPrefWidth(350);
-			grid.add(kompletteKontoliste, 0, 1, 1, 5);
+			grid.add(kompletteKontoliste, 0, 1, 1, 6);
 			
 			Label ejerlabel = new Label("Ejer");
 			ejerlabel.setId("tekst");
@@ -82,18 +82,20 @@ public class AdminensKontoView {
 			grid.add(rentelabel, 2, 4);
 			
 			TextField rentefelt = new TextField();
+			rentelabel.setId("tekst");
 			grid.add(rentefelt, 3, 4);
 			
 			Label fejl = new Label("");
 			fejl.setId("fejl");
-			grid.add(fejl, 2, 6, 3, 6);
+			grid.add(fejl, 2, 7, 3, 7);
 			
-			ObservableList<String> options = FXCollections.observableArrayList("månedlig", "årlig");
+			ObservableList<String> options = FXCollections.observableArrayList("Månedlig", "Årlig");
 			final ComboBox comboBox = new ComboBox(options);
-			grid.add(comboBox, 4, 4);
+			comboBox.setPrefWidth(270);
+			grid.add(comboBox, 3, 5);
 			
-			Button opret = new Button("opret");
-			grid.add(opret, 2, 4, 3, 4);
+			Button opret = new Button("Opret");
+			grid.add(opret, 2, 6, 3, 6);
 			opret.setId("KnapImenu");
 			
 			opret.setOnAction(e->{
