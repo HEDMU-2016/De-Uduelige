@@ -61,7 +61,7 @@ public class AdminensKontoView {
 
 			TableView<Konto> kompletteKontoliste = tablecreator.kontoTable();
 			kompletteKontoliste.setPrefWidth(350);
-			grid.add(kompletteKontoliste, 0, 1, 1, 5);
+			grid.add(kompletteKontoliste, 0, 1, 1, 6);
 			
 			Label ejerlabel = new Label("Ejer");
 			ejerlabel.setId("tekst");
@@ -79,6 +79,7 @@ public class AdminensKontoView {
 			grid.add(saldofelt, 3, 3);
 			
 			Label rentelabel = new Label("Rente");
+			rentelabel.setId("tekst");
 			grid.add(rentelabel, 2, 4);
 			
 			TextField rentefelt = new TextField();
@@ -86,14 +87,15 @@ public class AdminensKontoView {
 			
 			Label fejl = new Label("");
 			fejl.setId("fejl");
-			grid.add(fejl, 2, 6, 3, 6);
+			grid.add(fejl, 2, 7, 3, 7);
 			
-			ObservableList<String> options = FXCollections.observableArrayList("månedlig", "årlig");
+			ObservableList<String> options = FXCollections.observableArrayList("Månedlig", "Årlig");
 			final ComboBox comboBox = new ComboBox(options);
-			grid.add(comboBox, 4, 4);
+			comboBox.setPrefWidth(250);
+			grid.add(comboBox, 3, 5);
 			
-			Button opret = new Button("opret");
-			grid.add(opret, 2, 4, 3, 4);
+			Button opret = new Button("Opret");
+			grid.add(opret, 2, 6, 3, 6);
 			opret.setId("KnapImenu");
 			
 			opret.setOnAction(e->{
@@ -148,7 +150,7 @@ private boolean legitrente(String rente, Label fejl) {
 	double rentesomdouble = Double.parseDouble(rente);
 	if(rentesomdouble<1)
 	return true;
-	else fejl.setText("renten skal være over 1");
+	else fejl.setText("Renten skal være over 1");
 	return false;
 
 	}
