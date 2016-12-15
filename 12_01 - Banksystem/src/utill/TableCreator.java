@@ -138,10 +138,10 @@ public class TableCreator {
 		
 		TableView<Postering> posteringsoversigt = new TableView<Postering>();
 		
-		TableColumn<Postering, String> senderCol = new TableColumn<Postering, String>("Sendt fra kontonr ");
+		TableColumn<Postering, String> senderCol = new TableColumn<Postering, String>("Sendt fra");
 		PropertyValueFactory<Postering,String> senderColFabrik = new PropertyValueFactory<Postering,String>("sender");
 		
-		TableColumn<Postering, String> modtagerCol = new TableColumn<Postering, String>("Modtaget på kontonr ");
+		TableColumn<Postering, String> modtagerCol = new TableColumn<Postering, String>("Modtaget på");
 		PropertyValueFactory<Postering,String> modtagerColFabrik = new PropertyValueFactory<Postering,String>("modtager");
 		
 		TableColumn<Postering, Date> sendtCol = new TableColumn<Postering, Date>("Sendt ");
