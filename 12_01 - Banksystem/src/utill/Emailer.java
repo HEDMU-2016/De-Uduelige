@@ -26,23 +26,26 @@ public class Emailer {
 
 		DB db = new DB();
 
-		// Assuming you are sending email from localhost
-		String host = "localhost";
-
-		// Get system properties
-		Properties properties = System.getProperties();
-
-		// Setup mail server
-		properties.setProperty("mail.smtp.host", host);
-
-		// Get the default Session object.
-		Session session = Session.getDefaultInstance(properties);
+		  Properties props = new Properties();  
+		  props.put("mail.smtp.host", "smtp.gmail.com");  
+		  props.put("mail.smtp.socketFactory.port", "465");  
+		  props.put("mail.smtp.socketFactory.class",  
+		            "javax.net.ssl.SSLSocketFactory");  
+		  props.put("mail.smtp.auth", "true");  
+		  props.put("mail.smtp.port", "465");  
+		   
+		  Session session = Session.getDefaultInstance(props,  
+		   new javax.mail.Authenticator() {  
+		   protected PasswordAuthentication getPasswordAuthentication() {  
+		   return new PasswordAuthentication("lortebank@gmail.com","password332");//email og password for vores lortebank  
+		   }  
+		  });  
 
 		try {
-			Kunde idiot = db.mailtoKunde(email);
+			Kunde idiot = db.mailtoKunde(email); //a
 
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("LorteBank@gmail.com"));
+			message.setFrom(new InternetAddress("lorteBank@gmail.com"));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
 			message.setSubject("kodeord");
 			message.setText("Hi " + idiot.getNavn()
