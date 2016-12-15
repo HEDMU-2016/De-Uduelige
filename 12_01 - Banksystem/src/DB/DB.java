@@ -577,6 +577,23 @@ public class DB implements Startable {
 		return "Brugernavn ikke fundet!";
 
 	}
+	public void hæv(long amount, int kontoid) throws SQLException{
+		PreparedStatement statement2;
+		statement = connection.prepareStatement("update saldo set saldo=? where kontoid=?");
+		statement2 = connection.prepareStatement("select saldo from konto where kontoid=?");
+		start();
+		resultset = statement2.executeQuery();
+		while(resultset.next()){
+		double saldo = resultset.getDouble("saldo");
+		BigDecimal saldoinBD = BigDecimal.valueOf(saldo);
+		BigDecimal amountinBD = BigDecimal.valueOf(amount);
+		double nyesaldo = Double.parseDouble(logic.subtract(saldoinBD, amountinBD).toString());
+		statement.setDouble(1, nyesaldo);
+		statement.setInt(1, kontoid);
+		statement.execute();
+		stop();
+		}
+	}
 
 	public void transfer(int senderskontoid, int modtagerskontoid, BigDecimal beløb) throws SQLException {
 		PreparedStatement statement2;
@@ -585,7 +602,6 @@ public class DB implements Startable {
 		System.out.println("forsøger at Overføre " + beløb + "kr til konto med id" + modtagerskontoid + " fra konto med id "
 				+ senderskontoid);
 		BigDecimal nyesaldo = logic.add((BigDecimal.valueOf(getSaldo(modtagerskontoid))), beløb);
-		
 		
 		start();
 		statement = connection.prepareStatement("UPDATE konto SET saldo=? WHERE kontoid=?");
@@ -787,6 +803,7 @@ public class DB implements Startable {
 	private void checkifdayhaspassed() throws SQLException {
 		Long nu = System.currentTimeMillis();
 		Long lastnuplusdag = getTimer();
+		
 		if (nu > lastnuplusdag) {
 			System.out.println(nu+" > "+lastnuplusdag);
 			nu += (3600000 * 24);
