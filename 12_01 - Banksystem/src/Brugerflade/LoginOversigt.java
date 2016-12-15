@@ -114,7 +114,7 @@ public class LoginOversigt {
 					passwordfelt.setText(MD5krypteret);
 				
 				
-					if (idfeltoptions.getValue().equals("admins")) {
+					if (idfeltoptions.getValue().equals("admin")) {
 						db.addLogin(new AdminLogin(brugernavnfelt.getText().toLowerCase(), passwordfelt.getText()));
 					}
 					if (idfeltoptions.getValue().equals("kunde")) {
