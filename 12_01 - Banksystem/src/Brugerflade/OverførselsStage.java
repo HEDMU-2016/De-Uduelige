@@ -14,6 +14,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -29,6 +30,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import utill.TableCreator;
 
 // PENIS!
@@ -158,7 +160,10 @@ public class OverførselsStage {
 		});
 
 		Text fejl = new Text("");
-		grid.add(fejl, 0, 9, 2, 9);
+		HBox hbFejl = new HBox(10);
+		hbFejl.getChildren().add(fejl);
+		grid.add(hbFejl, 0, 9, 2, 9);
+		hbFejl.setStyle("-fx-padding: 100px 0px 0px 0px;");
 		fejl.setId("fejl");
 		
 		Button overførknappen = new Button("Overfør Beløb");
@@ -248,6 +253,13 @@ public class OverførselsStage {
 		stage.setScene(scene);
 		stage.show();
 
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                event.consume();
+            }
+        });
+		
 	}
 
 	private boolean checklegitness(TextField beløbfelt, TextField senderfelt, TextField modtagerfelt, Login bruger, Text fejl)
