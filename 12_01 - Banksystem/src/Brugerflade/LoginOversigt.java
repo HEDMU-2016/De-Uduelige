@@ -16,6 +16,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -62,7 +63,7 @@ public class LoginOversigt {
 		loginoversigt.setPrefWidth(350);
 		// loginoversigt.getSelectionModel().setCellSelectionEnabled(true);
 		// loginoversigt.setEditable(true);
-		grid.add(loginoversigt, 0, 1, 1, 4);
+		grid.add(loginoversigt, 0, 1, 1, 6);
 
 		Label brugernavnlabel = new Label("Brugernavn: ");
 		grid.add(brugernavnlabel, 2, 1);
@@ -87,15 +88,33 @@ public class LoginOversigt {
 		final ComboBox idfeltoptions = new ComboBox(options);
 		HBox hbidfelt = new HBox();
 		hbidfelt.getChildren().add(idfeltoptions);
-		idfeltoptions.setPrefWidth(175);
+		idfeltoptions.setPrefWidth(270);
 		grid.add(hbidfelt, 3, 3);
+		
+		Label startDatoLabel = new Label("Start dato");
+		startDatoLabel.setId("tekst");
+		grid.add(startDatoLabel, 2, 4);
+		
+		DatePicker startDato = new DatePicker();
+		grid.add(startDato, 3, 4);
+		startDato.setPrefWidth(270);
+		System.out.println(startDato.getValue());
+		
+		Label slutDatoLabel = new Label("Slut dato");
+		slutDatoLabel.setId("tekst");
+		grid.add(slutDatoLabel, 2, 5);
+		
+		DatePicker slutDato = new DatePicker();
+		grid.add(slutDato, 3, 5);
+		slutDato.setPrefWidth(270);
+		System.out.println(slutDato.getValue());
 
 		Label fejl = new Label("");
 		fejl.setId("fejl");
-		grid.add(fejl, 2, 5, 3, 5);
+		grid.add(fejl, 2, 7, 3, 7);
 
 		Button opret = new Button("Opret");
-		grid.add(opret, 2, 4, 3, 4);
+		grid.add(opret, 2, 6, 3, 6);
 		opret.setId("KnapImenu");
 		opret.setOnAction(e -> {
 			if (brugernavnfelt.getText().isEmpty() == false && passwordfelt.getText().isEmpty() == false
