@@ -14,6 +14,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -29,6 +30,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import utill.TableCreator;
 
 // PENIS!
@@ -158,7 +160,10 @@ public class OverførselsStage {
 		});
 
 		Text fejl = new Text("");
-		grid.add(fejl, 0, 9, 2, 9);
+		HBox hbFejl = new HBox(10);
+		hbFejl.getChildren().add(fejl);
+		grid.add(hbFejl, 0, 9, 2, 9);
+		hbFejl.setStyle("-fx-padding: 100px 0px 0px 0px;");
 		fejl.setId("fejl");
 		
 		Button overførknappen = new Button("Overfør Beløb");
@@ -248,6 +253,13 @@ public class OverførselsStage {
 		stage.setScene(scene);
 		stage.show();
 
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                event.consume();
+            }
+        });
+		
 	}
 
 	private boolean checklegitness(TextField beløbfelt, TextField senderfelt, TextField modtagerfelt, Login bruger, Text fejl)
@@ -259,8 +271,7 @@ public class OverførselsStage {
 			if( checkifsenderejerkonto(bruger,senderfelt)==true) {
 				System.out.println("konto nummer: "+senderfelt.getText()+" er din konto");
 				
-				if(bogstaverifelterne(senderfelt,modtagerfelt,beløbfelt)==false){
-					System.out.println("der er ingen bogstaver i felterne");
+				
 					
 					if(symbolerifelterne(senderfelt,modtagerfelt,beløbfelt,fejl)==false){
 						System.out.println("der er ingen symboler i felterne");
@@ -276,9 +287,7 @@ public class OverførselsStage {
 					else fejl.setText("Ingen symboler");
 					return false;
 				}
-				else fejl.setText("Ingen bogstaver");
-				return false;
-			}
+				
 			else fejl.setText("Du kan ikke sende penge fra andres konto");
 			return false;
 		}
@@ -303,7 +312,7 @@ public class OverførselsStage {
 				}
 				return false;
 				}
-		private boolean bogstaverifelterne(TextField senderfelt, TextField modtagerfelt, TextField beløbfelt){
+	/*	private boolean bogstaverifelterne(TextField senderfelt, TextField modtagerfelt, TextField beløbfelt){
 			String[] bogstaver = 
 				{"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","æ","ø","å",
 				"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","Æ","Ø","Å"};
@@ -319,7 +328,7 @@ public class OverførselsStage {
 			}
 			return false;
 		}
-/*		private boolean ingennegativer(TextField senderfelt, TextField modtagerfelt, TextField beløbfelt){
+		private boolean ingennegativer(TextField senderfelt, TextField modtagerfelt, TextField beløbfelt){
 		if(Double.parseDouble(beløbfelt.getText()) > 0 
 			&& Double.parseDouble(senderfelt.getText())>0
 			&& Double.parseDouble(modtagerfelt.getText())>0)

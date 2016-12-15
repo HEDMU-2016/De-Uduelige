@@ -111,7 +111,7 @@ public class Kundeoversigt {
 		stage.setScene(scene);
 		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 		stage.setResizable(false);
-		stage.initStyle(StageStyle.UTILITY);
+		//stage.initStyle(StageStyle.UTILITY);
 		stage.show();
 		
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
