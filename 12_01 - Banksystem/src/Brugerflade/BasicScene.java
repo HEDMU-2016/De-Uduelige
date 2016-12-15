@@ -51,7 +51,6 @@ public class BasicScene {
         });
 		
 		//admin vindue
-		stage.initStyle(StageStyle.UTILITY);
 		stage.show();
 		
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
