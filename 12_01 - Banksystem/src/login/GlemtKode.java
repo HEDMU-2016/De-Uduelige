@@ -5,7 +5,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
-import Brugerflade.Brugermenu;
 import DB.DB;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -23,9 +22,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import utill.Emailer;
 
 public class GlemtKode {
 	public void start(Stage glemtStage) {
+		Emailer emailer = new Emailer();
+		
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
 		grid.setHgap(10);
@@ -76,6 +78,22 @@ public class GlemtKode {
 		hbFejl.getChildren().add(fejl);
 		grid.add(hbFejl, 0, 4, 3, 4);
 		fejl.setId("fejl");
+		
+		Button email = new Button("mail mig masterpassword");
+		email.setPrefWidth(200);
+		grid.add(email, 0, 4);
+		
+		email.setOnAction(e->{
+			if(passwordInput.getText().isEmpty() == false
+					&& usernameInput.getText().isEmpty() == false && masterPasswordInput.getText().isEmpty()==true)
+			
+			try {
+				emailer.glemtkodemail(usernameInput.getText(), passwordInput.getText());
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			else fejl.setText("Brugernavn og password skal være udfyldt");
+		});
 
 		Button glemt = new Button("✓");
 		HBox hbGlemt = new HBox(10);
@@ -87,6 +105,8 @@ public class GlemtKode {
 			fejl.setFill(Color.RED);
 			if (masterPasswordInput.getText().isEmpty() == false && passwordInput.getText().isEmpty() == false
 					&& usernameInput.getText().isEmpty() == false) {
+				
+				
 				if (masterPasswordInput.getText().equals("password") == true) {
 
 					// MD5 Kryptering på ny kode

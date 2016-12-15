@@ -1,5 +1,8 @@
 package utill;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -22,7 +25,7 @@ public class Emailer {
 	public static void main(String[] args) throws SQLException {
 		
 	}
-	public void glemtkodemail(String email, String nyadgangskode)throws SQLException{
+	public void glemtkodemail(String brugernavn, String nyadgangskode)throws SQLException{
 
 		DB db = new DB();
 
@@ -37,9 +40,26 @@ public class Emailer {
 
 		// Get the default Session object.
 		Session session = Session.getDefaultInstance(properties);
-
+		
 		try {
-			Kunde idiot = db.mailtoKunde(email);
+			MessageDigest alg;
+			alg = MessageDigest.getInstance("MD5");
+			String password1 = nyadgangskode;
+			alg.reset();
+			alg.update(password1.getBytes());
+			byte[] msgDigest = alg.digest();
+			BigInteger number = new BigInteger(1, msgDigest);
+			String MD5krypteret = number.toString(16);
+			nyadgangskode = MD5krypteret;
+		} catch (NoSuchAlgorithmException e1) {
+			e1.printStackTrace();
+		}
+		
+		
+		
+		try {
+			Kunde idiot = db.matchkundemedlogin(brugernavn);
+			String email = idiot.getEmail();
 
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("LorteBank@gmail.com"));
@@ -47,7 +67,7 @@ public class Emailer {
 			message.setSubject("kodeord");
 			message.setText("Hi " + idiot.getNavn()
 					+ "Your new Master Password (the one you need before you can reset your password)" + "\n is: "
-					+ nyadgangskode/* dot krypteret */
+					+ nyadgangskode
 					+ "\n this is an automatic email");
 
 			Transport.send(message);

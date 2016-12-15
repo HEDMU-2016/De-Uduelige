@@ -61,7 +61,7 @@ public class AdminensKontoView {
 
 			TableView<Konto> kompletteKontoliste = tablecreator.kontoTable();
 			kompletteKontoliste.setPrefWidth(350);
-			grid.add(kompletteKontoliste, 0, 1, 1, 6);
+			grid.add(kompletteKontoliste, 0, 1, 1, 5);
 			
 			Label ejerlabel = new Label("Ejer");
 			ejerlabel.setId("tekst");
@@ -79,7 +79,6 @@ public class AdminensKontoView {
 			grid.add(saldofelt, 3, 3);
 			
 			Label rentelabel = new Label("Rente");
-			rentelabel.setId("tekst");
 			grid.add(rentelabel, 2, 4);
 			
 			TextField rentefelt = new TextField();
@@ -87,24 +86,21 @@ public class AdminensKontoView {
 			
 			Label fejl = new Label("");
 			fejl.setId("fejl");
-			grid.add(fejl, 2, 7, 3, 7);
+			grid.add(fejl, 2, 6, 3, 6);
 			
-			ObservableList<String> options = FXCollections.observableArrayList("Månedlig", "Årlig");
+			ObservableList<String> options = FXCollections.observableArrayList("månedlig", "årlig");
 			final ComboBox comboBox = new ComboBox(options);
-			comboBox.setPrefWidth(250);
-			grid.add(comboBox, 3, 5);
+			grid.add(comboBox, 4, 4);
 			
-			Button opret = new Button("Opret");
-			grid.add(opret, 2, 6, 3, 6);
+			Button opret = new Button("opret");
+			grid.add(opret, 2, 4, 3, 4);
 			opret.setId("KnapImenu");
 			
 			opret.setOnAction(e->{
 			if(ejerfelt.getText().isEmpty() == false && saldofelt.getText().isEmpty() == false)
 			try {
-				if(db.matchkundemedlogin(ejerfelt.getText()).getBrugernavn()==ejerfelt.getText()){
 				db.addKonto(ejerfelt.getText(), BigDecimal.valueOf(Double.parseDouble(saldofelt.getText())));
-				}
-				else fejl.setText("ejeren findes ikke (hust at ejer refere til brugernavn)");
+				
 				if(legitrente(rentefelt.getText(),fejl)==true){
 				BigDecimal renten = BigDecimal.valueOf(Double.parseDouble(rentefelt.getText()));
 				List<Konto> kontolist = db.listAlleKontis();
@@ -150,7 +146,7 @@ private boolean legitrente(String rente, Label fejl) {
 	double rentesomdouble = Double.parseDouble(rente);
 	if(rentesomdouble<1)
 	return true;
-	else fejl.setText("Renten skal være over 1");
+	else fejl.setText("renten skal være over 1");
 	return false;
 
 	}

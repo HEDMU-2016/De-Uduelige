@@ -328,7 +328,7 @@ public class DB implements Startable {
 		System.out.println("lister kontakter...");
 		List<Kontakt> kontaktlist = new ArrayList<>();
 		start();
-		statement = connection.prepareStatement("select navn, kontonr, ejer from kontakt where ejer like ?");
+		statement = connection.prepareStatement("select navn, kontonr, ejer from kontakt where ejer= ?");
 		statement.setString(1, ejer.getBrugernavn());
 		resultset = statement.executeQuery();
 		while (resultset.next()) {
@@ -358,7 +358,6 @@ public class DB implements Startable {
 			BigDecimal beløbinBD = BigDecimal.valueOf(beløb);
 			
 			Postering tmppostering = new Postering(senderkontonr, modtagerskontonr, startdato, beløbinBD);
-			System.out.println("fa");
 			posteringslist.add(tmppostering);
 		}
 		return posteringslist;
@@ -368,7 +367,22 @@ public class DB implements Startable {
 		System.out.println("Finder posteringer på "+konto);
 		List<Postering> posteringslist = new ArrayList<>();
 		start();
-		statement = connection.prepareStatement("select sender, modtager, sendt, beløb from postering where sender= ?");
+		statement = connection.prepareStatement("select sender, modtager, sendt, beløb from postering where sender=?");
+		statement.setInt(1, konto.getKontonummer());
+		resultset = statement.executeQuery();
+		while (resultset.next()) {
+			int sender = resultset.getInt("sender");
+			int modtager = resultset.getInt("modtager");
+			Date startdato = resultset.getDate("sendt");
+			double beløb = resultset.getDouble("beløb");
+			BigDecimal beløbinBD = BigDecimal.valueOf(beløb);
+			Postering tmppostering = new Postering(sender, modtager, startdato, beløbinBD);
+			System.out.println("fandt postering: "+tmppostering);
+			posteringslist.add(tmppostering);
+		}
+		stop();
+		start();
+		statement = connection.prepareStatement("select sender, modtager, sendt, beløb from postering where modtager=?");
 		statement.setInt(1, konto.getKontonummer());
 		resultset = statement.executeQuery();
 		while (resultset.next()) {
@@ -617,16 +631,11 @@ public class DB implements Startable {
 		statement2.setDouble(1, nyesaldo.doubleValue());
 		statement2.setInt(2, senderskontoid);
 		statement2.execute();
+
+		Postering postering = new Postering(senderskontoid, modtagerskontoid, dato, beløb);
 		
-		BigDecimal inversemultiplicand = BigDecimal.valueOf(-1);
-		
-		
-		Postering senderenspostering = new Postering(senderskontoid, modtagerskontoid, dato, beløb);
-		Postering modtagerenspostering = new Postering(senderskontoid, modtagerskontoid, dato, beløb);
-		
-		addPostering(senderenspostering);
-		addPostering(modtagerenspostering);
-		
+		addPostering(postering);
+
 		stop();
 
 	}

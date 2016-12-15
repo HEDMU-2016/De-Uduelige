@@ -9,7 +9,7 @@ public class Logic {
 		return sum;
 	}
 	public BigDecimal subtract(BigDecimal n1, BigDecimal n2){
-		BigDecimal sum =n1.add(n2);
+		BigDecimal sum =n1.subtract(n2);
 		return sum;
 	}
 	public BigDecimal indsætrente(BigDecimal saldo, BigDecimal rente){

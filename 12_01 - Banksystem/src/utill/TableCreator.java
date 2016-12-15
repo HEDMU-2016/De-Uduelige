@@ -138,10 +138,10 @@ public class TableCreator {
 		
 		TableView<Postering> posteringsoversigt = new TableView<Postering>();
 		
-		TableColumn<Postering, String> senderCol = new TableColumn<Postering, String>("Sender ");
+		TableColumn<Postering, String> senderCol = new TableColumn<Postering, String>("Sendt fra kontonr ");
 		PropertyValueFactory<Postering,String> senderColFabrik = new PropertyValueFactory<Postering,String>("sender");
 		
-		TableColumn<Postering, String> modtagerCol = new TableColumn<Postering, String>("Modtager ");
+		TableColumn<Postering, String> modtagerCol = new TableColumn<Postering, String>("Modtaget på kontonr ");
 		PropertyValueFactory<Postering,String> modtagerColFabrik = new PropertyValueFactory<Postering,String>("modtager");
 		
 		TableColumn<Postering, Date> sendtCol = new TableColumn<Postering, Date>("Sendt ");
@@ -172,6 +172,7 @@ public class TableCreator {
 	public TableView<Kontakt> kontaktTable(Login bruger) throws SQLException {
 		Kunde tmpkunde = db.matchkundemedlogin(bruger.getBrugernavn());
 		ObservableList<Kontakt> kontakttable;
+		
 		kontakttable = FXCollections.observableArrayList(db.listkontakter(tmpkunde));
 
 		TableView<Kontakt> kontaktoversigt = new TableView<Kontakt>();
@@ -179,8 +180,8 @@ public class TableCreator {
 		TableColumn<Kontakt, String> navnCol = new TableColumn<Kontakt, String>("Navn ");
 		navnCol.setCellValueFactory(new PropertyValueFactory<Kontakt, String>("navn"));
 
-		TableColumn<Kontakt, Long> kontonrCol = new TableColumn<Kontakt, Long>("Kontonr ");
-		kontonrCol.setCellValueFactory(new PropertyValueFactory<Kontakt, Long>("kontonr"));
+		TableColumn<Kontakt, Integer> kontonrCol = new TableColumn<Kontakt, Integer>("Kontonr ");
+		kontonrCol.setCellValueFactory(new PropertyValueFactory<Kontakt, Integer>("kontonr"));
 
 		kontaktoversigt.setItems(kontakttable);
 		kontaktoversigt.getColumns().addAll(navnCol, kontonrCol);
@@ -196,11 +197,11 @@ public class TableCreator {
 		TableView<FastOverførsel> fastoverførselsOversigt = new TableView<FastOverførsel>();
 
 		TableColumn<FastOverførsel, Integer> senderCol = new TableColumn<FastOverførsel, Integer>("Sender");
-		senderCol.setCellValueFactory(new PropertyValueFactory<FastOverførsel, Integer>("sender"));
+		senderCol.setCellValueFactory(new PropertyValueFactory<FastOverførsel, Integer>("sender "));
 
 		TableColumn<FastOverførsel, Integer> modtagerCol = new TableColumn<FastOverførsel, Integer>(
 				"modtager");
-		modtagerCol.setCellValueFactory(new PropertyValueFactory<FastOverførsel, Integer>("modtager"));
+		modtagerCol.setCellValueFactory(new PropertyValueFactory<FastOverførsel, Integer>("modtager "));
 
 		TableColumn<FastOverførsel, Double> beløbCol = new TableColumn<FastOverførsel, Double>("Beløb");
 		beløbCol.setCellValueFactory(new PropertyValueFactory<FastOverførsel, Double>("beløb"));
