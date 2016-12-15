@@ -11,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -60,7 +61,7 @@ public class Kundeoversigt {
 		kundeoversigt.setPrefWidth(350);
 		// loginoversigt.getSelectionModel().setCellSelectionEnabled(true);
 		// loginoversigt.setEditable(true);
-		grid.add(kundeoversigt, 0, 1, 1, 4);
+		grid.add(kundeoversigt, 0, 1, 1, 7);
 
 		Label navnlabel = new Label("Navn");
 		navnlabel.setId("tekst");
@@ -84,12 +85,30 @@ public class Kundeoversigt {
 		TextField brugernavnfelt = new TextField();
 		grid.add(brugernavnfelt, 3, 3);
 
+		Label startDatoLabel = new Label("Start dato");
+		startDatoLabel.setId("tekst");
+		grid.add(startDatoLabel, 2, 4);
+		
+		DatePicker startDato = new DatePicker();
+		grid.add(startDato, 3, 4);
+		startDato.setPrefWidth(270);
+		System.out.println(startDato.getValue());
+		
+		Label slutDatoLabel = new Label("Slut dato");
+		slutDatoLabel.setId("tekst");
+		grid.add(slutDatoLabel, 2, 5);
+		
+		DatePicker slutDato = new DatePicker();
+		grid.add(slutDato, 3, 5);
+		slutDato.setPrefWidth(270);
+		System.out.println(slutDato.getValue());
+		
 		Label fejl = new Label("");
 		fejl.setId("fejl");
-		grid.add(fejl, 2, 5, 3, 5);
+		grid.add(fejl, 2, 8, 3, 8);
 
 		Button opret = new Button("Opret");
-		grid.add(opret, 2, 4, 3, 4);
+		grid.add(opret, 2, 7, 3, 7);
 		opret.setId("KnapImenu");
 		opret.setOnAction(e -> {
 			if (navnfelt.getText().isEmpty() == false && brugernavnfelt.getText().isEmpty() == false
