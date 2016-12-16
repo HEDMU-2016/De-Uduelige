@@ -329,7 +329,9 @@ public class DB implements Startable {
 			double saldo = resultset.getDouble("saldo");
 			String id = resultset.getString("kontoid");
 			BigDecimal saldoasBD = BigDecimal.valueOf(saldo);
+			
 			Konto tmpkonto = new Konto(findKunde(ejer), saldoasBD);
+			
 			System.out.println("fandt " + ejer + "s konto, med saldo: " + saldo + "og id:" + id);
 			return tmpkonto;
 		}
@@ -354,7 +356,7 @@ public class DB implements Startable {
 	public Kunde findKunde(String s) throws SQLException {
 		System.out.println("Finder kunder hvis navn indeholder: " + s);
 		start();
-		statement = connection.prepareStatement("SELECT navn, email, brugernavn FROM kunde WHERE kunde =");
+		statement = connection.prepareStatement("SELECT navn, email, brugernavn FROM kunde WHERE navn =?");
 		statement.setString(1, "%" + s + "%");
 		resultset = statement.executeQuery();
 
@@ -426,7 +428,7 @@ public class DB implements Startable {
 		return ændringerlist;
 	}
 	
-	public List<Kontakt> listkontakter(Kunde ejer) throws SQLException {
+	public List<Kontakt> listkontakter(Login ejer) throws SQLException {
 		System.out.println("lister kontakter...");
 		List<Kontakt> kontaktlist = new ArrayList<>();
 		start();

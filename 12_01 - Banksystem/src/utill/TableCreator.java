@@ -215,10 +215,9 @@ public class TableCreator {
 	}
 
 	public TableView<Kontakt> kontaktTable(Login bruger) throws SQLException {
-		Kunde tmpkunde = db.matchkundemedlogin(bruger.getBrugernavn());
 		ObservableList<Kontakt> kontakttable;
 		
-		kontakttable = FXCollections.observableArrayList(db.listkontakter(tmpkunde));
+		kontakttable = FXCollections.observableArrayList(db.listkontakter(bruger));
 
 		TableView<Kontakt> kontaktoversigt = new TableView<Kontakt>();
 
