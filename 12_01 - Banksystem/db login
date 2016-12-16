@@ -13,9 +13,6 @@ kontoid int identity,
 startdato date not null,
 slutdato date not null
 )
-alter table konto 
-add kontoID int identity
-
 CREATE TABLE kunde
 (
 navn varchar(255),
@@ -24,9 +21,6 @@ email varchar(255),
 startdato date,
 slutdato date
 )
-alter table kunde add brugernavn varchar(255)
-update kunde set brugernavn='dit brugernavn' where navn='jeres navn'
-
 create table fastoverførsel
 (
 startdato Date not null,
@@ -46,8 +40,6 @@ create table ændring(
 indførelsesdato date,
 statement varchar(255)
 )
-
-
 create table timer(
 tid varchar(255),
 id int not null
