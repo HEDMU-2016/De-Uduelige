@@ -126,7 +126,15 @@ public class AdministratorMenu {
 			}
 		});
 
-		Scene scene = new Scene(grid, 400, 400);
+		Button posteringer = new Button("Alle posteringer");
+		posteringer.setId("KnapImenu");
+		grid.add(posteringer, 0, 6);
+		posteringer.setOnAction(e->{
+			Adminposteringer adminposteringer = new Adminposteringer();
+			adminposteringer.start(new Stage());
+		});
+		
+		Scene scene = new Scene(grid, 400, 450);
 		stage.setScene(scene);
 		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 		stage.setResizable(false);

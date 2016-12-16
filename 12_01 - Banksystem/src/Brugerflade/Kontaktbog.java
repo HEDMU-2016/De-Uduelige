@@ -63,7 +63,7 @@ public class Kontaktbog {
 		TextField kontonrfelt = new TextField();
 		grid.add(kontonrfelt, 3, 2);
 
-		Text notifikation = new Text("TEST TEST TEST TEST TEST");
+		Text notifikation = new Text("");
 		notifikation.setId("fejltext");
 		grid.add(notifikation, 2, 6, 3, 6);
 
