@@ -32,7 +32,7 @@ ObservableList<Konto> list;
 		grid.setHgap(10);
 		grid.setAlignment(Pos.CENTER);	
 		
-		stage.setTitle("Konto historik - Lortebank A/S");
+		stage.setTitle("Kontoliste - Lortebank A/S");
 		stage.getIcons().add(new Image("Brugerflade/ico.png"));
 
 		Button close = new Button("X");

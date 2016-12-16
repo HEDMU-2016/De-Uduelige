@@ -31,7 +31,7 @@ public class KontoHistorik {
 		grid.setHgap(10);
 		grid.setAlignment(Pos.CENTER);
 		
-		stage.setTitle("Konto historik - Lortebank A/S");
+		stage.setTitle("Kontohistorik - Lortebank A/S");
 		stage.getIcons().add(new Image("Brugerflade/ico.png"));
 
 		Button close = new Button("X");

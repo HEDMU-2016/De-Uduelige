@@ -183,8 +183,8 @@ public class DB implements Startable {
 		statement = connection.prepareStatement("insert into konto(ejer,saldo,startdato,slutdato)values(?,?,?,?)");
 		statement.setString(1, ejer);
 		statement.setDouble(2, saldo.doubleValue());
-		statement.setDate(2, startdato);
-		statement.setDate(3, slutdato);		
+		statement.setDate(3, startdato);
+		statement.setDate(4, slutdato);		
 		statement.execute();
 		System.out.println("kontoen med ejer:"+ejer+"blev lagt ind i databasen");
 		stop();

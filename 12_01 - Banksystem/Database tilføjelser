@@ -60,3 +60,17 @@ id int identity
 INSERT INTO "PUBLIC"."TIMER"
 ( "TID", "ID" )
 VALUES ( 'XXXXXXXXXXXXX', 1)
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+IF ALL ELSE FAILS!
+
+DROP TABLE fastoverførsel
+DROP TABLE konto
+DROP TABLE kunde
+DROP TABLE login
+DROP TABLE postering
+DROP TABLE timer
+DROP TABLE ændring
+DROP TABLE renter

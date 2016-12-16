@@ -42,7 +42,7 @@ public class AdminensKontoView {
 			grid.setVgap(10);
 			grid.setHgap(10);
 			
-			stage.setTitle("Konto historik - Lortebank A/S");
+			stage.setTitle("Kontooversigt - Lortebank A/S");
 			stage.getIcons().add(new Image("Brugerflade/ico.png"));
 			
 			Label allekontoer = new Label("Alle kontoer");
@@ -61,7 +61,7 @@ public class AdminensKontoView {
 			});
 
 			TableView<Konto> kompletteKontoliste = tablecreator.kontoTable();
-			kompletteKontoliste.setPrefWidth(350);
+			kompletteKontoliste.setPrefWidth(400);
 			grid.add(kompletteKontoliste, 0, 1, 1, 8);
 			
 			Label ejerlabel = new Label("Ejer");
@@ -96,23 +96,23 @@ public class AdminensKontoView {
 			comboBox.setPrefWidth(270);
 			grid.add(comboBox, 3, 5);
 
-			Label startDatoLabel = new Label("Start dato");
-			startDatoLabel.setId("tekst");
-			grid.add(startDatoLabel, 2, 6);
-			
-			DatePicker startDato = new DatePicker();
-			grid.add(startDato, 3, 6);
-			startDato.setPrefWidth(270);
-			System.out.println(startDato.getValue());
-			
-			Label slutDatoLabel = new Label("Slut dato");
-			slutDatoLabel.setId("tekst");
-			grid.add(slutDatoLabel, 2, 7);
-			
-			DatePicker slutDato = new DatePicker();
-			grid.add(slutDato, 3, 7);
-			slutDato.setPrefWidth(270);
-			System.out.println(slutDato.getValue());
+//			Label startDatoLabel = new Label("Start dato");
+//			startDatoLabel.setId("tekst");
+//			grid.add(startDatoLabel, 2, 6);
+//			
+//			DatePicker startDato = new DatePicker();
+//			grid.add(startDato, 3, 6);
+//			startDato.setPrefWidth(270);
+//			System.out.println(startDato.getValue());
+//			
+//			Label slutDatoLabel = new Label("Slut dato");
+//			slutDatoLabel.setId("tekst");
+//			grid.add(slutDatoLabel, 2, 7);
+//			
+//			DatePicker slutDato = new DatePicker();
+//			grid.add(slutDato, 3, 7);
+//			slutDato.setPrefWidth(270);
+//			System.out.println(slutDato.getValue());
 			
 			Button opret = new Button("Opret");
 			grid.add(opret, 2, 8, 3, 8);

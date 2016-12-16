@@ -58,7 +58,7 @@ public class Kundeoversigt {
 		});
 
 		TableView<Kunde> kundeoversigt = tablecreator.kundeTable();
-		kundeoversigt.setPrefWidth(350);
+		kundeoversigt.setPrefWidth(348);
 		// loginoversigt.getSelectionModel().setCellSelectionEnabled(true);
 		// loginoversigt.setEditable(true);
 		grid.add(kundeoversigt, 0, 1, 1, 7);
@@ -85,23 +85,23 @@ public class Kundeoversigt {
 		TextField brugernavnfelt = new TextField();
 		grid.add(brugernavnfelt, 3, 3);
 
-		Label startDatoLabel = new Label("Start dato");
-		startDatoLabel.setId("tekst");
-		grid.add(startDatoLabel, 2, 4);
-		
-		DatePicker startDato = new DatePicker();
-		grid.add(startDato, 3, 4);
-		startDato.setPrefWidth(270);
-		System.out.println(startDato.getValue());
-		
-		Label slutDatoLabel = new Label("Slut dato");
-		slutDatoLabel.setId("tekst");
-		grid.add(slutDatoLabel, 2, 5);
-		
-		DatePicker slutDato = new DatePicker();
-		grid.add(slutDato, 3, 5);
-		slutDato.setPrefWidth(270);
-		System.out.println(slutDato.getValue());
+//		Label startDatoLabel = new Label("Start dato");
+//		startDatoLabel.setId("tekst");
+//		grid.add(startDatoLabel, 2, 4);
+//		
+//		DatePicker startDato = new DatePicker();
+//		grid.add(startDato, 3, 4);
+//		startDato.setPrefWidth(270);
+//		System.out.println(startDato.getValue());
+//		
+//		Label slutDatoLabel = new Label("Slut dato");
+//		slutDatoLabel.setId("tekst");
+//		grid.add(slutDatoLabel, 2, 5);
+//		
+//		DatePicker slutDato = new DatePicker();
+//		grid.add(slutDato, 3, 5);
+//		slutDato.setPrefWidth(270);
+//		System.out.println(slutDato.getValue());
 		
 		Label fejl = new Label("");
 		fejl.setId("fejl");
