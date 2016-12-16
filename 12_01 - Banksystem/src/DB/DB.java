@@ -25,6 +25,7 @@ import domain.Postering;
 import domain.Rente;
 import domain.ÅrligRente;
 import domain.Ændring;
+import javafx.util.Callback;
 import logic.Logic;
 
 public class DB implements Startable {
@@ -326,7 +327,7 @@ public class DB implements Startable {
 		while (resultset.next()) {
 			String ejer = resultset.getString("ejer");
 			double saldo = resultset.getDouble("saldo");
-			String id = resultset.getString("id");
+			String id = resultset.getString("kontoid");
 			BigDecimal saldoasBD = BigDecimal.valueOf(saldo);
 			Konto tmpkonto = new Konto(findKunde(ejer), saldoasBD);
 			System.out.println("fandt " + ejer + "s konto, med saldo: " + saldo + "og id:" + id);
@@ -485,6 +486,24 @@ public class DB implements Startable {
 		start();
 		statement = connection.prepareStatement("select sender, modtager, sendt, beløb from postering where modtager=?");
 		statement.setInt(1, konto.getKontonummer());
+		resultset = statement.executeQuery();
+		while (resultset.next()) {
+			int sender = resultset.getInt("sender");
+			int modtager = resultset.getInt("modtager");
+			Date startdato = resultset.getDate("sendt");
+			double beløb = resultset.getDouble("beløb");
+			BigDecimal beløbinBD = BigDecimal.valueOf(beløb);
+			Postering tmppostering = new Postering(sender, modtager, startdato, beløbinBD);
+			System.out.println("fandt postering: "+tmppostering);
+			posteringslist.add(tmppostering);
+		}
+		return posteringslist;
+	}
+	public List<Postering> listallePosteringer() throws SQLException {
+		System.out.println("lister alle posteringer...");
+		List<Postering> posteringslist = new ArrayList<>();
+		start();
+		statement = connection.prepareStatement("select sender, modtager, sendt, beløb from postering");
 		resultset = statement.executeQuery();
 		while (resultset.next()) {
 			int sender = resultset.getInt("sender");

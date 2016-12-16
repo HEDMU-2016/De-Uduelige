@@ -69,6 +69,16 @@ public class ÆndringerOversigt {
 
 		combobox.setPrefWidth(170);
 		grid.add(combobox, 1, 2);
+		
+		Label label = new Label("Hvilken tabel");
+		grid.add(label, 2, 2);
+		
+		ObservableList<String> options2 = FXCollections.observableArrayList("kunde", "login", "konto");
+
+		final ComboBox combobox2 = new ComboBox(options2);
+		combobox2.setPrefWidth(170);
+		grid.add(combobox2, 2, 3);
+
 
 		Label statementlabel = new Label("Dato: ");
 		statementlabel.setId("tekst");
@@ -77,10 +87,6 @@ public class ÆndringerOversigt {
 		DatePicker startDato = new DatePicker();
 		grid.add(startDato, 1, 3);
 		
-
-		
-		
-
 		
 		TableView<Konto> kompletteKontoliste = tablecreator.kontoTable();
 		HBox hbKontolist = new HBox(10);
@@ -102,7 +108,7 @@ public class ÆndringerOversigt {
 
 		Button commit = new Button("OK");
 		commit.setId("KnapImenu");
-		grid.add(commit, 2, 2, 2, 3);
+		grid.add(commit, 3, 3, 3, 4);
 		
 		Text fejl = new Text("");
 		HBox hbFejl = new HBox(10);
@@ -112,28 +118,46 @@ public class ÆndringerOversigt {
 		
 		
 		
-		table.getColumns();
+	
 		
 		commit.setOnAction(j->{
 			
-			
-			
-			
-			commit.setStartDato(kompletteKontoliste.getSelectionModel().getSelectedItem().getKontonummer());
+			System.out.println("test 1");
+			if(combobox2.getValue()=="konto"){
+				System.out.println("test 2");
+				Konto utillkonto = new Konto();
+				if(combobox.getValue()=="Startdato"){
+					System.out.println("test 3");
+				utillkonto.setStartdato(kompletteKontoliste.getSelectionModel().getSelectedItem().getStartdato());
+				utillkonto.setKontoid(kompletteKontoliste.getSelectionModel().getSelectedItem().getKontonummer());
 				
-		
-			fejl.setText("Ændringen er nu fortaget!");
+				try {
+					Konto aktuellekonto = db.findKonto(utillkonto.getKontoid());
+					System.out.println(aktuellekonto);
+					db.setStartDato(aktuellekonto, utillkonto.getStartdato());
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				
+				}
+				if(combobox.getValue()=="slutdato"){
+				utillkonto.setSlutdato(kompletteKontoliste.getSelectionModel().getSelectedItem().getSlutdato());	
+				
+				
+				}
+			kompletteKontoliste.getColumns();
+
 			
-			Date date = Date.valueOf(startDato.getValue());
 			if(combobox.getValue()=="startdato"){
 			
 			}
 			if(combobox.getValue()=="slutdato"){
 				
 			}
+			}
 			
 		});
-		
+		fejl.setText("Ændringen er nu fortaget!");
 
 		Scene scene = new Scene(grid);
 		stage.setScene(scene);

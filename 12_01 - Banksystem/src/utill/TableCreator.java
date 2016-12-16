@@ -150,6 +150,29 @@ public class TableCreator {
 
 		return posteringstable;
 	}
+	public ObservableList<Postering> posteringsTable() throws SQLException {
+		ObservableList<Postering> posteringstable;
+		posteringstable = FXCollections.observableArrayList(db.listallePosteringer());
+
+		TableView<Postering> posteringsoversigt = new TableView<Postering>();
+
+		TableColumn<Postering, String> senderCol = new TableColumn<Postering, String>("Sender ");
+		senderCol.setCellValueFactory(new PropertyValueFactory<Postering, String>("sender"));
+
+		TableColumn<Postering, String> modtagerCol = new TableColumn<Postering, String>("Modtager ");
+		modtagerCol.setCellValueFactory(new PropertyValueFactory<Postering, String>("modtager"));
+
+		TableColumn<Postering, Date> sendtCol = new TableColumn<Postering, Date>("Sendt ");
+		sendtCol.setCellValueFactory(new PropertyValueFactory<Postering, Date>("sendt"));
+
+		TableColumn<Postering, Double> beløbCol = new TableColumn<Postering, Double>("Beløb ");
+		beløbCol.setCellValueFactory(new PropertyValueFactory<Postering, Double>("beløb"));
+
+		posteringsoversigt.setItems(posteringstable);
+		posteringsoversigt.getColumns().addAll(senderCol, modtagerCol, sendtCol, beløbCol);
+
+		return posteringstable;
+	}
 
 	public TableView<Postering> posteringTable(Kunde kunde) throws SQLException {
 		

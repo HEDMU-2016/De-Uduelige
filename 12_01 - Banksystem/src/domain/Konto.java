@@ -6,16 +6,16 @@ import java.sql.Date;
 import logic.Logic;
 
 public class Konto {
-	protected Kunde ejer;
-	private String ejernavn;
+	 Kunde ejer;
+	String ejernavn;
 
 
-	protected int kontoid;
-	protected BigDecimal saldo;
-	private Logic logic;
+	int kontoid;
+	 BigDecimal saldo;
+	 Logic logic;
 	Rente rente;
-	private Date startdato;
-	private Date slutdato;
+	 Date startdato;
+	 Date slutdato;
 	
 	public Konto(){
 	
@@ -32,6 +32,16 @@ public class Konto {
 	public void setEjernavn(String ejernavn) {
 		this.ejernavn = ejernavn;
 	}
+	public int getKontoid() {
+		return kontoid;
+	}
+
+
+	public void setKontoid(int kontoid) {
+		this.kontoid = kontoid;
+	}
+
+
 	public Date getStartdato() {
 		return startdato;
 	}
