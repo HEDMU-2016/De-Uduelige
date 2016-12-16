@@ -305,8 +305,8 @@ public class OverførselsStage {
 			List<Konto> kontolist = db.listkonti(db.matchkundemedlogin(bruger));
 				for (int i = 0; i < kontolist.size();i++ ) {
 					if (kontolist.get(i).getKontonummer() == Integer.parseInt(senderfelt.getText())
-					&& kontolist.get(i).getStartdato().after(Date.valueOf(LocalDate.now()))
-					&& kontolist.get(i).getSlutdato().before(Date.valueOf(LocalDate.now()))
+					&& kontolist.get(i).getStartdato().before(Date.valueOf(LocalDate.now().plusDays(1)))
+					&& kontolist.get(i).getSlutdato().after(Date.valueOf(LocalDate.now()))
 					){			
 					return true;
 					}
