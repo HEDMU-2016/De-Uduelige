@@ -39,7 +39,10 @@ sender int not null,
 sendt Date not null,
 beløb double not null,
 )
-
+create table ændring(
+indføringstidspunkt date,
+statement varchar(255)
+)
 
 
 create table timer(
