@@ -25,6 +25,7 @@ slutdato date
 create table fastoverførsel
 (
 startdato Date not null,
+slutdato Date not null,
 sender int not null,
 modtager int not null,
 beløb double not null,
