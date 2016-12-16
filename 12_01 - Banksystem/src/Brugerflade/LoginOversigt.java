@@ -60,7 +60,7 @@ public class LoginOversigt {
 		});
 
 		TableView<Login> loginoversigt = tablecreator.loginTable();
-		loginoversigt.setPrefWidth(350);
+		loginoversigt.setPrefWidth(500);
 		// loginoversigt.getSelectionModel().setCellSelectionEnabled(true);
 		// loginoversigt.setEditable(true);
 		grid.add(loginoversigt, 0, 1, 1, 6);
