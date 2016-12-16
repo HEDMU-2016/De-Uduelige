@@ -1,29 +1,25 @@
-CREATE TABLE login
-(
+CREATE TABLE login(
 id int,
 brugernavn VARCHAR(50) NOT NULL PRIMARY KEY,
 adgangskode VARCHAR(50) NOT NULL,
 startdato Date not null,
 slutdato date not null
 )
-CREATE TABLE konto
-(
+CREATE TABLE konto(
 ejer varchar(255),
 saldo double not null,
 kontoid int identity,
 startdato date not null,
 slutdato date not null
 )
-CREATE TABLE kunde
-(
+CREATE TABLE kunde(
 navn varchar(255),
 ID int identity,
 email varchar(255),
 startdato date,
 slutdato date
 )
-create table fastoverførsel
-(
+create table fastoverførsel(
 startdato Date not null,
 slutdato Date not null,
 sender int not null,
