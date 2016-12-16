@@ -111,12 +111,22 @@ public class ÆndringerOversigt {
 		fejl.setId("fejl");
 		
 		
+		
+		table.getColumns();
+		
 		commit.setOnAction(j->{
-		fejl.setText("Ændringen er nu fortaget!");
+			
+			
+			
+			
+			commit.setStartDato(kompletteKontoliste.getSelectionModel().getSelectedItem().getKontonummer());
+				
+		
+			fejl.setText("Ændringen er nu fortaget!");
 			
 			Date date = Date.valueOf(startDato.getValue());
 			if(combobox.getValue()=="startdato"){
-				
+			
 			}
 			if(combobox.getValue()=="slutdato"){
 				

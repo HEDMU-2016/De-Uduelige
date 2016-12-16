@@ -8,6 +8,7 @@ private String adgangskode;
 private Date startdato;
 private Date slutdato;
 private static final int id=0;
+	
 
 	public Login(String brugernavn , String adgangskode){
 		this.brugernavn=brugernavn;
