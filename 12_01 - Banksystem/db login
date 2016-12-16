@@ -40,7 +40,7 @@ sendt Date not null,
 beløb double not null,
 )
 create table ændring(
-indføringstidspunkt date,
+indførelsesdato date,
 statement varchar(255)
 )
 
