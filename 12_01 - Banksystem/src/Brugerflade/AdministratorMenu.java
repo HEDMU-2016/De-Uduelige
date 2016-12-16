@@ -114,7 +114,7 @@ public class AdministratorMenu {
 				e1.printStackTrace();
 			}
 		});
-		Button ændring = new Button("Plan ændring");
+		Button ændring = new Button("Planlæg en ændring");
 		ændring.setId("KnapImenu");
 		grid.add(ændring, 0, 5);
 		ændring.setOnAction(e->{

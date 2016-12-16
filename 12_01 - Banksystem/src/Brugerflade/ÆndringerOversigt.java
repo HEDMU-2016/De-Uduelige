@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import com.sun.prism.paint.Color;
+
 import DB.DB;
 import domain.Ændring;
 import javafx.event.EventHandler;
@@ -18,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import utill.TableCreator;
@@ -39,7 +42,7 @@ public class ÆndringerOversigt {
 		grid.setAlignment(Pos.CENTER);
 		
 		
-		stage.setTitle("NAVN PÅ VINDEUET - Lortebank A/S");
+		stage.setTitle("Planlæg ændringer - Lortebank A/S");
 		stage.getIcons().add(new Image("Brugerflade/ico.png"));
 
 		Button close = new Button("X");
@@ -47,32 +50,39 @@ public class ÆndringerOversigt {
 		close.setId("close");
 		hbClose.getChildren().add(close);
 		hbClose.setAlignment(Pos.TOP_RIGHT);
-		grid.add(hbClose, 0, 0);
+		grid.add(hbClose, 3, 0);
 		
 		close.setOnAction(e -> {
 			stage.close();
 		});
 		
-		Label indførelsesdatolabel = new Label("indførelsesdato");
-		grid.add(indførelsesdatolabel, 0, 1,1,1);
+		Label indførelsesdatolabel = new Label("Indførelsesdato");
+		grid.add(indførelsesdatolabel, 2, 1);
 		
 		DatePicker startDato = new DatePicker();
-		grid.add(startDato, 2, 1,3,1);
+		startDato.setPrefWidth(255.00);
+		grid.add(startDato, 3, 1);
 		
 		Label statementlabel = new Label("hsql statement: ");
-		grid.add(statementlabel, 0, 2,1,2);
+		grid.add(statementlabel, 2, 2);
 		
 		TextField statementfelt = new TextField();
-		grid.add(statementfelt, 1, 2,2,2);
+		grid.add(statementfelt, 3, 2);
 		statementfelt.setPrefWidth(255.00);
 		
 		TableView<Ændring> ændringtable = tablecreator.ændringertable();
-		grid.add(ændringtable, 0, 5,10,10);
+		grid.add(ændringtable, 0, 0, 1, 4);
 	
 
-		Button commit = new Button("commit");
-		grid.add(commit, 0, 3,1,4);
+		Button commit = new Button("OK");
+		commit.setId("KnapImenu");
+		grid.add(commit, 2, 3, 3, 3);
 		
+		Text fejl = new Text("");
+		HBox hbFejl = new HBox(10);
+		hbFejl.getChildren().add(fejl);
+		grid.add(hbFejl, 2, 4, 3, 4);
+		fejl.setId("fejl");
 		
 		
 		commit.setOnAction(j->{
@@ -86,16 +96,16 @@ public class ÆndringerOversigt {
 			
 			Ændring ændring = new Ændring(date,sqlstatement);	
 			db.addÆndring(ændring);
-			
+			fejl.setText("Din ændring er nu planlagt!");
 			} catch (SQLException e1) {
 				e1.printStackTrace();
+				fejl.setText("Der skete en fejl!");
 			}
 		});
 		
 
 		Scene scene = new Scene(grid);
 		stage.setScene(scene);
-		stage.setResizable(true);
 		scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
 		stage.setResizable(false);
 		
