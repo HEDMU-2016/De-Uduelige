@@ -13,13 +13,16 @@ import login.Login_IO;
 
 public class launcher extends Application {
 	public static void main(String[] args) throws SQLException{
+		
+		//aktiver det her første gang progammet køres!
 		DB db = new DB();
 		BigDecimal saldo = BigDecimal.valueOf(100.00);
-		
-		Login login = new AdminLogin("dennis","123");
-		Kunde kunde = new Kunde("dennis rosenkilde","dennis@rosenkilde.nu","dennis");
+		Login login = new AdminLogin("admin","5f4dcc3b5aa765d61d8327deb882cf99");
+		Kunde kunde = new Kunde("admin","admin@admin.dk","admin");
 		Konto konto = new Konto(kunde, saldo);
-		
+		db.addLogin(login);
+		db.addKunde(kunde);
+		db.addKonto(konto);
 
 		
 		System.out.println(System.currentTimeMillis());
