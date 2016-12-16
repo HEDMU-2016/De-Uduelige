@@ -61,7 +61,7 @@ public class AdminensKontoView {
 			});
 
 			TableView<Konto> kompletteKontoliste = tablecreator.kontoTable();
-			kompletteKontoliste.setPrefWidth(350);
+			kompletteKontoliste.setPrefWidth(325);
 			grid.add(kompletteKontoliste, 0, 1, 1, 8);
 			
 			Label ejerlabel = new Label("Ejer");

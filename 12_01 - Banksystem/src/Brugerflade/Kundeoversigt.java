@@ -58,7 +58,7 @@ public class Kundeoversigt {
 		});
 
 		TableView<Kunde> kundeoversigt = tablecreator.kundeTable();
-		kundeoversigt.setPrefWidth(350);
+		kundeoversigt.setPrefWidth(348);
 		// loginoversigt.getSelectionModel().setCellSelectionEnabled(true);
 		// loginoversigt.setEditable(true);
 		grid.add(kundeoversigt, 0, 1, 1, 7);
