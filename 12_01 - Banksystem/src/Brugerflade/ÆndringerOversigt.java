@@ -5,18 +5,21 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import com.sun.prism.paint.Color;
-
 import DB.DB;
+import domain.Konto;
+import domain.Kunde;
+import domain.Login;
 import domain.Ændring;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -50,57 +53,85 @@ public class ÆndringerOversigt {
 		close.setId("close");
 		hbClose.getChildren().add(close);
 		hbClose.setAlignment(Pos.TOP_RIGHT);
-		grid.add(hbClose, 3, 0);
+		grid.add(hbClose, 2, 0);
 		
 		close.setOnAction(e -> {
 			stage.close();
 		});
 		
-		Label indførelsesdatolabel = new Label("Indførelsesdato");
-		grid.add(indførelsesdatolabel, 2, 1);
+		Label indførelsesdatolabel = new Label("Ændring: ");
+		indførelsesdatolabel.setId("tekst");
+		grid.add(indførelsesdatolabel, 0, 2);
+		
+		ObservableList<String> options = FXCollections.observableArrayList("Startdato", "Slutdato");
+
+		final ComboBox statementfelt = new ComboBox(options);
+//		HBox hbStatementfelt = new HBox();
+//		hbStatementfelt.getChildren().add(statementfelt);
+		statementfelt.setPrefWidth(170);
+		grid.add(statementfelt, 1, 2);
+
+		Label statementlabel = new Label("Dato: ");
+		statementlabel.setId("tekst");
+		grid.add(statementlabel, 0, 3);
 		
 		DatePicker startDato = new DatePicker();
-		startDato.setPrefWidth(255.00);
-		grid.add(startDato, 3, 1);
+		grid.add(startDato, 1, 3);
 		
-		Label statementlabel = new Label("hsql statement: ");
-		grid.add(statementlabel, 2, 2);
+
 		
-		TextField statementfelt = new TextField();
-		grid.add(statementfelt, 3, 2);
-		statementfelt.setPrefWidth(255.00);
 		
-		TableView<Ændring> ændringtable = tablecreator.ændringertable();
-		grid.add(ændringtable, 0, 0, 1, 4);
+//		TextField statementfelt = new TextField();
+//		grid.add(statementfelt, 4, 2);
+//		statementfelt.setPrefWidth(255.00);
+		
+		TableView<Konto> kompletteKontoliste = tablecreator.kontoTable();
+		HBox hbKontolist = new HBox(10);
+		hbKontolist.getChildren().add(kompletteKontoliste);
+		//kompletteKontoliste.setMinWidth(100);
+		grid.add(hbKontolist, 0, 1);
 	
+		TableView<Login> loginoversigt = tablecreator.loginTable();
+		HBox hbLoginlist = new HBox(10);
+		hbLoginlist.getChildren().add(loginoversigt);
+		loginoversigt.setMinWidth(350);
+		grid.add(hbLoginlist, 1, 1);
+		
+		TableView<Kunde> kundeoversigt = tablecreator.kundeTable();
+		HBox hbKundelist = new HBox(10);
+		hbKundelist.getChildren().add(kundeoversigt);
+		kundeoversigt.setPrefWidth(300);
+		grid.add(hbKundelist, 2, 1);
+		
 
 		Button commit = new Button("OK");
 		commit.setId("KnapImenu");
-		grid.add(commit, 2, 3, 3, 3);
+		grid.add(commit, 2, 2, 2, 3);
 		
 		Text fejl = new Text("");
 		HBox hbFejl = new HBox(10);
 		hbFejl.getChildren().add(fejl);
-		grid.add(hbFejl, 2, 4, 3, 4);
+		grid.add(hbFejl, 0, 4, 5, 4);
 		fejl.setId("fejl");
 		
 		
 		commit.setOnAction(j->{
-			
-			Date date = Date.valueOf(startDato.getValue());
-			try {
-			if(statementfelt.getText().toLowerCase().contains("drop")==false
-			&& statementfelt.getText().toLowerCase().contains("delete") == false);
-			PreparedStatement sqlstatement = connection.prepareStatement(statementfelt.getText());
-			
-			
-			Ændring ændring = new Ændring(date,sqlstatement);	
-			db.addÆndring(ændring);
-			fejl.setText("Din ændring er nu planlagt!");
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-				fejl.setText("Der skete en fejl!");
-			}
+		fejl.setText("Ændringen er nu fortaget!");
+//			
+//			Date date = Date.valueOf(startDato.getValue());
+//			try {
+//			if(statementfelt.getText().toLowerCase().contains("drop")==false
+//			&& statementfelt.getText().toLowerCase().contains("delete") == false);
+//			PreparedStatement sqlstatement = connection.prepareStatement(statementfelt.getText());
+//			
+//			
+//			Ændring ændring = new Ændring(date,sqlstatement);	
+//			db.addÆndring(ændring);
+//			fejl.setText("Din ændring er nu planlagt!");
+//			} catch (SQLException e1) {
+//				e1.printStackTrace();
+//				fejl.setText("Der skete en fejl!");
+//			}
 		});
 		
 
