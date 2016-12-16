@@ -96,23 +96,23 @@ public class AdminensKontoView {
 			comboBox.setPrefWidth(270);
 			grid.add(comboBox, 3, 5);
 
-			Label startDatoLabel = new Label("Start dato");
-			startDatoLabel.setId("tekst");
-			grid.add(startDatoLabel, 2, 6);
-			
-			DatePicker startDato = new DatePicker();
-			grid.add(startDato, 3, 6);
-			startDato.setPrefWidth(270);
-			System.out.println(startDato.getValue());
-			
-			Label slutDatoLabel = new Label("Slut dato");
-			slutDatoLabel.setId("tekst");
-			grid.add(slutDatoLabel, 2, 7);
-			
-			DatePicker slutDato = new DatePicker();
-			grid.add(slutDato, 3, 7);
-			slutDato.setPrefWidth(270);
-			System.out.println(slutDato.getValue());
+//			Label startDatoLabel = new Label("Start dato");
+//			startDatoLabel.setId("tekst");
+//			grid.add(startDatoLabel, 2, 6);
+//			
+//			DatePicker startDato = new DatePicker();
+//			grid.add(startDato, 3, 6);
+//			startDato.setPrefWidth(270);
+//			System.out.println(startDato.getValue());
+//			
+//			Label slutDatoLabel = new Label("Slut dato");
+//			slutDatoLabel.setId("tekst");
+//			grid.add(slutDatoLabel, 2, 7);
+//			
+//			DatePicker slutDato = new DatePicker();
+//			grid.add(slutDato, 3, 7);
+//			slutDato.setPrefWidth(270);
+//			System.out.println(slutDato.getValue());
 			
 			Button opret = new Button("Opret");
 			grid.add(opret, 2, 8, 3, 8);
