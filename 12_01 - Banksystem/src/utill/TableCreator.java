@@ -2,7 +2,6 @@ package utill;
 
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import DB.DB;
@@ -12,6 +11,7 @@ import domain.Konto;
 import domain.Kunde;
 import domain.Login;
 import domain.Postering;
+import domain.Ændring;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
@@ -218,4 +218,26 @@ public class TableCreator {
 		return fastoverførselsOversigt;
 
 	}
+
+	public TableView<Ændring> ændringertable() throws SQLException{
+		ObservableList<Ændring> ændringtable;
+		ændringtable = FXCollections.observableArrayList(db.listændringer());
+		
+		TableView<Ændring> ændringoversigt = new TableView<Ændring>();
+		
+		TableColumn<Ændring,Date> dateCol = new TableColumn<Ændring,Date>("Dato");
+		dateCol.setCellValueFactory(new PropertyValueFactory<Ændring,Date>("indsætningsdato"));
+		
+		TableColumn<Ændring, String> statementCol = new TableColumn<Ændring,String>("Ændring");
+		statementCol.setCellValueFactory(new PropertyValueFactory<Ændring,String>("statement"));
+		
+		
+		ændringoversigt.setItems(ændringtable);
+		ændringoversigt.getColumns().addAll(dateCol,statementCol);
+		
+		return ændringoversigt;
+	}
+
+
+
 }
