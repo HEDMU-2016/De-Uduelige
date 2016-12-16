@@ -7,6 +7,9 @@ import logic.Logic;
 
 public class Konto {
 	protected Kunde ejer;
+	private String ejernavn;
+
+
 	protected int kontoid;
 	protected BigDecimal saldo;
 	private Logic logic;
@@ -14,12 +17,20 @@ public class Konto {
 	private Date startdato;
 	private Date slutdato;
 	
+	public Konto(){
 	
+	}
 
 
 	public Konto(Kunde ejer, BigDecimal saldo){
 		this.ejer=ejer;
 		this.saldo=saldo;
+	}
+	public String getEjernavn() {
+		return ejernavn;
+	}
+	public void setEjernavn(String ejernavn) {
+		this.ejernavn = ejernavn;
 	}
 	public Date getStartdato() {
 		return startdato;

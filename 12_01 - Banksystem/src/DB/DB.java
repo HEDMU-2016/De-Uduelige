@@ -532,22 +532,28 @@ public class DB implements Startable {
 		System.out.println("finder alle kontis");
 		List<Konto> kontolist = new ArrayList<>();
 		start();
-
-		List<Kunde> kundeliste = listKunder();
-		
-		for (int i = 0; i < kundeliste.size();i++) {
-			Kunde tmpkunde = kundeliste.get(i);
-			List<Konto> tmpList = listkonti(tmpkunde);
-			 
-			for (int j = 0; j < tmpList.size(); j++) {
-				
-				Konto tmpKonto = tmpList.get(j);
-				kontolist.add(tmpKonto);
-				
-				System.out.println("tilføjede : " + tmpkunde.toString() + "s "+tmpKonto+" til listen");
-			}
+	
+		statement = connection.prepareStatement("select ejer, saldo,kontoid,startdato,slutdato,kontoid from konto");
+		resultset = statement.executeQuery();
+		while(resultset.next()){
+			String ejer = resultset.getString("ejer");
+			double saldo = resultset.getDouble("saldo");
+			BigDecimal saldoinBD = BigDecimal.valueOf(saldo);
+			Date startdato = resultset.getDate("startdato");
+			Date slutdato = resultset.getDate("slutdato");
+			int id = resultset.getInt("kontoid");
 			
+			Konto tmpkonto = new Konto();
+			tmpkonto.setEjernavn(ejer);
+			tmpkonto.setSaldo(saldoinBD);
+			tmpkonto.setEjernavn(ejer);
+			tmpkonto.setStartdato(startdato);
+			tmpkonto.setSlutdato(slutdato);
+			tmpkonto.setKontonummer(id);
+			kontolist.add(tmpkonto);
 		}
+		
+		
 		System.out.println("Done!");
 		return kontolist;
 	}

@@ -268,11 +268,9 @@ public class OverførselsStage {
 		if (feltererudfyldt(senderfelt,beløbfelt,modtagerfelt)==true){
 			System.out.println("fejlterne er udfyldt");
 			
-			if( checkifsenderejerkonto(bruger,senderfelt)==true) {
+			if(checkifsenderejerkonto(bruger,senderfelt)==true) {
 				System.out.println("konto nummer: "+senderfelt.getText()+" er din konto");
-				
-				
-					
+
 					if(symbolerifelterne(senderfelt,modtagerfelt,beløbfelt,fejl)==false){
 						System.out.println("der er ingen symboler i felterne");
 						
@@ -306,7 +304,10 @@ public class OverførselsStage {
 			System.out.println("checker om konto nummer: "+senderfelt.getText()+" er din konto");
 			List<Konto> kontolist = db.listkonti(db.matchkundemedlogin(bruger));
 				for (int i = 0; i < kontolist.size();i++ ) {
-					if (kontolist.get(i).getKontonummer() == Integer.parseInt(senderfelt.getText())){			
+					if (kontolist.get(i).getKontonummer() == Integer.parseInt(senderfelt.getText())
+					&& kontolist.get(i).getStartdato().after(Date.valueOf(LocalDate.now()))
+					&& kontolist.get(i).getSlutdato().before(Date.valueOf(LocalDate.now()))
+					){			
 					return true;
 					}
 				}

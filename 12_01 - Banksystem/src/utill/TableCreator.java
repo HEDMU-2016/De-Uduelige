@@ -108,7 +108,7 @@ public class TableCreator {
 		TableView<Konto> kontooversigt = new TableView<Konto>();
 
 		TableColumn<Konto, String> ejerCol = new TableColumn<Konto, String>("Ejer ");
-		ejerCol.setCellValueFactory(new PropertyValueFactory<Konto, String>("ejer"));
+		ejerCol.setCellValueFactory(new PropertyValueFactory<Konto, String>("ejernavn"));
 
 		TableColumn<Konto, Integer> kontoCol = new TableColumn<Konto, Integer>("kontoID ");
 		kontoCol.setCellValueFactory(new PropertyValueFactory<Konto, Integer>("kontonummer"));

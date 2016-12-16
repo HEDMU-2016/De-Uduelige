@@ -65,11 +65,10 @@ public class ÆndringerOversigt {
 		
 		ObservableList<String> options = FXCollections.observableArrayList("Startdato", "Slutdato");
 
-		final ComboBox statementfelt = new ComboBox(options);
-//		HBox hbStatementfelt = new HBox();
-//		hbStatementfelt.getChildren().add(statementfelt);
-		statementfelt.setPrefWidth(170);
-		grid.add(statementfelt, 1, 2);
+		final ComboBox combobox = new ComboBox(options);
+
+		combobox.setPrefWidth(170);
+		grid.add(combobox, 1, 2);
 
 		Label statementlabel = new Label("Dato: ");
 		statementlabel.setId("tekst");
@@ -81,14 +80,11 @@ public class ÆndringerOversigt {
 
 		
 		
-//		TextField statementfelt = new TextField();
-//		grid.add(statementfelt, 4, 2);
-//		statementfelt.setPrefWidth(255.00);
+
 		
 		TableView<Konto> kompletteKontoliste = tablecreator.kontoTable();
 		HBox hbKontolist = new HBox(10);
 		hbKontolist.getChildren().add(kompletteKontoliste);
-		//kompletteKontoliste.setMinWidth(100);
 		grid.add(hbKontolist, 0, 1);
 	
 		TableView<Login> loginoversigt = tablecreator.loginTable();
@@ -117,21 +113,15 @@ public class ÆndringerOversigt {
 		
 		commit.setOnAction(j->{
 		fejl.setText("Ændringen er nu fortaget!");
-//			
-//			Date date = Date.valueOf(startDato.getValue());
-//			try {
-//			if(statementfelt.getText().toLowerCase().contains("drop")==false
-//			&& statementfelt.getText().toLowerCase().contains("delete") == false);
-//			PreparedStatement sqlstatement = connection.prepareStatement(statementfelt.getText());
-//			
-//			
-//			Ændring ændring = new Ændring(date,sqlstatement);	
-//			db.addÆndring(ændring);
-//			fejl.setText("Din ændring er nu planlagt!");
-//			} catch (SQLException e1) {
-//				e1.printStackTrace();
-//				fejl.setText("Der skete en fejl!");
-//			}
+			
+			Date date = Date.valueOf(startDato.getValue());
+			if(combobox.getValue()=="startdato"){
+				
+			}
+			if(combobox.getValue()=="slutdato"){
+				
+			}
+			
 		});
 		
 

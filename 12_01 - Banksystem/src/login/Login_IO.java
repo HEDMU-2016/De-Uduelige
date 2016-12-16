@@ -5,7 +5,9 @@ package login;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import Brugerflade.AdministratorMenu;
@@ -149,6 +151,10 @@ public class Login_IO extends Application {
 						usernameInput.setText("");
 						passwordInput.setText("");
 						fejl.setFill(Color.web("#184c18"));
+						if(tmplogin.getStartdato().after(Date.valueOf(LocalDate.now()))
+						&&	tmplogin.getSlutdato().after(Date.valueOf(LocalDate.now()))
+						)
+						
 						if (tmplogin.getId() == 2) {
 							Brugermenu brugermenu = new Brugermenu();
 							brugermenu.start(new Stage(), tmplogin);
@@ -162,6 +168,8 @@ public class Login_IO extends Application {
 					} else if (korrekt == false) {
 						fejl.setText("Forkert brugernavn eller adgangskode!");
 						passwordInput.setText("");
+					} else {
+						fejl.setText("uddateret brugernavn eller adgangskode");
 					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
