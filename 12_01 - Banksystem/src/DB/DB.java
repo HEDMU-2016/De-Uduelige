@@ -57,6 +57,7 @@ public class DB implements Startable {
 	statement.setString(2, ændring.getStatement().toString());
 	statement.execute();
 	stop();	
+	
 	}
 	public void executeÆndring(Ændring ændring) throws SQLException{
 		start();
@@ -689,21 +690,54 @@ public class DB implements Startable {
 
 	}
 	public void hæv(long amount, int kontoid) throws SQLException{
-		PreparedStatement statement2;
-		statement = connection.prepareStatement("update saldo set saldo=? where kontoid=?");
-		statement2 = connection.prepareStatement("select saldo from konto where kontoid=?");
 		start();
-		resultset = statement2.executeQuery();
-		while(resultset.next()){
-		double saldo = resultset.getDouble("saldo");
-		BigDecimal saldoinBD = BigDecimal.valueOf(saldo);
-		BigDecimal amountinBD = BigDecimal.valueOf(amount);
-		double nyesaldo = Double.parseDouble(logic.subtract(saldoinBD, amountinBD).toString());
-		statement.setDouble(1, nyesaldo);
-		statement.setInt(1, kontoid);
-		statement.execute();
+		PreparedStatement statementGetSaldoFromDb; //sql statement variable
+		statementGetSaldoFromDb = connection.prepareStatement("select saldo from konto where kontoid=?"); //sql query to get saldo from kontoid
+		statementGetSaldoFromDb.setInt(1, kontoid); //set the '?' parameter to kontoid
+		resultset = statementGetSaldoFromDb.executeQuery(); //execute query and get result
+		resultset.next();
+		
+		//add amount to saldo from db
+		double saldo = resultset.getDouble("saldo"); //saldo from db
+		
+		logic = new Logic();
+		double newSaldo = Double.parseDouble(logic.subtract(BigDecimal.valueOf(saldo), BigDecimal.valueOf(amount)).toString());
+		
+		//update db with the new saldo
+		statement = connection.prepareStatement("update konto set saldo=? where kontoid=?"); //sql statement variable
+		statement.setDouble(1, newSaldo); //set the 1st '?' parameter to newSaldo
+		statement.setInt(2, kontoid); //set the 1st '?' parameter to newkontoid
+		
+		statement.execute(); //execute query (updates saldo in db)
+		
 		stop();
-		}
+	}
+	
+	public void insertMoney(long amount, int kontoid) throws SQLException{
+		
+		//get current saldo from db from kontoid
+
+		start();
+		PreparedStatement statementGetSaldoFromDb; //sql statement variable
+		statementGetSaldoFromDb = connection.prepareStatement("select saldo from konto where kontoid=?"); //sql query to get saldo from kontoid
+		statementGetSaldoFromDb.setInt(1, kontoid); //set the '?' parameter to kontoid
+		resultset = statementGetSaldoFromDb.executeQuery(); //execute query and get result
+		resultset.next();
+		
+		//add amount to saldo from db
+		double saldo = resultset.getDouble("saldo"); //saldo from db
+		
+		logic = new Logic();
+		double newSaldo = Double.parseDouble(logic.add(BigDecimal.valueOf(saldo), BigDecimal.valueOf(amount)).toString());
+		
+		//update db with the new saldo
+		statement = connection.prepareStatement("update konto set saldo=? where kontoid=?"); //sql statement variable
+		statement.setDouble(1, newSaldo); //set the 1st '?' parameter to newSaldo
+		statement.setInt(2, kontoid); //set the 1st '?' parameter to newkontoid
+		
+		statement.execute(); //execute query (updates saldo in db)
+		
+		stop();
 	}
 
 	public void transfer(int senderskontoid, int modtagerskontoid, BigDecimal beløb) throws SQLException {
@@ -972,7 +1006,14 @@ public class DB implements Startable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 
+	public void closeConnection() {
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

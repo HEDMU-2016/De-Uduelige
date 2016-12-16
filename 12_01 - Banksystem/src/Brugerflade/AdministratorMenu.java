@@ -115,6 +115,7 @@ public class AdministratorMenu {
 			}
 		});
 		Button ændring = new Button("Plan ændring");
+		ændring.setId("KnapImenu");
 		grid.add(ændring, 0, 5);
 		ændring.setOnAction(e->{
 			ÆndringerOversigt ændringeroversigt = new ÆndringerOversigt();
