@@ -22,11 +22,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
-import utill.Emailer;
 
 public class GlemtKode {
 	public void start(Stage glemtStage) {
-		Emailer emailer = new Emailer();
 		
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
@@ -78,22 +76,6 @@ public class GlemtKode {
 		hbFejl.getChildren().add(fejl);
 		grid.add(hbFejl, 0, 4, 3, 4);
 		fejl.setId("fejl");
-		
-		Button email = new Button("mail mig masterpassword");
-		email.setPrefWidth(200);
-		grid.add(email, 0, 4);
-		
-		email.setOnAction(e->{
-			if(passwordInput.getText().isEmpty() == false
-					&& usernameInput.getText().isEmpty() == false && masterPasswordInput.getText().isEmpty()==true)
-			
-			try {
-				emailer.glemtkodemail(usernameInput.getText(), passwordInput.getText());
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			else fejl.setText("Brugernavn og password skal være udfyldt");
-		});
 
 		Button glemt = new Button("✓");
 		HBox hbGlemt = new HBox(10);
