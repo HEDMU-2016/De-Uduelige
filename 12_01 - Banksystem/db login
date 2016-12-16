@@ -3,8 +3,9 @@ CREATE TABLE login
 id int,
 brugernavn VARCHAR(50) NOT NULL PRIMARY KEY,
 adgangskode VARCHAR(50) NOT NULL,
+startdato Date not null,
+slutdato date not null
 )
-
 CREATE TABLE konto
 (
 ejer varchar(255),
