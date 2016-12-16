@@ -150,7 +150,7 @@ public class TableCreator {
 
 		return posteringstable;
 	}
-	public ObservableList<Postering> posteringsTable() throws SQLException {
+	public TableView<Postering> posteringsTable() throws SQLException {
 		ObservableList<Postering> posteringstable;
 		posteringstable = FXCollections.observableArrayList(db.listallePosteringer());
 
@@ -171,7 +171,7 @@ public class TableCreator {
 		posteringsoversigt.setItems(posteringstable);
 		posteringsoversigt.getColumns().addAll(senderCol, modtagerCol, sendtCol, beløbCol);
 
-		return posteringstable;
+		return posteringsoversigt;
 	}
 
 	public TableView<Postering> posteringTable(Kunde kunde) throws SQLException {
