@@ -144,24 +144,12 @@ public class DB implements Startable {
 		stop();
 	}
 
-	public void addKonto(String ejer, Double saldo) throws SQLException {
-		System.out.println("tilfører konto...");
-		start();
-		statement = connection.prepareStatement("INSERT INTO konto (ejer,saldo) values(?,?)");
-		statement.setString(1, ejer);
-		statement.setDouble(2, saldo);
-		statement.execute();
-		System.out.println("Oprettede konto med ejer: " + ejer + "og saldo: " + saldo);
-		stop();
-	}
-
 	public void addKunde(Kunde kunde) throws SQLException {
 		System.out.println("tilfører kunde...");
 		start();
 		Date startdato = Date.valueOf(LocalDate.now());
 		Date slutdato = Date.valueOf(LocalDate.of(9999, 01, 01));
-		statement = connection
-				.prepareStatement("insert into kunde(navn, startdato, slutdato, email,brugernavn) values (?,?,?,?,?)");
+		statement = connection.prepareStatement("insert into kunde(navn, startdato, slutdato, email,brugernavn) values (?,?,?,?,?)");
 		statement.setString(1, kunde.getNavn());
 		statement.setDate(2, startdato);
 		statement.setDate(3, slutdato);
@@ -172,24 +160,48 @@ public class DB implements Startable {
 		stop();
 	}
 
+	public void addKonto(Konto konto) throws SQLException {
+		System.out.println("tilfører konto...");
+		Date startdato = Date.valueOf(LocalDate.now());
+		Date slutdato = Date.valueOf(LocalDate.of(9999, 12, 31));
+		start();
+		statement = connection.prepareStatement("insert into konto(ejer,saldo,startdato,slutdato)values(?,?,?,?)");
+		statement.setString(1, konto.getEjer().getNavn());
+		statement.setDouble(2, konto.getSaldo().doubleValue());
+		statement.setDate(3, startdato);
+		statement.setDate(4, slutdato);		
+		statement.execute();
+		System.out.println(konto+ "blev lagt ind i databasen");
+		stop();
+	}
 	public void addKonto(String ejer, BigDecimal saldo) throws SQLException {
 		System.out.println("tilfører konto...");
+		Date startdato = Date.valueOf(LocalDate.now());
+		Date slutdato = Date.valueOf(LocalDate.of(9999, 12, 31));
 		start();
-		statement = connection.prepareStatement("insert into konto(ejer,saldo)values(?,?)");
+		statement = connection.prepareStatement("insert into konto(ejer,saldo,startdato,slutdato)values(?,?,?,?)");
 		statement.setString(1, ejer);
 		statement.setDouble(2, saldo.doubleValue());
+		statement.setDate(2, startdato);
+		statement.setDate(3, slutdato);		
 		statement.execute();
-		System.out.println("konto med ejer " + ejer + "blev lagt ind i databasen");
+		System.out.println("kontoen med ejer:"+ejer+"blev lagt ind i databasen");
 		stop();
 	}
 
 	public void addLogin(Login login) throws SQLException {
 		System.out.println("tilfører login...");
+		Date startdato = Date.valueOf(LocalDate.now());
+		Date slutdato = Date.valueOf(LocalDate.of(9999, 12, 31));
+		
+		
 		start();
-		statement = connection.prepareStatement("INSERT INTO login (brugernavn, adgangskode, id) values(?,?,?)");
+		statement = connection.prepareStatement("INSERT INTO login (brugernavn, adgangskode, id,startdato,slutdato) values(?,?,?,?,?)");
 		statement.setString(1, login.getBrugernavn());
 		statement.setString(2, login.getAdgangskode());
 		statement.setInt(3, login.getId());
+		statement.setDate(4, startdato);
+		statement.setDate(5, slutdato);
 		statement.execute();
 		System.out.println("Login: " + login + "blev lagt ind i databasen");
 		stop();
@@ -492,7 +504,7 @@ public class DB implements Startable {
 
 		List<Konto> kontolist = new ArrayList<>();
 		start();
-		statement = connection.prepareStatement("select ejer,kontoid,saldo from konto where ejer = ?");
+		statement = connection.prepareStatement("select ejer,kontoid,saldo,startdato,slutdato from konto where ejer = ?");
 		statement.setString(1, ejer.getNavn());
 		statement.execute();
 		resultset = statement.executeQuery();
@@ -500,11 +512,15 @@ public class DB implements Startable {
 			int kontonummer = resultset.getInt("kontoid");
 			double saldo = resultset.getDouble("saldo");
 			BigDecimal saldoinBD = BigDecimal.valueOf(saldo);
-//			Date startdato = resultset.getDate("startdato");
-//			Date slutdato = resultset.getDate("slutdato");
+			Date startdato = resultset.getDate("startdato");
+			Date slutdato = resultset.getDate("slutdato");
+			
 			Konto tmpKonto = new Konto(ejer, saldoinBD);
+			tmpKonto.setStartdato(startdato);
+			tmpKonto.setSlutdato(slutdato);
+			
 			tmpKonto.setKontonummer(kontonummer);
-//			if(startdato.toLocalDate().isAfter(LocalDate.now()) && slutdato.toLocalDate().isBefore(LocalDate.now()));
+
 			
 			kontolist.add(tmpKonto);
 			System.out.println("fandt og listede: " + tmpKonto.toString());
@@ -553,6 +569,8 @@ public class DB implements Startable {
 			if(startdato.toLocalDate().isAfter(LocalDate.now()) && slutdato.toLocalDate().isBefore(LocalDate.now()));
 			
 			Kunde tmpKunde = new Kunde(navn, email, brugernavn);
+			tmpKunde.setSlutdato(slutdato);
+			tmpKunde.setStartdato(startdato);
 			kundeliste.add(tmpKunde);
 
 			System.out.println("tilføjede " + tmpKunde.toString() + " Til listen");
@@ -561,28 +579,35 @@ public class DB implements Startable {
 	}
 	public List<Login> listLogins() throws SQLException {
 		System.out.println("Laver en liste over alle logins");
-		List<Login> logintable = new ArrayList<>();
+		List<Login> loginlist = new ArrayList<>();
 		start();
-		statement = connection.prepareStatement("select brugernavn, adgangskode, id from login");
+		statement = connection.prepareStatement("select brugernavn, adgangskode, id, startdato, slutdato from login");
 		resultset = statement.executeQuery();
 		while (resultset.next()) {
 			String brugernavn = resultset.getString("brugernavn");
 			String adgangskode = resultset.getString("adgangskode");
+			Date startdato = resultset.getDate("startdato");
+			Date slutdato = resultset.getDate("slutdato");
+			
 			int id = resultset.getInt("id");
 			if (id == 1) {
 				Login login = new AdminLogin(brugernavn, adgangskode);
-				logintable.add(login);
+				login.setStartdato(startdato);
+				login.setSlutdato(slutdato);
+				loginlist.add(login);
 				System.out
 						.println("Tilføjede Login med Brugernavn: " + brugernavn + "\n og adgangskode: " + adgangskode);
 			}
 			if (id == 2) {
-				Login login2 = new NormaltLogin(brugernavn, adgangskode);
-				logintable.add(login2);
+				Login login = new NormaltLogin(brugernavn, adgangskode);
+				loginlist.add(login);
+				login.setStartdato(startdato);
+				login.setSlutdato(slutdato);
 				System.out
 						.println("Tilføjede Login med Brugernavn: " + brugernavn + "\n og adgangskode: " + adgangskode+"til listen");
 			}
 		}
-		return logintable;
+		return loginlist;
 	}
 	public List<FastOverførsel>  listfasteoverførsler(Login bruger) throws SQLException{
 		System.out.println("laver en liste over "+bruger+"s faste overførsler");

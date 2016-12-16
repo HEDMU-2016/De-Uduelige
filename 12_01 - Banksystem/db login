@@ -8,7 +8,10 @@ adgangskode VARCHAR(50) NOT NULL,
 CREATE TABLE konto
 (
 ejer varchar(255),
-saldo double not null
+saldo double not null,
+kontoid int identity,
+startdato date not null,
+slutdato date not null
 )
 alter table konto 
 add kontoID int identity
@@ -17,9 +20,9 @@ CREATE TABLE kunde
 (
 navn varchar(255),
 ID int identity,
+email varchar(255),
 startdato date,
 slutdato date
-
 )
 alter table kunde add brugernavn varchar(255)
 update kunde set brugernavn='dit brugernavn' where navn='jeres navn'
@@ -30,7 +33,7 @@ startdato Date not null,
 sender int not null,
 modtager int not null,
 beløb double not null,
-id int not null
+id int not null,
 unikid int identity
 )
 create table postering(

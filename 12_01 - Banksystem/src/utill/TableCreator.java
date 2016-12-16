@@ -34,11 +34,14 @@ public class TableCreator {
 		TableColumn<Kunde, String> emailCol = new TableColumn<Kunde, String>("Email");
 		emailCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("email"));
 
-		TableColumn<Kunde, Date> dateCol = new TableColumn<Kunde, Date>("Oprettet");
-		dateCol.setCellValueFactory(new PropertyValueFactory<Kunde, Date>("startdato"));
+		TableColumn<Kunde, Date> startdatoCol = new TableColumn<Kunde, Date>("Oprettet");
+		startdatoCol.setCellValueFactory(new PropertyValueFactory<Kunde, Date>("startdato"));
 
+		TableColumn<Kunde,Date> slutdatoCol = new TableColumn<Kunde,Date>("Slettet");
+		slutdatoCol.setCellValueFactory(new PropertyValueFactory<Kunde,Date>("slutdato"));
+		
 		kundeoversigt.setItems(kundetabel);
-		kundeoversigt.getColumns().addAll(nameCol, emailCol, dateCol);
+		kundeoversigt.getColumns().addAll(nameCol, emailCol, startdatoCol,slutdatoCol);
 		return kundeoversigt;
 	}
 
@@ -56,9 +59,15 @@ public class TableCreator {
 
 		TableColumn<Login, Integer> idCol = new TableColumn<Login, Integer>("ID ");
 		idCol.setCellValueFactory(new PropertyValueFactory<Login, Integer>("id"));
-
+		
+		TableColumn<Login,String> startdatoCol = new TableColumn<Login,String>("Startdato");
+		startdatoCol.setCellValueFactory(new PropertyValueFactory<Login,String>("startdato"));
+		
+		TableColumn<Login,Date> slutdatoCol = new TableColumn<Login,Date>("Slutdato");
+		slutdatoCol.setCellValueFactory(new PropertyValueFactory<Login,Date>("slutdato"));
+		
 		loginoversigt.setItems(logintabel);
-		loginoversigt.getColumns().addAll(bnCol, pwCol, idCol);
+		loginoversigt.getColumns().addAll(bnCol, pwCol, idCol,startdatoCol,slutdatoCol);
 		return loginoversigt;
 	}
 
@@ -78,8 +87,15 @@ public class TableCreator {
 		TableColumn<Konto, Double> saldoCol = new TableColumn<Konto, Double>("Saldo ");
 		saldoCol.setCellValueFactory(new PropertyValueFactory<Konto, Double>("saldo"));
 
+		TableColumn<Konto,Date> startdatoCol = new TableColumn<Konto,Date>("Startdato");
+		startdatoCol.setCellValueFactory(new PropertyValueFactory<Konto,Date>("startdato "));
+		
+		TableColumn<Konto,Date> slutdatoCol = new TableColumn<Konto,Date>("Slutdato");
+		slutdatoCol.setCellValueFactory(new PropertyValueFactory<Konto,Date>("slutdato "));
+		
+		
 		kontooversigt.setItems(kontotabel);
-		kontooversigt.getColumns().addAll(ejerCol, kontoCol, saldoCol);
+		kontooversigt.getColumns().addAll(ejerCol, kontoCol, saldoCol,startdatoCol,slutdatoCol);
 
 		return kontooversigt;
 
@@ -100,8 +116,14 @@ public class TableCreator {
 		TableColumn<Konto, Double> saldoCol = new TableColumn<Konto, Double>("Saldo ");
 		saldoCol.setCellValueFactory(new PropertyValueFactory<Konto, Double>("saldo"));
 
+		TableColumn<Konto,Date> startdatoCol = new TableColumn<Konto,Date>("Startdato");
+		startdatoCol.setCellValueFactory(new PropertyValueFactory<Konto,Date>("startdato"));
+		
+		TableColumn<Konto,Date> slutdatoCol = new TableColumn<Konto,Date>("Slutdato");
+		slutdatoCol.setCellValueFactory(new PropertyValueFactory<Konto,Date>("slutdato"));
+		
 		kontooversigt.setItems(kontotabel);
-		kontooversigt.getColumns().addAll(ejerCol, kontoCol, saldoCol);
+		kontooversigt.getColumns().addAll(ejerCol, kontoCol, saldoCol,startdatoCol,slutdatoCol);
 		return kontooversigt;
 	}
 
@@ -237,7 +259,28 @@ public class TableCreator {
 		
 		return ændringoversigt;
 	}
-
+//	public TableView<Object> objekttable() throws SQLException{
+//		ObservableList<Object> objekclist = FXCollections.observableArrayList();
+//		ObservableList<Kunde> kundelist = FXCollections.observableArrayList(db.listKunder());
+//		ObservableList<Konto> kontolist = FXCollections.observableArrayList(db.listAlleKontis());
+//		ObservableList<Login> loginlist = FXCollections.observableArrayList(db.listLogins());
+//		objekclist.addAll(kundelist);
+//		objekclist.addAll(kontolist);
+//		objekclist.addAll(loginlist);
+//		
+//		PropertyValueFactory<Object,String> kontofabrik = new PropertyValueFactory<Object,String>("kontoid");
+//		PropertyValueFactory<Object,String> kundefabrik = new PropertyValueFactory<Object,String>("navn");
+//		
+//		
+//		TableView<Object> objektoversigt = new TableView<Object>();
+//		
+//		TableColumn<Object,String> objectCol = new TableColumn<Object,String>("Object");
+//		objectCol.setCellValueFactory(kontofabrik);
+//		objectCol.
+//		
+//		return objektoversigt;
+//	
+//	}
 
 
 }

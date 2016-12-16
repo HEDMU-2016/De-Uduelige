@@ -1,6 +1,7 @@
 package domain;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 
 import logic.Logic;
 
@@ -10,12 +11,27 @@ public class Konto {
 	protected BigDecimal saldo;
 	private Logic logic;
 	Rente rente;
+	private Date startdato;
+	private Date slutdato;
 	
 	
+
 
 	public Konto(Kunde ejer, BigDecimal saldo){
 		this.ejer=ejer;
 		this.saldo=saldo;
+	}
+	public Date getStartdato() {
+		return startdato;
+	}
+	public void setStartdato(Date startdato) {
+		this.startdato = startdato;
+	}
+	public Date getSlutdato() {
+		return slutdato;
+	}
+	public void setSlutdato(Date slutdato) {
+		this.slutdato = slutdato;
 	}
 	public Rente getRente() {
 		return rente;
