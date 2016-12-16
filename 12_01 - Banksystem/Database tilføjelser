@@ -49,7 +49,11 @@ rente double not null,
 indsætningsdato date not null,
 id int identity
 )
-
+create table kontakt(
+navn varchar(255),
+kontonr int not null,
+ejer varchar(255)
+)
 
 
 
