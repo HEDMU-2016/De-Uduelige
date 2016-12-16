@@ -17,7 +17,8 @@ navn varchar(255),
 ID int identity,
 email varchar(255),
 startdato date,
-slutdato date
+slutdato date,
+brugernavn varchar(255)
 )
 create table fastoverførsel(
 startdato Date not null,
@@ -42,6 +43,18 @@ create table timer(
 tid varchar(255),
 id int not null
 )
+create table renter(
+kontonummer int not null,
+rente double not null,
+indsætningsdato date not null,
+id int identity
+)
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 INSERT INTO "PUBLIC"."TIMER"
