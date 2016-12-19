@@ -66,17 +66,21 @@ public class ÆndringerOversigt {
 
 		final ComboBox combobox = new ComboBox(options);
 
+		HBox hbCombobox = new HBox(10);
 		combobox.setPrefWidth(170);
-		grid.add(combobox, 1, 2);
+		hbCombobox.getChildren().add(combobox);
+		hbCombobox.setAlignment(Pos.CENTER_RIGHT);
+		grid.add(hbCombobox, 0, 2);
 		
-		Label label = new Label("Hvilken tabel");
-		grid.add(label, 2, 2);
+		Label tabellabel = new Label("Hvilken tabel");
+		tabellabel.setId("tekst");
+		grid.add(tabellabel, 1, 2);
 		
 		ObservableList<String> options2 = FXCollections.observableArrayList("kunde", "login", "konto");
 
 		final ComboBox combobox2 = new ComboBox(options2);
 		combobox2.setPrefWidth(170);
-		grid.add(combobox2, 2, 3);
+		grid.add(combobox2, 1, 3);
 
 
 		Label statementlabel = new Label("Dato: ");
@@ -84,8 +88,10 @@ public class ÆndringerOversigt {
 		grid.add(statementlabel, 0, 3);
 		
 		DatePicker datofelt = new DatePicker();
-		grid.add(datofelt, 1, 3);
-		
+		HBox hbDatofelt = new HBox(10);
+		hbDatofelt.setAlignment(Pos.CENTER_RIGHT);
+		hbDatofelt.getChildren().add(datofelt);
+		grid.add(hbDatofelt, 0, 3);
 		
 		TableView<Konto> kompletteKontoliste = tablecreator.kontoTable();
 		HBox hbKontolist = new HBox(10);
@@ -103,11 +109,10 @@ public class ÆndringerOversigt {
 		hbKundelist.getChildren().add(kundeoversigt);
 		kundeoversigt.setPrefWidth(300);
 		grid.add(hbKundelist, 2, 1);
-		
 
 		Button commit = new Button("OK");
 		commit.setId("KnapImenu");
-		grid.add(commit, 3, 3, 3, 4);
+		grid.add(commit, 2, 2, 2, 3);
 		
 		Text fejl = new Text("");
 		HBox hbFejl = new HBox(10);
@@ -156,10 +161,12 @@ public class ÆndringerOversigt {
 			if(combobox.getValue()=="slutdato"){
 				
 			}
+			fejl.setText("Ændringen er nu fortaget!");	
 			}
-			
 		});
-		fejl.setText("Ændringen er nu fortaget!");
+		
+		
+	
 
 		Scene scene = new Scene(grid);
 		stage.setScene(scene);

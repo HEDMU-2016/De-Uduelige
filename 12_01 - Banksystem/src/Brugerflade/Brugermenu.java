@@ -1,6 +1,5 @@
 package Brugerflade;
 
-import java.awt.Color;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -16,6 +15,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -117,6 +118,15 @@ public class Brugermenu {
 	}
 	});
 	
+	Button guldknap = new Button("Guldknappen");
+	grid.add(guldknap, 0, 5);
+	guldknap.setId("KnapImenu");
+	guldknap.setOnAction(e ->{
+
+		Media media = new Media("src/Brugerflade/guldknap.mp3");
+	       MediaPlayer player = new MediaPlayer(media); 
+	       player.play();
+	});
 
 	Scene scene = new Scene(grid, 400, 400);
 	stage.setScene(scene);
