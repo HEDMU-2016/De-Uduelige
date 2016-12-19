@@ -141,8 +141,8 @@ public class ÆndringerOversigt {
 				if(combobox.getValue()=="Slutdato"){
 				utillkonto.setKontoid(kompletteKontoliste.getSelectionModel().getSelectedItem().getKontonummer());
 				try{
-					Konto aktuellekonto = db.findKonto(utillkonto.getKontoid());
-					db.setSslutDato(aktuellekonto, Date.valueOf(datofelt.getValue()));
+					
+					db.setSslutDato(utillkonto, Date.valueOf(datofelt.getValue()));
 				}catch(SQLException e1){
 					e1.printStackTrace();
 				}
