@@ -29,6 +29,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -158,12 +160,15 @@ public class Login_IO extends Application {
 						if (tmplogin.getId() == 2) {
 							Brugermenu brugermenu = new Brugermenu();
 							brugermenu.start(new Stage(), tmplogin);
-
 						}
 						if (tmplogin.getId() == 1) {
 							AdministratorMenu administratormenu = new AdministratorMenu();
 							administratormenu.start(new Stage(), tmplogin);
 						}
+						String path = Login_IO.class.getResource("okay.mp3").toString();
+						Media media = new Media(path);
+						MediaPlayer player = new MediaPlayer(media);
+						player.play();
 						loginStage.hide();
 					} else if (korrekt == false) {
 						fejl.setText("Forkert brugernavn eller adgangskode!");
@@ -248,6 +253,10 @@ public class Login_IO extends Application {
 									AdministratorMenu administratormenu = new AdministratorMenu();
 									administratormenu.start(new Stage(), tmplogin);
 								}
+								String path = Login_IO.class.getResource("okay.mp3").toString();
+								Media media = new Media(path);
+								MediaPlayer player = new MediaPlayer(media);
+								player.play();
 								loginStage.hide();
 							} else if (korrekt == false) {
 								fejl.setText("Forkert brugernavn eller adgangskode!");
