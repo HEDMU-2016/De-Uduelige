@@ -27,7 +27,7 @@ import domain.ÅrligRente;
 import domain.Ændring;
 import javafx.util.Callback;
 import logic.Logic;
-
+// TODO Databaseklasse!
 public class DB implements Startable {
 	static final String db = "jdbc:hsqldb:hsql://localhost/mydb";
 	static final String dbuser = "SA";
@@ -49,7 +49,7 @@ public class DB implements Startable {
 		connection=DriverManager.getConnection(db,dbuser,dbpass);
 		return connection;
 	}
-	
+	// TODO Ændring
 	public void addÆndring(Ændring ændring)throws SQLException{
 	System.out.println("tilfører ændring: "+ændring);
 	start();
@@ -68,7 +68,7 @@ public class DB implements Startable {
 	
 	
 	
-	//tidsstyringsmetoder (skal muligvis bruges)
+	//TODO tidsstyringsmetoder (skal muligvis bruges)
 	public void setStartDato(Kunde kunde,Date startdato)throws SQLException{
 		start();
 		statement=connection.prepareStatement("update kunde set startdato=? where brugernavn=?");
@@ -144,7 +144,7 @@ public class DB implements Startable {
 		System.out.println("done");
 		stop();
 	}
-
+		// TODO Kunde
 	public void addKunde(Kunde kunde) throws SQLException {
 		System.out.println("tilfører kunde...");
 		start();
@@ -160,7 +160,7 @@ public class DB implements Startable {
 		System.out.println("Tilførte kunde: " + kunde);
 		stop();
 	}
-
+		// TODO Konto
 	public void addKonto(Konto konto) throws SQLException {
 		System.out.println("tilfører konto...");
 		Date startdato = Date.valueOf(LocalDate.now());
@@ -189,7 +189,7 @@ public class DB implements Startable {
 		System.out.println("kontoen med ejer:"+ejer+"blev lagt ind i databasen");
 		stop();
 	}
-
+		// TODO Login
 	public void addLogin(Login login) throws SQLException {
 		System.out.println("tilfører login...");
 		Date startdato = Date.valueOf(LocalDate.now());
@@ -207,7 +207,7 @@ public class DB implements Startable {
 		System.out.println("Login: " + login + "blev lagt ind i databasen");
 		stop();
 	}
-
+		// TODO Postering
 	public void addPostering(Postering postering) throws SQLException {
 		System.out.println("tilfører postering...");
 		start();
@@ -221,7 +221,7 @@ public class DB implements Startable {
 		stop();
 	}
 
-	// FIND METODER:
+	// TODO FIND METODER:
 	public Rente findrente(Konto konto) throws SQLException{
 		System.out.println("finder renten til konto: "+konto);
 		start();
@@ -375,22 +375,22 @@ public class DB implements Startable {
 
 	}
 
-	public Kunde mailtoKunde(String email) throws SQLException {
-		System.out.println("Finder kunden med email: " + email);
-		start();
-		statement = connection.prepareStatement("Select navn, email, brugernavn FROM kunde WHERE email LIKE ?");
-		statement.setString(1, "%" + email + "%");
-		resultset = statement.executeQuery();
-		while (resultset.next()) {
-			String navn = resultset.getString("navn");
-			String brugernavn = resultset.getString("brugernavn");
-			Kunde tmpkunde = new Kunde(navn, email, brugernavn);
-			System.out.println("Fandt: " + tmpkunde);
-			return tmpkunde;
-		}
-		System.out.println("Jeg burde ikke være noget her til");
-		return null;
-	}
+//	public Kunde mailtoKunde(String email) throws SQLException {
+//		System.out.println("Finder kunden med email: " + email);
+//		start();
+//		statement = connection.prepareStatement("Select navn, email, brugernavn FROM kunde WHERE email LIKE ?");
+//		statement.setString(1, "%" + email + "%");
+//		resultset = statement.executeQuery();
+//		while (resultset.next()) {
+//			String navn = resultset.getString("navn");
+//			String brugernavn = resultset.getString("brugernavn");
+//			Kunde tmpkunde = new Kunde(navn, email, brugernavn);
+//			System.out.println("Fandt: " + tmpkunde);
+//			return tmpkunde;
+//		}
+//		System.out.println("Jeg burde ikke være noget her til");
+//		return null;
+//	}
 
 	public int getLoginID(String brugernavn, String adgangskode) throws SQLException {
 		System.out.println("Finder matchence login id til brugernavnet: " + brugernavn);
@@ -412,7 +412,7 @@ public class DB implements Startable {
 		return 69;
 	}
 
-	// LIST METODER:
+	// TODO LIST METODER:
 	public List<Ændring> listændringer() throws SQLException{
 		List<Ændring> ændringerlist = new ArrayList<>();
 		start();
@@ -687,7 +687,7 @@ public class DB implements Startable {
 		}
 		return rentelist;
 	}
-	// KONTROL METODER:
+	// TODO KONTROL METODER:
 
 	public boolean checkLogin(String brugernavn, String adgangskode) throws SQLException {
 		System.out.println("checker login...\n");
@@ -744,6 +744,8 @@ public class DB implements Startable {
 		return "Brugernavn ikke fundet!";
 
 	}
+	
+	// TODO Hæv
 	public void hæv(long amount, int kontoid) throws SQLException{
 		start();
 		PreparedStatement statementGetSaldoFromDb; //sql statement variable
@@ -794,7 +796,7 @@ public class DB implements Startable {
 		
 		stop();
 	}
-
+		// TODO Transfer
 	public void transfer(int senderskontoid, int modtagerskontoid, BigDecimal beløb) throws SQLException {
 		PreparedStatement statement2;
 		logic = new Logic();
@@ -844,7 +846,7 @@ public class DB implements Startable {
 		stop();
 		return null;
 	}
-
+		// TODO Fast overførsel
 	public void fastoverførsel(Date startdato, int senderskontoid, int modtagerskontoid, double beløb, int id)
 			throws SQLException {
 		start();
@@ -941,6 +943,7 @@ public class DB implements Startable {
 		}
 	}
 
+		// TODO Update
 	private void updatefasteoverførsler() throws SQLException {
 		System.out.println("Updatere fasteoverførsler...");
 		List<LocalDate> overførselsdatoliste = new ArrayList<>();
@@ -1031,7 +1034,7 @@ public class DB implements Startable {
 		}
 
 	}
-
+		// TODO Set timer
 	public void setTimer(Long timer) throws SQLException {
 		String tmptimer = timer.toString();
 		statement = connection.prepareStatement("update timer set tid=? where id=?");
