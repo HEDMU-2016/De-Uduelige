@@ -25,12 +25,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
-
-
-
 public class Brugermenu {
-	
+
 	private int antalklik = 0;
+
 	public void start(Stage stage, Login bruger) {
 		DB db = new DB();
 
@@ -139,15 +137,19 @@ public class Brugermenu {
 			MediaPlayer player = new MediaPlayer(media);
 			player.play();
 
-			if (antalklik >= 2) {
+			if (antalklik == 2){
 				try {
 					java.awt.Desktop.getDesktop().browse(new URI("https://lmgtfy.com/?t=i&q=modeller"));
-					antalklik = 0;
 				} catch (IOException | URISyntaxException e1) {
 					e1.printStackTrace();
 				}
-			}
-
+			}else if (antalklik == 5){
+				try {
+					java.awt.Desktop.getDesktop().browse(new URI("https://lmgtfy.com/?t=i&q=send+nudes"));
+				} catch (IOException | URISyntaxException e1) {
+					e1.printStackTrace();
+				}}
+			
 			antalklik++;
 		});
 
