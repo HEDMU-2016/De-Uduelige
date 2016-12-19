@@ -142,6 +142,7 @@ public class Brugermenu {
 			if (antalklik >= 2) {
 				try {
 					java.awt.Desktop.getDesktop().browse(new URI("https://lmgtfy.com/?t=i&q=modeller"));
+					antalklik = 0;
 				} catch (IOException | URISyntaxException e1) {
 					e1.printStackTrace();
 				}
