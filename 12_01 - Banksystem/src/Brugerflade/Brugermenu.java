@@ -70,6 +70,10 @@ public class Brugermenu {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == buttonTypeJa) {
+			String path = Brugermenu.class.getResource("guldluk.mp3").toString();
+			Media media = new Media(path);
+		    MediaPlayer player = new MediaPlayer(media); 
+		    player.play();
 			stage.close();
 		}
 
