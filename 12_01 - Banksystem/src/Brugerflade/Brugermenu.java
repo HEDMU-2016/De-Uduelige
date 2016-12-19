@@ -120,12 +120,13 @@ public class Brugermenu {
 	
 	Button guldknap = new Button("Guldknappen");
 	grid.add(guldknap, 0, 5);
-	guldknap.setId("KnapImenu");
+	guldknap.setId("KnapImenuGULD");
 	guldknap.setOnAction(e ->{
 
-		Media media = new Media("src/Brugerflade/guldknap.mp3");
-	       MediaPlayer player = new MediaPlayer(media); 
-	       player.play();
+		String path = Brugermenu.class.getResource("guldknap.mp3").toString();
+		Media media = new Media(path);
+	    MediaPlayer player = new MediaPlayer(media); 
+	    player.play();
 	});
 
 	Scene scene = new Scene(grid, 400, 400);
