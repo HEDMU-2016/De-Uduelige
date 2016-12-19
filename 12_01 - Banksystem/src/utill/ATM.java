@@ -64,7 +64,8 @@ public class ATM {
 			Long withdrawAmount = reader.nextLong();
 			db.hæv(withdrawAmount, kontonummer);
 			System.out.println("Du har nu hævet " + withdrawAmount + " kr. fra kontonr. " + kontonummer);
-		
+			reader = new Scanner(System.in);
+			mainMenu(db,reader,username);
 		}
 
 		if (checkNumber == 2) {
@@ -75,7 +76,8 @@ public class ATM {
 			Long depositAmount = reader.nextLong();
 			db.insertMoney(depositAmount, kontonummer);
 			System.out.println("Du har nu indsat " + depositAmount + " kr. på kontonr. " + kontonummer);
-		
+			reader = new Scanner(System.in);
+			mainMenu(db,reader,username);
 		}
 
 		if (checkNumber == 3) {
@@ -84,6 +86,8 @@ public class ATM {
 			checkifuserejerkonto(username, kontonummer, db, reader);
 			double saldo = db.getSaldo(kontonummer);
 			System.out.println("Der står " + saldo + " kr. på kontonr. " + kontonummer);
+			reader = new Scanner(System.in);
+			mainMenu(db,reader,username);
 		
 
 		}
