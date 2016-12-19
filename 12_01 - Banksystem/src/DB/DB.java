@@ -27,7 +27,7 @@ import domain.ÅrligRente;
 import domain.Ændring;
 import javafx.util.Callback;
 import logic.Logic;
-
+// TODO Databaseklasse
 public class DB implements Startable {
 	static final String db = "jdbc:hsqldb:hsql://localhost/mydb";
 	static final String dbuser = "SA";
