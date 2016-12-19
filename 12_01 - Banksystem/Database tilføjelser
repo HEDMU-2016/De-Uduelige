@@ -47,7 +47,7 @@ create table renter(
 kontonummer int not null,
 rente double not null,
 indsætningsdato date not null,
-id int identity
+id int
 )
 create table kontakt(
 navn varchar(255),

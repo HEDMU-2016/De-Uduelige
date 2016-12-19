@@ -13,7 +13,12 @@ public class Logic {
 		return sum;
 	}
 	public BigDecimal indsætrente(BigDecimal saldo, BigDecimal rente){
-		saldo.multiply(rente);
+		if(saldo.equals(0)){
+		return BigDecimal.valueOf(0);
+		}
+		
+		saldo = saldo.multiply(rente);
+		System.out.println(saldo);
 		return saldo;
 	}
 }

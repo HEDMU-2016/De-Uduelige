@@ -129,6 +129,7 @@ public class AdminensKontoView {
 				List<Konto> kontolist = db.listAlleKontis();
 				
 				int kontonummer = kontolist.get(kontolist.size()-1).getKontonummer(); 
+				
 				if(comboBox.getValue().equals("månedlig")){
 					Date indsætningsdato = Date.valueOf(LocalDate.now().plusMonths(1).minusDays(LocalDate.now().getDayOfMonth()-1));					
 					Rente rente = new MånedligRente(renten,indsætningsdato,kontonummer);

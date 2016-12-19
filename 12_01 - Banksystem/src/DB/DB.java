@@ -35,7 +35,7 @@ public class DB implements Startable {
 	private Connection connection;
 	ResultSet resultset;
 	PreparedStatement statement;
-	Logic logic;
+	Logic logic = new Logic();
 
 	public void start() {
 		try {
@@ -440,6 +440,7 @@ public class DB implements Startable {
 			int kontonr = resultset.getInt("kontonr");
 			Kontakt tmpkontakt = new Kontakt(navn, kontonr);
 			kontaktlist.add(tmpkontakt);
+			
 			System.out.println("tilføjede " + tmpkontakt + " til listen");
 
 		}
@@ -906,13 +907,15 @@ public class DB implements Startable {
 		
 		
 		statement = connection.prepareStatement("select saldo from konto where kontoid=?");
+		statement.setInt(1, renter.get(i).getKontonummer());
 		resultset = statement.executeQuery();
-		statement.executeQuery();
-		
+		while(resultset.next()){
 		double saldo = resultset.getDouble("saldo");
 		System.out.println("Gamle saldo: "+saldo);
 		
 		BigDecimal saldoinBD = BigDecimal.valueOf(saldo);
+		System.out.println(saldoinBD);
+		System.out.println(renter.get(i).getRente());
 		BigDecimal nyesaldoinBD = logic.indsætrente(saldoinBD, renter.get(i).getRente());
 		double nyesaldo = nyesaldoinBD.doubleValue();
 		
@@ -925,13 +928,13 @@ public class DB implements Startable {
 		
 		System.out.println("næste indbetaling af rente på denne konto: "+næsteindsætningsdato);
 		
-		statement3 = connection.prepareStatement("update renter set indsætnindsdato=? where kontonummer=?");
+		statement3 = connection.prepareStatement("update renter set indsætningsdato=? where kontonummer=?");
 		statement3.setDate(1, næsteindsætningsdato);
 		statement3.setInt(2, renter.get(i).getKontonummer());
 		statement3.execute();
 		
 		System.out.println("done!");
-		
+				}
 			}
 		}
 	}

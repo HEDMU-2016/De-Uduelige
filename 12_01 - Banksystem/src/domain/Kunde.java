@@ -11,7 +11,9 @@ public class Kunde {
 	Date startdato;
 	Date slutdato;
 
-	
+	public Kunde() {
+		
+	}
 
 	public Kunde(String navn, String email, String brugernavn) {
 		this.navn = navn;

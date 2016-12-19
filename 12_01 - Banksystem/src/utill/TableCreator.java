@@ -88,10 +88,10 @@ public class TableCreator {
 		saldoCol.setCellValueFactory(new PropertyValueFactory<Konto, Double>("saldo"));
 
 		TableColumn<Konto,Date> startdatoCol = new TableColumn<Konto,Date>("Startdato");
-		startdatoCol.setCellValueFactory(new PropertyValueFactory<Konto,Date>("startdato "));
+		startdatoCol.setCellValueFactory(new PropertyValueFactory<Konto,Date>("startdato"));
 		
 		TableColumn<Konto,Date> slutdatoCol = new TableColumn<Konto,Date>("Slutdato");
-		slutdatoCol.setCellValueFactory(new PropertyValueFactory<Konto,Date>("slutdato "));
+		slutdatoCol.setCellValueFactory(new PropertyValueFactory<Konto,Date>("slutdato"));
 		
 		
 		kontooversigt.setItems(kontotabel);
@@ -227,6 +227,7 @@ public class TableCreator {
 		TableColumn<Kontakt, Integer> kontonrCol = new TableColumn<Kontakt, Integer>("Kontonr ");
 		kontonrCol.setCellValueFactory(new PropertyValueFactory<Kontakt, Integer>("kontonr"));
 
+		
 		kontaktoversigt.setItems(kontakttable);
 		kontaktoversigt.getColumns().addAll(navnCol, kontonrCol);
 

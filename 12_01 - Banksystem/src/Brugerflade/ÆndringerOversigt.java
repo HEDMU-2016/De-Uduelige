@@ -2,14 +2,13 @@ package Brugerflade;
 
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import DB.DB;
+import domain.AdminLogin;
 import domain.Konto;
 import domain.Kunde;
 import domain.Login;
-import domain.Ændring;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -84,8 +83,8 @@ public class ÆndringerOversigt {
 		statementlabel.setId("tekst");
 		grid.add(statementlabel, 0, 3);
 		
-		DatePicker startDato = new DatePicker();
-		grid.add(startDato, 1, 3);
+		DatePicker datofelt = new DatePicker();
+		grid.add(datofelt, 1, 3);
 		
 		
 		TableView<Konto> kompletteKontoliste = tablecreator.kontoTable();
@@ -122,28 +121,31 @@ public class ÆndringerOversigt {
 		
 		commit.setOnAction(j->{
 			
-			System.out.println("test 1");
 			if(combobox2.getValue()=="konto"){
-				System.out.println("test 2");
+				
 				Konto utillkonto = new Konto();
+				
 				if(combobox.getValue()=="Startdato"){
-					System.out.println("test 3");
-				utillkonto.setStartdato(kompletteKontoliste.getSelectionModel().getSelectedItem().getStartdato());
+									
 				utillkonto.setKontoid(kompletteKontoliste.getSelectionModel().getSelectedItem().getKontonummer());
 				
 				try {
 					Konto aktuellekonto = db.findKonto(utillkonto.getKontoid());
-					System.out.println(aktuellekonto);
-					db.setStartDato(aktuellekonto, utillkonto.getStartdato());
+					System.out.println(aktuellekonto);	
+					db.setStartDato(aktuellekonto, Date.valueOf(datofelt.getValue()));
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
 				
 				}
-				if(combobox.getValue()=="slutdato"){
-				utillkonto.setSlutdato(kompletteKontoliste.getSelectionModel().getSelectedItem().getSlutdato());	
-				
-				
+				if(combobox.getValue()=="Slutdato"){
+				utillkonto.setKontoid(kompletteKontoliste.getSelectionModel().getSelectedItem().getKontonummer());
+				try{
+					Konto aktuellekonto = db.findKonto(utillkonto.getKontoid());
+					db.setSslutDato(aktuellekonto, Date.valueOf(datofelt.getValue()));
+				}catch(SQLException e1){
+					e1.printStackTrace();
+				}
 				}
 			kompletteKontoliste.getColumns();
 

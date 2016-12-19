@@ -307,7 +307,10 @@ public class OverførselsStage {
 					if (kontolist.get(i).getKontonummer() == Integer.parseInt(senderfelt.getText())
 					&& kontolist.get(i).getStartdato().before(Date.valueOf(LocalDate.now().plusDays(1)))
 					&& kontolist.get(i).getSlutdato().after(Date.valueOf(LocalDate.now()))
-					){			
+					)
+					
+					
+					{			
 					return true;
 					}
 				}
