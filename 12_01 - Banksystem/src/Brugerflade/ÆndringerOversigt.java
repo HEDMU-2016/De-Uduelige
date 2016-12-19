@@ -9,6 +9,7 @@ import domain.AdminLogin;
 import domain.Konto;
 import domain.Kunde;
 import domain.Login;
+import domain.NormaltLogin;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -93,9 +94,9 @@ public class ÆndringerOversigt {
 		hbDatofelt.getChildren().add(datofelt);
 		grid.add(hbDatofelt, 0, 3);
 		
-		TableView<Konto> kompletteKontoliste = tablecreator.kontoTable();
+		TableView<Konto> kontooversigt = tablecreator.kontoTable();
 		HBox hbKontolist = new HBox(10);
-		hbKontolist.getChildren().add(kompletteKontoliste);
+		hbKontolist.getChildren().add(kontooversigt);
 		grid.add(hbKontolist, 0, 1);
 	
 		TableView<Login> loginoversigt = tablecreator.loginTable();
@@ -127,40 +128,69 @@ public class ÆndringerOversigt {
 		commit.setOnAction(j->{
 			
 			if(combobox2.getValue()=="konto"){
-				
-				Konto utillkonto = new Konto();
-				
-				if(combobox.getValue()=="Startdato"){
-									
-				utillkonto.setKontoid(kompletteKontoliste.getSelectionModel().getSelectedItem().getKontonummer());
-				
+					if(combobox.getValue()=="Startdato"){
 				try {
-					Konto aktuellekonto = db.findKonto(utillkonto.getKontoid());
-					System.out.println(aktuellekonto);	
-					db.setStartDato(aktuellekonto, Date.valueOf(datofelt.getValue()));
+					db.setStartDato(kontooversigt.getSelectionModel().getSelectedItem(), Date.valueOf(datofelt.getValue()));
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
 				
 				}
 				if(combobox.getValue()=="Slutdato"){
-				utillkonto.setKontoid(kompletteKontoliste.getSelectionModel().getSelectedItem().getKontonummer());
 				try{
-					
-					db.setSslutDato(utillkonto, Date.valueOf(datofelt.getValue()));
+					db.setSslutDato(kontooversigt.getSelectionModel().getSelectedItem(), Date.valueOf(datofelt.getValue()));
 				}catch(SQLException e1){
 					e1.printStackTrace();
 				}
 				}
-			kompletteKontoliste.getColumns();
+			if(combobox2.getValue()=="login"){
+				if(combobox.getValue()=="startdato"){				
+							try {
+								db.setStartDato(loginoversigt.getSelectionModel().getSelectedItem(), Date.valueOf(datofelt.getValue()));
+							} catch (SQLException e1) {
+								e1.printStackTrace();
+							}
+					}
+				}
+				if(combobox.getValue()=="slutdato"){
+						if(loginoversigt.getSelectionModel().getSelectedItem().getId()==1){
+							
+							try {
+								db.setSslutDato(loginoversigt.getSelectionModel().getSelectedItem(), Date.valueOf(datofelt.getValue()));
+							} catch (SQLException e1) {
+								e1.printStackTrace();
+							}
+						}
+							if(loginoversigt.getSelectionModel().getSelectedItem().getId()==2){
+								try {
+									db.setSslutDato(loginoversigt.getSelectionModel().getSelectedItem(), Date.valueOf(datofelt.getValue()));
+								} catch (SQLException e1) {
+									e1.printStackTrace();
+								}
+						}
+				if(combobox2.getValue()=="kunde"){
+					if(combobox.getValue()=="startdato"){
+					try {
+						db.setStartDato(kundeoversigt.getSelectionModel().getSelectedItem(), Date.valueOf(datofelt.getValue()));
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+					}
+					if(combobox.getValue()=="slutdato"){
+						try {
+							db.setSlutDato(kundeoversigt.getSelectionModel().getSelectedItem(), Date.valueOf(datofelt.getValue()));
+						} catch (SQLException e1) {
+							e1.printStackTrace();
+						}
+				}
+				
+				
+				
+				}
+			}
 
 			
-			if(combobox.getValue()=="startdato"){
 			
-			}
-			if(combobox.getValue()=="slutdato"){
-				
-			}
 			fejl.setText("Ændringen er nu fortaget!");	
 			}
 		});
