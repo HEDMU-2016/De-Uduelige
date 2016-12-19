@@ -445,7 +445,9 @@ public class DB implements Startable {
 
 		}
 		System.out.println("done");
+		stop();
 		return kontaktlist;
+		
 	}
 
 	public List<Postering> listPostering() throws SQLException {
@@ -650,12 +652,12 @@ public class DB implements Startable {
 			statement.setInt(1, tmpkonto.getKontonummer());
 			resultset = statement.executeQuery();
 			while(resultset.next()){
-				int senderskontoid = resultset.getInt("sender");
-				int modtagerskontoid = resultset.getInt("modtager");
+				int sender = resultset.getInt("sender");
+				int modtager = resultset.getInt("modtager");
 				double beløb = resultset.getDouble("beløb");
 				Date startdato = resultset.getDate("startdato");
 				int id = resultset.getInt("id");
-				FastOverførsel tmpfastoverførsel = new FastOverførsel(senderskontoid,modtagerskontoid,BigDecimal.valueOf(beløb),
+				FastOverførsel tmpfastoverførsel = new FastOverførsel(sender,modtager,BigDecimal.valueOf(beløb),
 						startdato,id);
 				System.out.println("fandt"+tmpfastoverførsel);
 				fastoverførselsliste.add(tmpfastoverførsel);

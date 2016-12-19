@@ -218,11 +218,13 @@ public class TableCreator {
 		ObservableList<Kontakt> kontakttable;
 		
 		kontakttable = FXCollections.observableArrayList(db.listkontakter(bruger));
+		
+		System.out.println(kontakttable);
 
 		TableView<Kontakt> kontaktoversigt = new TableView<Kontakt>();
 
 		TableColumn<Kontakt, String> navnCol = new TableColumn<Kontakt, String>("Navn ");
-		navnCol.setCellValueFactory(new PropertyValueFactory<Kontakt, String>("navn"));
+		navnCol.setCellValueFactory(new PropertyValueFactory<Kontakt, String>("kontakt"));
 
 		TableColumn<Kontakt, Integer> kontonrCol = new TableColumn<Kontakt, Integer>("Kontonr ");
 		kontonrCol.setCellValueFactory(new PropertyValueFactory<Kontakt, Integer>("kontonr"));
@@ -242,11 +244,11 @@ public class TableCreator {
 		TableView<FastOverførsel> fastoverførselsOversigt = new TableView<FastOverførsel>();
 
 		TableColumn<FastOverførsel, Integer> senderCol = new TableColumn<FastOverførsel, Integer>("Sender");
-		senderCol.setCellValueFactory(new PropertyValueFactory<FastOverførsel, Integer>("sender "));
+		senderCol.setCellValueFactory(new PropertyValueFactory<FastOverførsel, Integer>("senderskontoid"));
 
 		TableColumn<FastOverførsel, Integer> modtagerCol = new TableColumn<FastOverførsel, Integer>(
 				"modtager");
-		modtagerCol.setCellValueFactory(new PropertyValueFactory<FastOverførsel, Integer>("modtager "));
+		modtagerCol.setCellValueFactory(new PropertyValueFactory<FastOverførsel, Integer>("modtagerkontoid"));
 
 		TableColumn<FastOverførsel, Double> beløbCol = new TableColumn<FastOverførsel, Double>("Beløb");
 		beløbCol.setCellValueFactory(new PropertyValueFactory<FastOverførsel, Double>("beløb"));
