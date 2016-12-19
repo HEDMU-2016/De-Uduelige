@@ -3,8 +3,11 @@ package Brugerflade;
 import java.sql.SQLException;
 import java.util.Optional;
 
+import com.sun.corba.se.spi.orbutil.fsm.Action;
+
 import DB.DB;
 import domain.Login;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -55,6 +58,11 @@ public class Brugermenu {
 	
 	
 	close.setOnAction(e -> {
+		String path = Brugermenu.class.getResource("guldluk.mp3").toString();
+		Media media = new Media(path);
+	    MediaPlayer player = new MediaPlayer(media); 
+	    player.play();
+	    
 		Alert alert = new Alert(AlertType.NONE);
 		alert.setTitle("Du er ved at lukke banksystemet!");
 		alert.setHeaderText(null);
@@ -70,10 +78,6 @@ public class Brugermenu {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == buttonTypeJa) {
-			String path = Brugermenu.class.getResource("guldluk.mp3").toString();
-			Media media = new Media(path);
-		    MediaPlayer player = new MediaPlayer(media); 
-		    player.play();
 			stage.close();
 		}
 
@@ -132,7 +136,7 @@ public class Brugermenu {
 	    MediaPlayer player = new MediaPlayer(media); 
 	    player.play();
 	});
-
+	
 	Scene scene = new Scene(grid, 400, 400);
 	stage.setScene(scene);
 	scene.getStylesheets().add(Brugermenu.class.getResource("Brugermenu.css").toExternalForm());
