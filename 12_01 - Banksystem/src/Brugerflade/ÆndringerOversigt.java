@@ -142,57 +142,49 @@ public class ÆndringerOversigt {
 				}catch(SQLException e1){
 					e1.printStackTrace();
 				}
+				
+				
 				}
+				fejl.setText("kontoen en nu ændret");
+			}
 			if(combobox2.getValue()=="login"){
-				if(combobox.getValue()=="startdato"){				
+				if(combobox.getValue()=="Startdato"){				
 							try {
 								db.setStartDato(loginoversigt.getSelectionModel().getSelectedItem(), Date.valueOf(datofelt.getValue()));
 							} catch (SQLException e1) {
 								e1.printStackTrace();
 							}
 					}
-				}
-				if(combobox.getValue()=="slutdato"){
-						if(loginoversigt.getSelectionModel().getSelectedItem().getId()==1){
-							
+				
+				if(combobox.getValue()=="Slutdato"){
 							try {
 								db.setSslutDato(loginoversigt.getSelectionModel().getSelectedItem(), Date.valueOf(datofelt.getValue()));
 							} catch (SQLException e1) {
 								e1.printStackTrace();
-							}
-						}
-							if(loginoversigt.getSelectionModel().getSelectedItem().getId()==2){
-								try {
-									db.setSslutDato(loginoversigt.getSelectionModel().getSelectedItem(), Date.valueOf(datofelt.getValue()));
-								} catch (SQLException e1) {
-									e1.printStackTrace();
-								}
-						}
+							}	
+					}
+				fejl.setText("login ændringen er nu fortaget!");	
+				}
 				if(combobox2.getValue()=="kunde"){
-					if(combobox.getValue()=="startdato"){
+					if(combobox.getValue()=="Startdato"){
 					try {
 						db.setStartDato(kundeoversigt.getSelectionModel().getSelectedItem(), Date.valueOf(datofelt.getValue()));
 					} catch (SQLException e1) {
 						e1.printStackTrace();
 					}
 					}
-					if(combobox.getValue()=="slutdato"){
+					if(combobox.getValue()=="Slutdato"){
 						try {
 							db.setSlutDato(kundeoversigt.getSelectionModel().getSelectedItem(), Date.valueOf(datofelt.getValue()));
 						} catch (SQLException e1) {
 							e1.printStackTrace();
 						}
+					}
+					fejl.setText("kunde ændringen er nu fortaget!");	
 				}
+					
 				
-				
-				
-				}
-			}
-
 			
-			
-			fejl.setText("Ændringen er nu fortaget!");	
-			}
 		});
 		
 		

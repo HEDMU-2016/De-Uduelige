@@ -147,15 +147,15 @@ public class Login_IO extends Application {
 					boolean korrekt = db.checkLogin(usernameInput.getText().toLowerCase(), passwordInput.getText());
 
 					if (korrekt == true) {
-						Login tmplogin = db.findLogin(usernameInput.getText().toLowerCase());
 						
+						Login tmplogin = db.findLogin(usernameInput.getText().toLowerCase());
+//						if(tmplogin.getStartdato().after(Date.valueOf(LocalDate.now()))==true
+//						&&	tmplogin.getSlutdato().before(Date.valueOf(LocalDate.now()))==true)
 						fejl.setText("Du er nu logget ind som: \"" + usernameInput.getText() + "\"!");
 						usernameInput.setText("");
 						passwordInput.setText("");
 						fejl.setFill(Color.web("#184c18"));
-						if(tmplogin.getStartdato().after(Date.valueOf(LocalDate.now()))
-						&&	tmplogin.getSlutdato().after(Date.valueOf(LocalDate.now()))
-						)
+						
 						
 						if (tmplogin.getId() == 2) {
 							Brugermenu brugermenu = new Brugermenu();
@@ -170,6 +170,7 @@ public class Login_IO extends Application {
 						MediaPlayer player = new MediaPlayer(media);
 						player.play();
 						loginStage.hide();
+						
 					} else if (korrekt == false) {
 						fejl.setText("Forkert brugernavn eller adgangskode!");
 						passwordInput.setText("");
