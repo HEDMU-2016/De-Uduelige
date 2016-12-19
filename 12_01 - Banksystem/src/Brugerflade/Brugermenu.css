@@ -46,6 +46,23 @@
     -fx-background-color: #000915;
 }
 
+#KnapImenuGULD{
+	-fx-pref-width: 300;
+	-fx-min-height: 50;
+	-fx-font-size: 15;
+	-fx-background-color: #ffd700;
+	-fx-text-fill: white;
+	-fx-effect: dropshadow( three-pass-box , rgba(0.0,0.0,0.0,0.6) , 5.0, 0.0 , 0.0 , 1.0 );
+}
+
+#KnapImenuGULD:hover {
+    -fx-background-color: #b29600;
+}
+
+#KnapImenuGULD:pressed {
+    -fx-background-color: #665600;
+}
+
 #logo{
 	-fx-fill: #00316c;
 	-fx-font-size: 30px;
