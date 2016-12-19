@@ -39,7 +39,7 @@ public class TableCreator {
 
 		TableColumn<Kunde,Date> slutdatoCol = new TableColumn<Kunde,Date>("Slettet");
 		slutdatoCol.setCellValueFactory(new PropertyValueFactory<Kunde,Date>("slutdato"));
-		
+
 		kundeoversigt.setItems(kundetabel);
 		kundeoversigt.getColumns().addAll(nameCol, emailCol, startdatoCol,slutdatoCol);
 		return kundeoversigt;
